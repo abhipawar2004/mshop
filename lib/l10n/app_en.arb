@@ -1,0 +1,761 @@
+{
+  "@@locale": "en",
+  "appTitle": "Hyper Local",
+  "appName": "Hyper Local",
+  "welcome": "Welcome",
+  "login": "Login",
+  "register": "Register",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "forgotPassword": "Forgot Password?",
+  "dontHaveAccount": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "signUp": "Sign Up",
+  "signIn": "Sign In",
+  "home": "Home",
+  "profile": "Profile",
+  "dashboard": "Dashboard",
+  "settings": "Settings",
+  "language": "Language",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "french": "French",
+  "hindi": "Hindi",
+  "gujarati": "Gujarati",
+  "telugu": "Telugu",
+  "location": "Location",
+  "selectLocation": "Select Location",
+  "currentLocation": "Current Location",
+  "search": "Search",
+  "categories": "Categories",
+  "nearby": "Nearby",
+  "logout": "Logout",
+  "cancel": "Cancel",
+  "save": "Save",
+  "ok": "OK",
+  "error": "Error",
+  "success": "Success",
+  "loading": "Loading...",
+  "noData": "No data available",
+  "retry": "Retry",
+  "networkError": "Network Error",
+  "tryAgain": "Please try again",
+  "permissionDenied": "Permission Denied",
+  "locationPermissionRequired": "Location permission is required",
+  "enableLocation": "Please enable location services",
+  "appearance": "Appearance",
+  "changeAppTheme": "Change app theme",
+  "systemMode": "System mode",
+  "lightMode": "Light mode",
+  "darkMode": "Dark mode",
+  "apply": "Apply",
+  "current": "Current",
+  "cart": "Cart",
+  "viewCouponOffers": "View Coupon & Offers",
+  "placeOrder": "Place Order",
+  "selectPaymentMethod": "Select payment method",
+  "payUsing": "Pay Using",
+  "yourCartIsEmpty": "Your cart is empty",
+  "looksLikeYouHaventAddedAnythingYet": "Looks like you haven't added anything yet",
+  "browseProducts": "Browse products",
+  "addMoreItemsTapped": "Add more items tapped!",
+  "removeItem": "Remove item",
+  "areYouSureYouWantToRemoveItemFromCart": "Are you sure you want to remove {item} from cart?",
+  "@areYouSureYouWantToRemoveItemFromCart": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "Delete",
+  "saveForLater": "Save for Later",
+  "billDetails": "Bill details",
+  "itemsTotal": "Items total",
+  "saved": "Saved",
+  "deliveryCharge": "Delivery charge",
+  "free": "FREE",
+  "perStoreDropOffFees": "Per store drop off fees",
+  "handlingCharge": "Handling charge",
+  "promoCode": "Promo code",
+  "promoDiscount": "Promo discount",
+  "removeCoupon": "Remove Coupon",
+  "grandTotal": "Grand total",
+  "yourTotalSavings": "Your total savings",
+  "downloadInvoice": "Download Invoice",
+  "myOrders": "My Orders",
+  "noOrdersYet": "No orders yet",
+  "failedToLoadOrders": "Failed to load orders",
+  "rateOrder": "Rate Order",
+  "howWasYourOrder": "How was your order?",
+  "orderSummary": "Order Summary",
+  "orderDetailsRefreshed": "Order details refreshed",
+  "rateYourExperience": "Rate your experience",
+  "failedToLoadOrderDetails": "Failed to load order details",
+  "noItemsToDisplay": "No items to display",
+  "deleteReview": "Delete Review?",
+  "thisActionCannotBeUndone": "This action cannot be undone.",
+  "edit": "Edit",
+  "cancelItem": "Cancel item",
+  "areYouSureYouWantToCancelThisItem": "Are you sure you want to cancel this item?",
+  "cancelReturnRequest": "Cancel return request",
+  "areYouSureYouWantToCancelThisReturnRequest": "Are you sure you want to cancel this return request?",
+  "cancelReturnRequestButton": "Cancel Return Request",
+  "cancelItemButton": "Cancel Item",
+  "howWasYourShoppingExperience": "How was your shopping experience?",
+  "trackDelivery": "Track Delivery",
+  "myWishlist": "My Wishlist",
+  "createNewWishlist": "Create new wishlist",
+  "createNewWishlistTitle": "Create New Wishlist",
+  "enterWishlistName": "Enter wishlist name",
+  "pleaseEnterAWishlistName": "Please enter a wishlist name",
+  "create": "Create",
+  "update": "Update",
+  "editWishlist": "Edit Wishlist",
+  "noWishlistsYet": "No wishlists yet",
+  "noOtherWishlistsAvailable": "No other wishlists available",
+  "noProductsFound": "No products found",
+  "somethingWentWrong": "Something went wrong",
+  "deleteWishlistName": "Delete {wishlistName}",
+  "@deleteWishlistName": {
+    "placeholders": {
+      "wishlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "myAddresses": "My Addresses",
+  "addAddress": "Add Address",
+  "deleteAddress": "Delete Address",
+  "areYouSureYouWantToDeleteThisAddress": "Are you sure you want to delete this address?",
+  "near": "Near",
+  "noAddressSelected": "No address selected",
+  "pleaseSelectAnImageAndEnterYourName": "Please select an image and enter your name",
+  "loadingProfile": "Loading profile...",
+  "saveChanges": "Save Changes",
+  "editProfile": "Edit Profile",
+  "labelCopiedToClipboard": "{label} copied to clipboard",
+  "@labelCopiedToClipboard": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "yourDeliveryAddress": "Your Delivery Address",
+  "shoppingList": "Shopping List",
+  "aboutUs": "About us",
+  "termsCondition": "Terms & Condition",
+  "privacyPolicy": "Privacy Policy",
+  "refundPolicy": "Refund Policy",
+  "shippingPolicy": "Shipping Policy",
+  "deleteAccount": "Delete Account",
+  "pleaseEnterYourName": "Please enter your name",
+  "nameMustBeAtLeast2Characters": "Name must be at least 2 characters",
+  "productDetails": "Product Details",
+  "description": "Description",
+  "specification": "Specification",
+  "reviews": "Reviews",
+  "similarProducts": "Similar Products",
+  "specifications": "Specifications",
+  "customerReviews": "Customer Reviews",
+  "seeAll": "See All",
+  "addYourReview": "Add Your Review",
+  "rateThisProduct": "Rate this product",
+  "submitReview": "Submit Review",
+  "questionAndAnswers": "Question and Answers",
+  "askAQuestion": "Ask a Question",
+  "submit": "Submit",
+  "questionSubmittedSuccessfully": "Question submitted successfully!",
+  "pleaseSelectVariant": "Please select variant",
+  "viewProductDetails": "View Product Details",
+  "productAddedToCartSuccessfully": "Product added to cart successfully!",
+  "failedToAddProduct": "Failed to add product: {error}",
+  "@failedToAddProduct": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "outOfStock": "Out of stock",
+  "productVariants": "Product Variants",
+  "selectVariant": "Select variant",
+  "add": "Add",
+  "noProductFound": "No Product Found",
+  "filters": "Filters",
+  "sort": "Sort",
+  "popularity": "Popularity",
+  "searchResultFor": "Search result for \"{title}\"",
+  "@searchResultFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "relevanceDefault": "Relevance (default)",
+  "priceLowToHigh": "Price (low to high)",
+  "priceHighToLow": "Price (high to low)",
+  "discountHighToLow": "Discount (high to low)",
+  "items": "items",
+  "startTypingForSuggestions": "Start typing for suggestions",
+  "noSuggestionsFound": "No suggestions found",
+  "speak": "Speak",
+  "trySayingSomething": "Try saying something",
+  "speechStoppedTryAgain": "Speech stopped. Try again.",
+  "close": "Close",
+  "searchProducts": "Search products...",
+  "searchForProducts": "Search for products",
+  "typeProductNameBrandOrCategory": "Type a product name, brand, or category to get started",
+  "searching": "Searching...",
+  "trySearchingWithDifferentKeywords": "Try searching with different keywords",
+  "nearbyStores": "Nearby Stores",
+  "noStoresFoundNearby": "No stores found nearby.",
+  "searchInStore": "Search in {storeName}",
+  "@searchInStore": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedForLater": "Saved for later",
+  "moveToCart": "Move to Cart",
+  "addFirstItem": "Add First Item",
+  "resultFor": "Result for \"{title}\"",
+  "@resultFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addMoney": "Add Money",
+  "enterAmount": "Enter Amount",
+  "note": "Note:",
+  "hyperlocalWalletBalanceValidFor1Year": "Hyperlocal Wallet balance is valid for 1 year from the date of money added",
+  "hyperlocalWalletBalanceCannotBeTransferred": "Hyperlocal Wallet balance cannot be transfer to a bank account as per RBI guidelines",
+  "pleaseEnterAnAmountGreaterThanOrEqualTo1": "Please enter an amount greater than or equal to 1",
+  "transactions": "Transactions",
+  "promoCodeCoupons": "Promo Code & Coupons",
+  "support": "Support",
+  "callUs": "Call Us",
+  "phoneNumber": "Phone number",
+  "emailUs": "Email Us",
+  "tapToContact": "Tap to contact",
+  "rateStoreName": "Rate {storeName}",
+  "@rateStoreName": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "editYourFeedback": "Edit your feedback",
+  "howWasYourExperience": "How was your experience?",
+  "tapToRate": "Tap to rate",
+  "star": "{rating} Star",
+  "@star": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "stars": "{rating} Stars",
+  "@stars": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "titleRequired": "Title *",
+  "egGreatService": "e.g., Great service!",
+  "descriptionRequired": "Description *",
+  "shareMoreDetails": "Share more details...",
+  "submitFeedback": "Submit Feedback",
+  "updateFeedback": "Update Feedback",
+  "updating": "Updating...",
+  "submitting": "Submitting...",
+  "deleteFeedback": "Delete Feedback",
+  "areYouSureYouWantToDeleteThisFeedback": "Are you sure you want to delete this feedback?",
+  "pleaseGiveARating": "Please give a rating",
+  "pleaseEnterATitle": "Please enter a title",
+  "pleaseEnterADescription": "Please enter a description",
+  "deliveryType": "Delivery Type",
+  "rushDelivery": "Rush Delivery",
+  "prioritizedDeliveryForYourUrgentNeeds": "Prioritized delivery for your urgent needs.",
+  "regularDelivery": "Regular Delivery",
+  "standardDeliveryWithNoExtraCharges": "Standard delivery with no extra charges.",
+  "deliverTo": "Deliver to",
+  "change": "Change",
+  "noInternetConnection": "No Internet Connection",
+  "appUnderMaintenance": "App Under Maintenance",
+  "noOrderFound": "No Order Found",
+  "noSearchResults": "No Search Results",
+  "microphoneUnavailable": "Microphone permission or speech service unavailable",
+  "speakNow": "Speak Now",
+  "listening": "Listening...",
+  "noSpeechDetected": "No speech detected",
+  "locationServices": "Location Services",
+  "appPermission": "App Permission",
+  "continueWithGoogle": "Continue with google",
+  "continueWithApple": "Continue with apple",
+  "reviewsRatings": "Reviews & Ratings",
+  "frequentlyAskedQuestions": "Frequently asked questions",
+  "dialog": "Dialog",
+  "looksLikeTheStoreCatchingSomeRest": "Looks like the store's catching some rest. Come back in a little while!",
+  "addressLine1": "Address Line 1",
+  "addressLine2Optional": "Address Line 2 (Optional)",
+  "country": "Country",
+  "state": "State",
+  "city": "City",
+  "zipcode": "Zipcode",
+  "landmark": "Landmark",
+  "mobileNumber": "Mobile Number",
+  "soldBy": "Sold by:",
+  "searchAnAreaOrAddress": "Search an area or address",
+  "describeTheIssue": "Describe the issue",
+  "writeYourReviewHere": "Write your review here...",
+  "typeYourQuestionHere": "Type your question here...",
+  "enterReviewTitle": "Enter review title",
+  "shareYourThoughts": "Share your thoughts...",
+  "searchForAreaStreetName": "Search for area, street name...",
+  "pleaseSelectADeliveryAddressFirst": "Please select a delivery address first",
+  "paymentMethodNotSelected": "Payment method not selected",
+  "inclusiveOfAllTax": "(inclusive of all tax)",
+  "brand": "Brand",
+  "packOf": "Pack Of",
+  "category": "Category",
+  "madeIn": "Made In",
+  "indicator": "Indicator",
+  "guaranteePeriod": "Guarantee Period",
+  "warrantyPeriod": "Warranty Period",
+  "returnable": "Returnable",
+  "na": "N/A",
+  "yes": "Yes",
+  "noDescriptionAvailable": "No description available.",
+  "wallet": "Wallet",
+  "wishlist": "Wishlist",
+  "stores": "Stores",
+  "account": "Account",
+  "paymentMethod": "Payment method",
+  "currentLanguage": "Current Language",
+  "promoApplied": "Promo Applied",
+  "on": "ON",
+  "rushDeliveryActive": "Rush Delivery Active",
+  "cashbackApplied": "Cashback Applied",
+  "instantDiscountApplied": "Instant Discount Applied",
+  "willBeAdded": "Will be added",
+  "areYouSure": "Are you sure?",
+  "clearCartConfirm": "Do you really want to clear the cart?",
+  "no": "No",
+  "yesClear": "Yes, clear",
+  "logoutConfirmation": "Are you sure you want to log out?",
+  "maxCartItemLimitReached": "You have reached maximum cart item limit",
+  "all": "All",
+  "shopByCategories": "Shop By Categories",
+  "topBrands": "Top Brands",
+  "addItemsToGetStarted": "Add items to get started",
+  "yourShoppingListIsEmpty": "Your shopping list is empty",
+  "listItem": "List item",
+  "itemsAdded": "items added",
+  "startShopping": "Start Shopping",
+  "typeItemName": "Type item name...",
+  "pleaseAdd1ItemInShoppingList": "Please add at least 1 item in your shopping list",
+  "selectDeliveryLocation": "Select Delivery Location",
+  "searchForAreaStreet": "Search for area, street name...",
+  "useCurrentLocation": "Use current location",
+  "addNewAddress": "Add New Address",
+  "savedAddresses": "Saved Addresses",
+  "notLoggedIn": "Not Logged In",
+  "pleaseLoginToViewYourProfile": "Please log in to view your profile",
+  "goToLogin": "Go to Login",
+  "trackYourDelivery": "Track your Delivery",
+  "returnItem": "Return Item",
+  "failedToLoadTrackingData": "Failed to load tracking data",
+  "delivered": "Delivered",
+  "onTheWay": "On the way",
+  "trackingLiveLocation": "Tracking live location",
+  "arrivingIn": "Arriving in",
+  "mins": "mins",
+  "deliveryPartner": "Delivery Partner",
+  "orderDetails": "Order Details",
+  "orderId": "Order ID",
+  "payment": "Payment",
+  "orderPlaced": "Order Placed",
+  "deliveryDetails": "Delivery details",
+  "copiedToClipboard": "{label} copied to clipboard",
+  "@copiedToClipboard": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "orderIdCopied": "Order ID copied!",
+  "reasonForReturn": "Reason for return",
+  "submitReturn": "Submit Return",
+  "thisProductIsNotCancelable": "This product is not cancelable",
+  "thisProductIsNotReturnable": "This product is not returnable",
+  "returnButton": "Return",
+  "qty": "Qty",
+  "moveToEllipsis": "Move to…",
+  "addToEllipsis": "Add to…",
+  "locationAccessNeeded": "Location Access Needed",
+  "later": "Later",
+  "openSettings": "Open Settings",
+  "appPermissions": "App Permissions",
+  "checkingEmail": "Checking email...",
+  "searchInStoreName": "Search in {storeName}",
+  "@searchInStoreName": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionOptional": "Description (optional)",
+  "greatService": "e.g., Great service!",
+  "fullName": "Full Name",
+  "enterYourFullName": "Enter your full name",
+  "enterYourEmail": "Enter your email",
+  "enterYourPhoneNumber": "Enter your phone number",
+  "enterYourPassword": "Enter your password",
+  "confirmYourPassword": "Confirm your password",
+  "emailOrPhoneNumber": "Email or Phone Number",
+  "emailAddress": "Email Address",
+  "uploadImages": "Upload images",
+  "tapToUploadPhotos": "Tap to upload photos",
+  "helpUsUnderstandYourExperience": "Help us understand your experience",
+  "youCanUploadUpToMaxImages": "You can upload up to {max} images only.",
+  "@youCanUploadUpToMaxImages": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "onlyRemainingMoreImagesAdded": "Only {remaining} more image(s) added. Max limit: {max}.",
+  "@onlyRemainingMoreImagesAdded": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "maxImagesAllowedExtensions": "• Max {max} images • {extensions} • {size} per image",
+  "@maxImagesAllowedExtensions": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      },
+      "extensions": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "product": "Product",
+  "quantity": "Quantity",
+  "price": "Price",
+  "clearCart": "Clear cart",
+  "clearAllItems": "Clear all items?",
+  "allItemsWillBeRemovedCannotBeUndone": "All items will be removed and this action cannot be undone",
+  "paymentSuccessful": "Payment successful!",
+  "paymentFailedOrCancelled": "Payment failed or cancelled",
+  "failedToDeleteAddress": "Failed to delete address",
+  "pressAgainToExitTheApp": "Press again to exit the app",
+  "youHaveReachedMaximumLimitOfCart": "You have reached maximum limit of the cart",
+  "sellerInformationNotAvailable": "Seller information not available",
+  "failedToRefreshOrderDetails": "Failed to refresh order details",
+  "productSavedForLater": "{productName} is saved for later",
+  "@productSavedForLater": {
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "promoCodeAppliedOnYourCart": "Promo code applied on your cart",
+  "youHaveCrossedMaximumCartAmountLimit": "You have crossed maximum cart amount limit. Please remove some products from cart",
+  "feedbackSubmittedSuccessfully": "Feedback submitted successfully!",
+  "feedbackUpdatedSuccessfully": "Feedback updated successfully!",
+  "paymentFailed": "Payment failed",
+  "copiedToClipboardWithLabel": "{label} copied to clipboard!",
+  "@copiedToClipboardWithLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterCompleteOTP": "Please enter complete OTP",
+  "verificationIdNotFound": "Verification ID not found. Please try again.",
+  "otpSentTo": "OTP sent to {phoneNumber}",
+  "@otpSentTo": {
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "registrationDataNotFound": "Registration data not found. Please try again.",
+  "noAccountFoundWithEmailOrPhone": "No account found with this email or phone",
+  "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
+  "emailAlreadyRegistered": "Email already registered. Please use a different email.",
+  "pleaseEnterYourFullName": "Please enter your full name",
+  "pleaseEnterYourEmail": "Please enter your email",
+  "pleaseEnterAValidEmail": "Please enter a valid email",
+  "pleaseEnterYourPhoneNumber": "Please enter your phone number",
+  "pleaseEnterYourPassword": "Please enter your password",
+  "passwordMustBeAtLeast8Characters": "Password must be at least 8 characters",
+  "pleaseConfirmYourPassword": "Please confirm your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "otpVerified": "OTP Verified",
+  "pleaseSelectAPaymentMethodFirst": "Please select a payment method first",
+  "fetchingAddress": "Fetching address...",
+  "selectedLocation": "Selected location",
+  "gettingAddress": "Getting address...",
+  "unknownLocation": "Unknown location",
+  "deliveryNotAvailableAtThisLocation": "Delivery not available at this location",
+  "sorryWeDontDeliverHereYet": "Sorry! We don't deliver here yet",
+  "thisLocationIsOutsideOurDeliveryZone": "This location is currently outside our delivery zone. Try searching for a nearby area or check back later.",
+  "addressDetails": "Address Details",
+  "pleaseEnterAddressLine1": "Please enter Address Line 1",
+  "pleaseEnterCountry": "Please enter Country",
+  "pleaseEnterState": "Please enter State",
+  "pleaseEnterCity": "Please enter City",
+  "pleaseEnterZipcode": "Please enter Zipcode",
+  "contactDetails": "Contact Details",
+  "pleaseEnterMobileNumber": "Please enter mobile number",
+  "saveAddressAs": "Save address as",
+  "work": "Work",
+  "other": "Other",
+  "enterCompleteAddress": "Enter Complete Address",
+  "confirm": "Confirm",
+  "checkingDelivery": "Checking delivery...",
+  "confirmLocation": "Confirm Location",
+  "confirmAddressToProceed": "Confirm Address to Proceed",
+  "addAddressToProceed": "Add Address to Proceed",
+  "deliveryNotAvailable": "Delivery Not Available",
+  "skip": "Skip",
+  "welcomeBack": "Welcome Back",
+  "signInToYourAccount": "Sign in to your account to continue",
+  "verifying": "Verifying...",
+  "or": "or",
+  "dontHaveAnAccount": "Don't have an account? ",
+  "emailVerifiedSuccessfully": "Email verified successfully",
+  "phoneNumberVerifiedSuccessfully": "Phone number verified successfully",
+  "thisEmailIsNotRegistered": "This email is not registered. Please sign up first.",
+  "thisPhoneNumberIsNotRegistered": "This phone number is not registered. Please sign up first.",
+  "unableToVerifyUser": "Unable to verify user. Please try again.",
+  "emailOrPhoneNumberIsRequired": "Email or phone number is required",
+  "enterValidEmailOrPhone": "Enter valid email or phone",
+  "passwordIsRequired": "Password is required",
+  "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+  "alreadyHaveAnAccount": "Already have an account? ",
+  "createAccount": "Create account",
+  "emailAlreadyRegisteredUseDifferent": "Email already registered. Please use a different email.",
+  "changeLocation": "Change Location",
+  "chooseAddressForDelivery": "Choose address for delivery",
+  "balance": "Balance",
+  "tapCoinToRefresh": "Tap coin to refresh",
+  "viewTransactions": "View Transactions",
+  "verifyOtp": "Verify OTP",
+  "pleaseFillDetailsCreateYourAccount": "Please fill in the details to create your account",
+  "emailAvailable": "Email available",
+  "errorVerifyingEmail": "Error verifying email",
+  "pleaseAddYourDeliveryAddress": "Please add your delivery address",
+  "areYouSureDeleteFeedback": "Are you sure you want to delete feedback",
+  "addTo": "Add to…",
+  "moveTo": "Move to…",
+  "accountInformation": "Account Information",
+  "mobile": "Mobile",
+  "rewardPoints": "Reward Points",
+  "referralCode": "Referral Code",
+  "notProvided": "Not provided",
+  "notAvailable": "Not available",
+  "failedToLoadProfile": "Failed to load profile",
+  "pleaseCheckConnection": "Please check your connection and try again",
+  "noProfileDataAvailable": "No profile data available",
+  "giveYourDeliveryHeroFeedback": "Give your delivery hero a feedback!",
+  "editYourFeedbackFor": "Edit your feedback for {name}",
+  "@editYourFeedbackFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveFeedback": "Leave Feedback",
+  "editFeedback": "Edit Feedback",
+  "editSellerFeedback": "Edit Seller Feedback",
+  "leaveSellerFeedback": "Leave Seller Feedback",
+  "productNotApprovedBySeller": "This product is not approved by seller",
+  "leaveItemFeedback": "Leave Item Feedback",
+  "cashOnDelivery": "Cash On Delivery",
+  "paidOnline": "Paid Online",
+  "orderPlacedOn": "Order placed on {date}",
+  "@orderPlacedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "locationAccessDescription": "This app provides hyper-local services. Please enable location to get personalized recommendations and accurate results.",
+  "turnOnLocationServicesDescription": "Turn on Location Services and grant app location permission to continue.",
+  "loadingPaymentPage": "Loading payment page...",
+  "youCanUploadUpToImagesOnly": "You can upload up to {count} images only.",
+  "@youCanUploadUpToImagesOnly": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onlyMoreImagesAddedMaxLimit": "Only {remaining} more image(s) added. Max limit: {max}.",
+  "@onlyMoreImagesAddedMaxLimit": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "onlinePaymentMethods": "Online Payment Methods",
+  "noCategoryFound": "No Category Found",
+  "noStoreFound": "No Store Found",
+  "wereNotHereYet": "We’re not here yet",
+  "weCouldntFindAnyCategories": "We couldn't find any categories.",
+  "weCouldntFindAnyStoreInYourSelectLocation": "We couldn't find any store in your select location.",
+  "phoneNumberCopied": "Phone number copied to clipboard!",
+  "emailCopied": "Email copied to clipboard!",
+  "pleaseWaitBeforeResending": "Please wait before resending.",
+  "toPay": "To Pay:",
+  "currentlyUnavailable": "Currently unavailable",
+  "noStoresOrProductsAreAvailableInThisAreaRightNow": "No stores or products are available in this area right now.",
+  "checkConnectionAndTryAgain": "Please check your connection and try again.",
+  "weWillBeBackSoon": "We'll be back soon. Hang tight!",
+  "noOrdersYetDescription": "It looks like you don't have any orders yet.",
+  "tryAdjustingSearchTerms": "Try adjusting your search terms.",
+  "noProductMatchingSearch": "We couldn't find any products matching your search.",
+  "feedbackDeletedSuccessfully": "Review deleted successfully!",
+  "rateDeliveryHero": "Rate Delivery Hero",
+  "howWasTheDelivery": "How was the delivery?",
+  "egSuperFastDelivery": "e.g., Super fast delivery!",
+  "youMightAlsoLike": "You might also like",
+  "storeCurrentlyClosed": "Store is currently closed",
+  "minimumQuantityRequired": "Minimum quantity is {minQty}",
+  "@minimumQuantityRequired": {
+    "placeholders": {
+      "minQty": {}
+    }
+  },
+  "maximumQuantityAllowed": "Maximum {maxQty} items allowed",
+  "@maximumQuantityAllowed": {
+    "placeholders": {
+      "maxQty": {}
+    }
+  },
+  "onlyXItemsInStock": "Only {stock} items available in stock",
+  "@onlyXItemsInStock": {
+    "placeholders": {
+      "stock": {}
+    }
+  },
+  "minimumCartAmountRequired": "Add {minAmount} more to reach the {miniCheckoutAmount} minimum checkout.",
+  "@minimumCartAmountRequired": {
+    "placeholders": {
+      "minAmount": {},
+      "miniCheckoutAmount": {}
+    }
+  },
+  "youHaveReachedMaximumLimitOfTheCart": "Maximum items limit reached",
+  "onlyOneStoreAtATime": "You can only order from one store at a time",
+  "onlyFewLeft": "Only {stock} left!",
+  "@onlyFewLeft": {
+    "placeholders": {
+      "stock": {}
+    }
+  },
+  "inStock": "In stock",
+  "noTransactionYet": "No Transaction Yet",
+  "noTransactionDescriptionMsg": "Your wallet activity will appear here once",
+  "noTransactionDescriptionSecondaryMsg": "you make your first transaction.",
+
+  "cannotAddMoreThanXItems": "You can add only {remaining} more item(s) to your cart.",
+  "@cannotAddMoreThanXItems": {
+    "description": "Shown when user tries to add items beyond cart limit",
+    "placeholders": {
+      "remaining": {}
+    }
+  },
+
+  "youCanAddOnlyXMoreItems": "You can add only {count} more item(s).",
+  "@youCanAddOnlyXMoreItems": {
+    "description": "Simpler version of max items warning",
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+
+  "cartIsAlreadyAtMaximumLimit": "Your cart has reached the maximum item limit ({maxAllowed}).",
+  "@cartIsAlreadyAtMaximumLimit": {
+    "placeholders": {
+      "maxAllowed": {}
+    }
+  },
+
+  "cannotAddFromDifferentStore": "You can only add items from the same store. Please clear your cart or choose items from this store.",
+  "cartAlreadyContainsMultipleStores": "Your cart already contains items from multiple stores. Please complete the current order or clear the cart first.",
+  "inCart": "in cart",
+  "thisActionIsPermanent": "This action is PERMANENT.",
+  "allYourDataWillBeLostForever": "All your data will be lost forever.",
+  "addYourFirstAddressToStart": "Add your first address to get started",
+  "noAddressFound": "No Address Found",
+  "includingAllTax": "(inclusive of all tax)",
+  "dataPlaceholder": "data",
+  "writeYourNoteHere": "Write your note here...",
+  "clearingYourCart": "Clearing your cart...",
+  "imagesLabel": "Images",
+  "imagesSubtitle": "JPG, PNG (Max 5MB)",
+  "pdfDocumentLabel": "PDF Document",
+  "pdfDocumentSubtitle": "PDF files (Max 10MB)",
+  "wordDocumentLabel": "Word Document",
+  "wordDocumentSubtitle": "DOCX files (Max 10MB)",
+  "cannotOpenFile": "Cannot open file: {url}",
+  "@cannotOpenFile": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningAttachment": "Error opening attachment: {error}",
+  "@errorOpeningAttachment": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "paystackPaymentTitle": "Paystack Payment",
+  "enableLocationTitle": "Enable Location",
+  "failed": "Failed",
+  "youWillBeResponsible": "you will be responsible",
+  "deleteWishlistConfirmation": "Are you sure you want to delete this wishlist?"
+}

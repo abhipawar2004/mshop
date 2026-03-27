@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "285207710216",
+    "firebase_url": "https://shopping-d89aa-default-rtdb.firebaseio.com",
+    "project_id": "shopping-d89aa",
+    "storage_bucket": "shopping-d89aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285207710216:android:a23c8b58a35514af525fbd",
+        "android_client_info": {
+          "package_name": "com.app.mshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWriglGj3ZKB2KzvEm5GhXw8TsMjyMKks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

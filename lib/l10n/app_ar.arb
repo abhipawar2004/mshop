@@ -1,0 +1,660 @@
+{
+  "@@locale": "ar",
+  "appTitle": "هايبر لوكال",
+  "appName": "هايبر لوكال",
+  "welcome": "مرحباً",
+  "login": "تسجيل الدخول",
+  "register": "تسجيل",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
+  "signUp": "إنشاء حساب",
+  "signIn": "تسجيل الدخول",
+  "home": "الصفحة الرئيسية",
+  "profile": "الملف الشخصي",
+  "dashboard": "لوحة التحكم",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "selectLanguage": "اختر اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "french": "الفرنسية",
+  "hindi": "الهندية",
+  "gujarati": "الغوجاراتية",
+  "telugu": "التيلجو",
+  "location": "الموقع",
+  "selectLocation": "اختر الموقع",
+  "currentLocation": "الموقع الحالي",
+  "search": "بحث",
+  "categories": "الفئات",
+  "nearby": "بالقرب",
+  "logout": "تسجيل الخروج",
+  "cancel": "إلغاء",
+  "save": "حفظ",
+  "ok": "حسناً",
+  "error": "خطأ",
+  "success": "نجاح",
+  "loading": "جارٍ التحميل...",
+  "noData": "لا توجد بيانات",
+  "retry": "إعادة المحاولة",
+  "networkError": "خطأ في الشبكة",
+  "tryAgain": "حاول مرة أخرى",
+  "permissionDenied": "تم رفض الإذن",
+  "locationPermissionRequired": "يتطلب إذن الوصول إلى الموقع",
+  "enableLocation": "يرجى تفعيل خدمات الموقع",
+  "appearance": "المظهر",
+  "changeAppTheme": "تغيير سمة التطبيق",
+  "systemMode": "وضع النظام",
+  "lightMode": "الوضع الفاتح",
+  "darkMode": "الوضع الداكن",
+  "apply": "تطبيق",
+  "current": "الحالي",
+  "cart": "عربة التسوق",
+  "viewCouponOffers": "عرض الكوبونات والعروض",
+  "placeOrder": "إتمام الطلب",
+  "selectPaymentMethod": "اختر طريقة الدفع",
+  "payUsing": "الدفع باستخدام",
+  "yourCartIsEmpty": "عربة التسوق فارغة",
+  "looksLikeYouHaventAddedAnythingYet": "يبدو أنك لم تضف أي شيء بعد",
+  "browseProducts": "تصفح المنتجات",
+  "addMoreItemsTapped": "تم النقر لإضافة المزيد من العناصر!",
+  "removeItem": "إزالة العنصر",
+  "areYouSureYouWantToRemoveItemFromCart": "هل أنت متأكد أنك تريد إزالة {item} من العربة؟",
+  "@areYouSureYouWantToRemoveItemFromCart": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "حذف",
+  "saveForLater": "احفظه لوقت لاحق",
+  "billDetails": "تفاصيل الفاتورة",
+  "itemsTotal": "إجمالي العناصر",
+  "saved": "تم الحفظ",
+  "deliveryCharge": "رسوم التوصيل",
+  "free": "مجاناً",
+  "perStoreDropOffFees": "رسوم التسليم لكل متجر",
+  "handlingCharge": "رسوم المناولة",
+  "promoCode": "رمز العرض",
+  "promoDiscount": "خصم العرض",
+  "removeCoupon": "إزالة الكوبون",
+  "grandTotal": "المجموع الكلي",
+  "yourTotalSavings": "إجمالي التوفير الخاص بك",
+  "downloadInvoice": "تحميل الفاتورة",
+  "myOrders": "طلباتي",
+  "noOrdersYet": "لا توجد طلبات بعد",
+  "failedToLoadOrders": "فشل تحميل الطلبات",
+  "rateOrder": "تقييم الطلب",
+  "howWasYourOrder": "كيف كان طلبك؟",
+  "orderSummary": "ملخص الطلب",
+  "orderDetailsRefreshed": "تم تحديث تفاصيل الطلب",
+  "rateYourExperience": "قيّم تجربتك",
+  "failedToLoadOrderDetails": "فشل تحميل تفاصيل الطلب",
+  "noItemsToDisplay": "لا توجد عناصر للعرض",
+  "deleteReview": "حذف التقييم؟",
+  "thisActionCannotBeUndone": "لا يمكن التراجع عن هذا الإجراء.",
+  "edit": "تعديل",
+  "cancelItem": "إلغاء العنصر",
+  "areYouSureYouWantToCancelThisItem": "هل أنت متأكد أنك تريد إلغاء هذا العنصر؟",
+  "cancelReturnRequest": "إلغاء طلب الإرجاع",
+  "areYouSureYouWantToCancelThisReturnRequest": "هل أنت متأكد أنك تريد إلغاء طلب الإرجاع هذا؟",
+  "cancelReturnRequestButton": "إلغاء طلب الإرجاع",
+  "cancelItemButton": "إلغاء العنصر",
+  "howWasYourShoppingExperience": "كيف كانت تجربتك في التسوق؟",
+  "trackDelivery": "تتبع التوصيل",
+  "myWishlist": "قائمة رغباتي",
+  "createNewWishlist": "إنشاء قائمة رغبات جديدة",
+  "createNewWishlistTitle": "إنشاء قائمة رغبات جديدة",
+  "enterWishlistName": "أدخل اسم قائمة الرغبات",
+  "pleaseEnterAWishlistName": "يرجى إدخال اسم قائمة الرغبات",
+  "create": "إنشاء",
+  "update": "تحديث",
+  "editWishlist": "تعديل قائمة الرغبات",
+  "noWishlistsYet": "لا توجد قوائم رغبات بعد",
+  "noOtherWishlistsAvailable": "لا توجد قوائم رغبات أخرى",
+  "noProductsFound": "لم يتم العثور على منتجات",
+  "somethingWentWrong": "حدث خطأ ما",
+  "deleteWishlistName": "حذف {wishlistName}",
+  "@deleteWishlistName": {
+    "placeholders": {
+      "wishlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "myAddresses": "عناويني",
+  "addAddress": "إضافة عنوان",
+  "deleteAddress": "حذف العنوان",
+  "areYouSureYouWantToDeleteThisAddress": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+  "near": "بالقرب من",
+  "noAddressSelected": "لم يتم اختيار عنوان",
+  "pleaseSelectAnImageAndEnterYourName": "يرجى اختيار صورة وإدخال اسمك",
+  "loadingProfile": "جارٍ تحميل الملف الشخصي...",
+  "saveChanges": "حفظ التغييرات",
+  "editProfile": "تعديل الملف الشخصي",
+  "labelCopiedToClipboard": "تم نسخ {label} إلى الحافظة",
+  "@labelCopiedToClipboard": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "yourDeliveryAddress": "عنوان التوصيل الخاص بك",
+  "shoppingList": "قائمة التسوق",
+  "aboutUs": "معلومات عنا",
+  "termsCondition": "الشروط والأحكام",
+  "privacyPolicy": "سياسة الخصوصية",
+  "refundPolicy": "سياسة الاسترجاع",
+  "shippingPolicy": "سياسة الشحن",
+  "deleteAccount": "حذف الحساب",
+  "pleaseEnterYourName": "يرجى إدخال اسمك",
+  "nameMustBeAtLeast2Characters": "يجب أن يكون الاسم مكوناً من حرفين على الأقل",
+  "productDetails": "تفاصيل المنتج",
+  "description": "الوصف",
+  "specification": "المواصفات",
+  "reviews": "المراجعات",
+  "similarProducts": "منتجات مشابهة",
+  "specifications": "المواصفات",
+  "customerReviews": "تقييمات العملاء",
+  "seeAll": "عرض الكل",
+  "addYourReview": "أضف تقييمك",
+  "rateThisProduct": "قيّم هذا المنتج",
+  "submitReview": "إرسال التقييم",
+  "questionAndAnswers": "الأسئلة والأجوبة",
+  "askAQuestion": "اسأل سؤالاً",
+  "submit": "إرسال",
+  "questionSubmittedSuccessfully": "تم إرسال السؤال بنجاح!",
+  "pleaseSelectVariant": "يرجى اختيار خيار",
+  "viewProductDetails": "عرض تفاصيل المنتج",
+  "productAddedToCartSuccessfully": "تمت إضافة المنتج إلى العربة بنجاح!",
+  "failedToAddProduct": "فشل إضافة المنتج: {error}",
+  "@failedToAddProduct": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "outOfStock": "غير متوفر",
+  "productVariants": "خيارات المنتج",
+  "selectVariant": "اختر الخيار",
+  "add": "إضافة",
+  "noProductFound": "لم يتم العثور على منتج",
+  "filters": "الفلاتر",
+  "sort": "ترتيب",
+  "popularity": "الأكثر شهرة",
+  "searchResultFor": "نتائج البحث عن \"{title}\"",
+  "@searchResultFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "relevanceDefault": "الصلة (افتراضي)",
+  "priceLowToHigh": "السعر (من الأقل للأعلى)",
+  "priceHighToLow": "السعر (من الأعلى للأقل)",
+  "discountHighToLow": "الخصم (من الأعلى للأقل)",
+  "items": "عناصر",
+  "startTypingForSuggestions": "ابدأ بالكتابة للحصول على اقتراحات",
+  "noSuggestionsFound": "لم يتم العثور على اقتراحات",
+  "speak": "تحدث",
+  "trySayingSomething": "حاول قول شيء",
+  "speechStoppedTryAgain": "توقف الصوت. حاول مرة أخرى.",
+  "close": "إغلاق",
+  "searchProducts": "ابحث عن المنتجات...",
+  "searchForProducts": "ابحث عن المنتجات",
+  "typeProductNameBrandOrCategory": "اكتب اسم المنتج أو العلامة التجارية أو الفئة",
+  "searching": "جارٍ البحث...",
+  "trySearchingWithDifferentKeywords": "حاول البحث باستخدام كلمات مختلفة",
+  "nearbyStores": "المتاجر القريبة",
+  "noStoresFoundNearby": "لم يتم العثور على متاجر قريبة.",
+  "searchInStore": "البحث في {storeName}",
+  "@searchInStore": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "savedForLater": "محفوظ لوقت لاحق",
+  "moveToCart": "انقل إلى العربة",
+  "addFirstItem": "أضف العنصر الأول",
+  "resultFor": "النتائج لـ \"{title}\"",
+  "@resultFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "addMoney": "إضافة رصيد",
+  "enterAmount": "أدخل المبلغ",
+  "note": "ملاحظة:",
+  "hyperlocalWalletBalanceValidFor1Year": "رصيد محفظة هايبر لوكال صالح لمدة سنة من تاريخ الإضافة",
+  "hyperlocalWalletBalanceCannotBeTransferred": "لا يمكن تحويل رصيد المحفظة إلى حساب بنكي وفقاً لتعليمات RBI",
+  "pleaseEnterAnAmountGreaterThanOrEqualTo1": "يرجى إدخال مبلغ أكبر من أو يساوي 1",
+  "transactions": "المعاملات",
+  "promoCodeCoupons": "رموز العرض والكوبونات",
+  "support": "الدعم",
+  "callUs": "اتصل بنا",
+  "phoneNumber": "رقم الهاتف",
+  "emailUs": "راسلنا عبر البريد",
+  "tapToContact": "اضغط للاتصال",
+  "rateStoreName": "قيّم {storeName}",
+  "@rateStoreName": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "editYourFeedback": "تعديل ملاحظاتك",
+  "howWasYourExperience": "كيف كانت تجربتك؟",
+  "tapToRate": "اضغط للتقييم",
+  "star": "{rating} نجمة",
+  "@star": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "stars": "{rating} نجوم",
+  "@stars": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "titleRequired": "العنوان *",
+  "egGreatService": "مثال: خدمة رائعة!",
+  "descriptionRequired": "الوصف *",
+  "shareMoreDetails": "شارك المزيد من التفاصيل...",
+  "submitFeedback": "إرسال الملاحظات",
+  "updateFeedback": "تحديث الملاحظات",
+  "updating": "جارٍ التحديث...",
+  "submitting": "جارٍ الإرسال...",
+  "deleteFeedback": "حذف الملاحظات",
+  "areYouSureYouWantToDeleteThisFeedback": "هل تريد حذف هذه الملاحظات؟",
+  "pleaseGiveARating": "يرجى إعطاء تقييم",
+  "pleaseEnterATitle": "يرجى إدخال عنوان",
+  "pleaseEnterADescription": "يرجى إدخال وصف",
+  "deliveryType": "نوع التوصيل",
+  "rushDelivery": "توصيل سريع",
+  "prioritizedDeliveryForYourUrgentNeeds": "توصيل ذو أولوية لاحتياجاتك العاجلة.",
+  "regularDelivery": "توصيل عادي",
+  "standardDeliveryWithNoExtraCharges": "توصيل قياسي بدون رسوم إضافية.",
+  "deliverTo": "التوصيل إلى",
+  "change": "تغيير",
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "appUnderMaintenance": "التطبيق تحت الصيانة",
+  "noOrderFound": "لم يتم العثور على طلب",
+  "noSearchResults": "لا توجد نتائج بحث",
+  "microphoneUnavailable": "إذن الميكروفون أو خدمة الصوت غير متوفرة",
+  "speakNow": "تحدث الآن",
+  "listening": "جارٍ الاستماع...",
+  "noSpeechDetected": "لم يتم اكتشاف صوت",
+  "locationServices": "خدمات الموقع",
+  "appPermission": "إذن التطبيق",
+  "continueWithGoogle": "تابع باستخدام جوجل",
+  "continueWithApple": "تابع باستخدام آبل",
+  "reviewsRatings": "المراجعات والتقييمات",
+  "frequentlyAskedQuestions": "الأسئلة الشائعة",
+  "dialog": "مربع الحوار",
+  "looksLikeTheStoreCatchingSomeRest": "يبدو أن المتجر يأخذ قسطًا من الراحة. عد بعد قليل!",
+  "addressLine1": "سطر العنوان 1",
+  "addressLine2Optional": "سطر العنوان 2 (اختياري)",
+  "country": "البلد",
+  "state": "الولاية",
+  "city": "المدينة",
+  "zipcode": "الرمز البريدي",
+  "landmark": "معلم بارز",
+  "mobileNumber": "رقم الجوال",
+  "soldBy": "مباع من:",
+  "searchAnAreaOrAddress": "ابحث عن منطقة أو عنوان",
+  "describeTheIssue": "صف المشكلة",
+  "writeYourReviewHere": "اكتب تقييمك هنا...",
+  "typeYourQuestionHere": "اكتب سؤالك هنا...",
+  "enterReviewTitle": "أدخل عنوان التقييم",
+  "shareYourThoughts": "شارك أفكارك...",
+  "searchForAreaStreetName": "ابحث عن منطقة أو اسم شارع...",
+  "pleaseSelectADeliveryAddressFirst": "يرجى اختيار عنوان التوصيل أولاً",
+  "paymentMethodNotSelected": "لم يتم اختيار طريقة الدفع",
+  "inclusiveOfAllTax": "(شامل جميع الضرائب)",
+  "brand": "العلامة التجارية",
+  "packOf": "عبوة من",
+  "category": "الفئة",
+  "madeIn": "صنع في",
+  "indicator": "المؤشر",
+  "guaranteePeriod": "مدة الضمان",
+  "warrantyPeriod": "مدة الكفالة",
+  "returnable": "قابل للإرجاع",
+  "na": "غير متوفر",
+  "yes": "نعم",
+  "noDescriptionAvailable": "لا يوجد وصف متاح.",
+  "wallet": "المحفظة",
+  "wishlist": "قائمة الرغبات",
+  "stores": "المتاجر",
+  "account": "الحساب",
+  "paymentMethod": "طريقة الدفع",
+  "currentLanguage": "اللغة الحالية",
+  "promoApplied": "تم تطبيق العرض",
+  "on": "مفعل",
+  "rushDeliveryActive": "التوصيل السريع مفعل",
+  "cashbackApplied": "تم تطبيق الكاش باك",
+  "instantDiscountApplied": "تم تطبيق الخصم الفوري",
+  "willBeAdded": "سيتم الإضافة",
+  "areYouSure": "هل أنت متأكد؟",
+  "clearCartConfirm": "هل تريد فعلاً إفراغ العربة؟",
+  "no": "لا",
+  "yesClear": "نعم، امسح",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "maxCartItemLimitReached": "لقد وصلت إلى الحد الأقصى لعدد العناصر",
+  "all": "الكل",
+  "shopByCategories": "تسوق حسب الفئات",
+  "topBrands": "أفضل العلامات التجارية",
+  "addItemsToGetStarted": "أضف عناصر للبدء",
+  "yourShoppingListIsEmpty": "قائمة التسوق الخاصة بك فارغة",
+  "listItem": "عنصر القائمة",
+  "itemsAdded": "تمت إضافة عناصر",
+  "startShopping": "ابدأ التسوق",
+  "typeItemName": "اكتب اسم العنصر...",
+  "pleaseAdd1ItemInShoppingList": "الرجاء إضافة عنصر واحد (1) على الأقل في قائمة التسوق الخاصة بك",
+  "selectDeliveryLocation": "حدد موقع التسليم",
+  "searchForAreaStreet": "ابحث عن منطقة، اسم شارع...",
+  "useCurrentLocation": "استخدام الموقع الحالي",
+  "addNewAddress": "إضافة عنوان جديد",
+  "savedAddresses": "العناوين المحفوظة",
+  "notLoggedIn": "غير مُسجل الدخول",
+  "pleaseLoginToViewYourProfile": "الرجاء تسجيل الدخول لعرض ملفك الشخصي",
+  "goToLogin": "اذهب إلى تسجيل الدخول",
+  "trackYourDelivery": "تتبع طلبك",
+  "returnItem": "إرجاع العنصر",
+  "failedToLoadTrackingData": "فشل في تحميل بيانات التتبع",
+  "delivered": "تم التوصيل",
+  "onTheWay": "في الطريق",
+  "trackingLiveLocation": "تتبع الموقع المباشر",
+  "arrivingIn": "سيصل في غضون",
+  "mins": "دقيقة",
+  "deliveryPartner": "شريك التوصيل",
+  "orderDetails": "تفاصيل الطلب",
+  "orderId": "رقم الطلب",
+  "payment": "الدفع",
+  "orderPlaced": "تم وضع الطلب",
+  "deliveryDetails": "تفاصيل التوصيل",
+  "copiedToClipboard": "تم نسخ {label} إلى الحافظة",
+  "@copiedToClipboard": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "orderIdCopied": "تم نسخ رقم الطلب!",
+  "reasonForReturn": "سبب الإرجاع",
+  "submitReturn": "إرسال طلب الإرجاع",
+  "thisProductIsNotCancelable": "لا يمكن إلغاء هذا المنتج",
+  "thisProductIsNotReturnable": "لا يمكن إرجاع هذا المنتج",
+  "returnButton": "إرجاع",
+  "qty": "الكمية",
+  "moveToEllipsis": "نقل إلى...",
+  "addToEllipsis": "إضافة إلى...",
+  "locationAccessNeeded": "مطلوب إذن الوصول إلى الموقع",
+  "later": "لاحقًا",
+  "openSettings": "فتح الإعدادات",
+  "appPermissions": "أذونات التطبيق",
+  "checkingEmail": "جارٍ التحقق من البريد الإلكتروني...",
+  "searchInStoreName": "البحث في {storeName}",
+  "@searchInStoreName": {
+    "placeholders": {
+      "storeName": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionOptional": "الوصف (اختياري)",
+  "greatService": "على سبيل المثال، خدمة رائعة!",
+  "fullName": "الاسم الكامل",
+  "enterYourFullName": "أدخل اسمك الكامل",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "enterYourPhoneNumber": "أدخل رقم هاتفك",
+  "enterYourPassword": "أدخل كلمة المرور الخاصة بك",
+  "confirmYourPassword": "تأكيد كلمة المرور الخاصة بك",
+  "emailOrPhoneNumber": "البريد الإلكتروني أو رقم الهاتف",
+  "emailAddress": "عنوان البريد الإلكتروني",
+  "uploadImages": "تحميل الصور",
+  "tapToUploadPhotos": "اضغط لتحميل الصور",
+  "helpUsUnderstandYourExperience": "ساعدنا على فهم تجربتك",
+  "youCanUploadUpToMaxImages": "يمكنك تحميل ما يصل إلى {max} صور فقط.",
+  "@youCanUploadUpToMaxImages": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "onlyRemainingMoreImagesAdded": "تمت إضافة {remaining} صور أخرى فقط. الحد الأقصى: {max}.",
+  "@onlyRemainingMoreImagesAdded": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "maxImagesAllowedExtensions": "• الحد الأقصى {max} صورة • {extensions} • {size} لكل صورة",
+  "@maxImagesAllowedExtensions": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      },
+      "extensions": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "product": "المنتج",
+  "quantity": "الكمية",
+  "price": "السعر",
+  "clearCart": "مسح سلة التسوق",
+  "clearAllItems": "مسح جميع العناصر؟",
+  "allItemsWillBeRemovedCannotBeUndone": "ستتم إزالة جميع العناصر ولا يمكن التراجع عن هذا الإجراء",
+  "paymentSuccessful": "تم الدفع بنجاح!",
+  "paymentFailedOrCancelled": "فشل أو إلغاء الدفع",
+  "failedToDeleteAddress": "فشل في حذف العنوان",
+  "pressAgainToExitTheApp": "اضغط مرة أخرى للخروج من التطبيق",
+  "youHaveReachedMaximumLimitOfCart": "لقد وصلت إلى الحد الأقصى لسلة التسوق",
+  "sellerInformationNotAvailable": "معلومات البائع غير متوفرة",
+  "failedToRefreshOrderDetails": "فشل في تحديث تفاصيل الطلب",
+  "productSavedForLater": "تم حفظ {productName} لوقت لاحق",
+  "@productSavedForLater": {
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "promoCodeAppliedOnYourCart": "تم تطبيق الرمز الترويجي على سلة التسوق الخاصة بك",
+  "youHaveCrossedMaximumCartAmountLimit": "لقد تجاوزت الحد الأقصى لمبلغ سلة التسوق. الرجاء إزالة بعض المنتجات من السلة",
+  "feedbackSubmittedSuccessfully": "تم إرسال الملاحظات بنجاح!",
+  "feedbackUpdatedSuccessfully": "تم تحديث الملاحظات بنجاح!",
+  "paymentFailed": "فشل الدفع",
+  "copiedToClipboardWithLabel": "تم نسخ {label} إلى الحافظة!",
+  "@copiedToClipboardWithLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterCompleteOTP": "الرجاء إدخال رمز OTP كاملاً",
+  "verificationIdNotFound": "لم يتم العثور على معرّف التحقق. الرجاء المحاولة مرة أخرى.",
+  "otpSentTo": "تم إرسال رمز OTP إلى {phoneNumber}",
+  "@otpSentTo": {
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "registrationDataNotFound": "لم يتم العثور على بيانات التسجيل. الرجاء المحاولة مرة أخرى.",
+  "noAccountFoundWithEmailOrPhone": "لم يتم العثور على حساب بهذا البريد الإلكتروني أو رقم الهاتف",
+  "pleaseEnterValidPhoneNumber": "الرجاء إدخال رقم هاتف صالح",
+  "emailAlreadyRegistered": "البريد الإلكتروني مسجل بالفعل. الرجاء استخدام بريد إلكتروني مختلف.",
+  "pleaseEnterYourFullName": "الرجاء إدخال اسمك الكامل",
+  "pleaseEnterYourEmail": "الرجاء إدخال بريدك الإلكتروني",
+  "pleaseEnterAValidEmail": "الرجاء إدخال بريد إلكتروني صالح",
+  "pleaseEnterYourPhoneNumber": "الرجاء إدخال رقم هاتفك",
+  "pleaseEnterYourPassword": "الرجاء إدخال كلمة المرور الخاصة بك",
+  "passwordMustBeAtLeast8Characters": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+  "pleaseConfirmYourPassword": "الرجاء تأكيد كلمة المرور الخاصة بك",
+  "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "otpVerified": "تم التحقق من رمز OTP",
+  "pleaseSelectAPaymentMethodFirst": "الرجاء تحديد طريقة دفع أولاً",
+  "fetchingAddress": "جاري جلب العنوان...",
+  "selectedLocation": "الموقع المحدد",
+  "gettingAddress": "جاري جلب العنوان...",
+  "unknownLocation": "موقع غير معروف",
+  "deliveryNotAvailableAtThisLocation": "التوصيل غير متاح في هذا الموقع",
+  "sorryWeDontDeliverHereYet": "عذراً! لا نقوم بالتوصيل هنا بعد",
+  "thisLocationIsOutsideOurDeliveryZone": "هذا الموقع خارج منطقة التوصيل حالياً. جرب البحث عن منطقة قريبة أو تحقق لاحقاً.",
+  "addressDetails": "تفاصيل العنوان",
+  "pleaseEnterAddressLine1": "الرجاء إدخال سطر العنوان 1",
+  "pleaseEnterCountry": "الرجاء إدخال الدولة",
+  "pleaseEnterState": "الرجاء إدخال الولاية",
+  "pleaseEnterCity": "الرجاء إدخال المدينة",
+  "pleaseEnterZipcode": "الرجاء إدخال الرمز البريدي",
+  "contactDetails": "تفاصيل الاتصال",
+  "pleaseEnterMobileNumber": "الرجاء إدخال رقم الجوال",
+  "saveAddressAs": "حفظ العنوان باسم",
+  "work": "العمل",
+  "other": "أخرى",
+  "enterCompleteAddress": "أدخل العنوان الكامل",
+  "confirm": "تأكيد",
+  "checkingDelivery": "جاري التحقق من التوصيل...",
+  "confirmLocation": "تأكيد الموقع",
+  "confirmAddressToProceed": "أكد العنوان للمتابعة",
+  "addAddressToProceed": "أضف عنواناً للمتابعة",
+  "deliveryNotAvailable": "التوصيل غير متاح",
+  "skip": "تخطي",
+  "welcomeBack": "مرحباً بعودتك",
+  "signInToYourAccount": "سجل الدخول إلى حسابك للمتابعة",
+  "verifying": "جاري التحقق...",
+  "or": "أو",
+  "dontHaveAnAccount": "ليس لديك حساب؟ ",
+  "emailVerifiedSuccessfully": "تم التحقق من البريد الإلكتروني بنجاح",
+  "phoneNumberVerifiedSuccessfully": "تم التحقق من رقم الهاتف بنجاح",
+  "thisEmailIsNotRegistered": "هذا البريد الإلكتروني غير مسجل. يرجى التسجيل أولاً.",
+  "thisPhoneNumberIsNotRegistered": "هذا رقم الهاتف غير مسجل. يرجى التسجيل أولاً.",
+  "unableToVerifyUser": "تعذر التحقق من المستخدم. يرجى المحاولة مرة أخرى.",
+  "emailOrPhoneNumberIsRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+  "enterValidEmailOrPhone": "أدخل بريداً إلكترونياً أو هاتفاً صالحاً",
+  "passwordIsRequired": "كلمة المرور مطلوبة",
+  "passwordMustBeAtLeast6Characters": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "alreadyHaveAnAccount": "لديك حساب بالفعل؟ ",
+  "createAccount": "إنشاء حساب",
+  "emailAlreadyRegisteredUseDifferent": "البريد الإلكتروني مسجل بالفعل. يرجى استخدام بريد آخر.",
+  "changeLocation": "تغيير الموقع",
+  "chooseAddressForDelivery": "اختر عنواناً للتوصيل",
+  "balance": "الرصيد",
+  "tapCoinToRefresh": "اضغط على العملة للتحديث",
+  "viewTransactions": "عرض المعاملات",
+  "verifyOtp": "التحقق من رمز OTP",
+  "pleaseFillDetailsCreateYourAccount": "يرجى ملء التفاصيل لإنشاء حسابك",
+  "emailAvailable": "البريد الإلكتروني متاح",
+  "errorVerifyingEmail": "خطأ في التحقق من البريد الإلكتروني",
+  "pleaseAddYourDeliveryAddress": "يرجى إضافة عنوان التوصيل الخاص بك",
+  "areYouSureDeleteFeedback": "هل أنت متأكد من حذف التقييم",
+  "addTo": "إضافة إلى…",
+  "moveTo": "نقل إلى…",
+  "accountInformation": "معلومات الحساب",
+  "mobile": "الجوال",
+  "rewardPoints": "نقاط المكافآت",
+  "referralCode": "كود الإحالة",
+  "notProvided": "غير مقدم",
+  "notAvailable": "غير متاح",
+  "failedToLoadProfile": "فشل تحميل الملف الشخصي",
+  "pleaseCheckConnection": "يرجى التحقق من الاتصال وإعادة المحاولة",
+  "noProfileDataAvailable": "لا توجد بيانات ملف شخصي متاحة",
+  "giveYourDeliveryHeroFeedback": "أعطِ تقييماً لسائق التوصيل الخاص بك!",
+  "editYourFeedbackFor": "عدل تقييمك لـ {name}",
+  "@editYourFeedbackFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveFeedback": "ترك تقييم",
+  "editFeedback": "تعديل التقييم",
+  "editSellerFeedback": "تعديل تقييم البائع",
+  "leaveSellerFeedback": "ترك تقييم للبائع",
+  "productNotApprovedBySeller": "هذا المنتج غير معتمد من البائع",
+  "leaveItemFeedback": "ترك تقييم للعنصر",
+  "cashOnDelivery": "الدفع عند الاستلام",
+  "paidOnline": "مدفوع عبر الإنترنت",
+  "orderPlacedOn": "تم تقديم الطلب في {date}",
+  "@orderPlacedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "locationAccessDescription": "تطبيق هذا يقدم خدمات محلية فائقة. يرجى تفعيل الموقع للحصول على توصيات شخصية ونتائج دقيقة.",
+  "turnOnLocationServicesDescription": "فعّل خدمات الموقع وامنح التطبيق إذن الموقع للمتابعة.",
+  "loadingPaymentPage": "جاري تحميل صفحة الدفع...",
+  "youHaveReachedMaximumLimitOfTheCart": "لقد وصلت إلى الحد الأقصى للسلة",
+  "youCanUploadUpToImagesOnly": "يمكنك رفع حتى {count} صور فقط.",
+  "@youCanUploadUpToImagesOnly": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onlyMoreImagesAddedMaxLimit": "تم إضافة {remaining} صورة(صور) إضافية فقط. الحد الأقصى: {max}.",
+  "@onlyMoreImagesAddedMaxLimit": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "onlinePaymentMethods": "طرق الدفع عبر الإنترنت",
+  "noCategoryFound": "لم يتم العثور على فئة",
+  "noStoreFound": "لم يتم العثور على متجر",
+  "wereNotHereYet": "لم نصل هنا بعد",
+  "weCouldntFindAnyCategories": "لم نتمكن من العثور على أي فئات.",
+  "weCouldntFindAnyStoreInYourSelectLocation": "لم نتمكن من العثور على أي متجر في الموقع المحدد.",
+  "phoneNumberCopied": "تم نسخ رقم الهاتف إلى الحافظة!",
+  "emailCopied": "تم نسخ البريد الإلكتروني إلى الحافظة!",
+  "pleaseWaitBeforeResending": "يرجى الانتظار قبل إعادة الإرسال.",
+  "toPay": "المبلغ المستحق:",
+  "currentlyUnavailable": "غير متاح حالياً",
+  "noStoresOrProductsAreAvailableInThisAreaRightNow": "لا توجد متاجر أو منتجات متاحة في هذه المنطقة الآن.",
+  "checkConnectionAndTryAgain": "يرجى التحقق من الاتصال وإعادة المحاولة.",
+  "weWillBeBackSoon": "سنعود قريباً. انتظر قليلاً!",
+  "noOrdersYetDescription": "يبدو أنه ليس لديك أي طلبات بعد.",
+  "tryAdjustingSearchTerms": "جرب تعديل مصطلحات البحث.",
+  "noProductMatchingSearch": "لم نتمكن من العثور على أي منتجات تطابق بحثك.",
+  "feedbackDeletedSuccessfully": "تم حذف التقييم بنجاح!",
+  "rateDeliveryHero": "قيّم سائق التوصيل",
+  "howWasTheDelivery": "كيف كان التوصيل؟",
+  "egSuperFastDelivery": "مثال: توصيل فائق السرعة!"
+}
