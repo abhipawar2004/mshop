@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +58,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Timer? _debounceTimer;
   static const Duration _debounceDuration = Duration(milliseconds: 800);
 
+  void _debugLogin(String message) {
+    log(message);
+    print(message);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -103,7 +109,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     final type = _detectInputType(value);
 
+    _debugLogin(
+        '[LOGIN_UI] Identifier changed. type=$type value=${value.trim()}');
+
     if (type == 'empty' || type == 'invalid') {
+      _debugLogin(
+          '[LOGIN_UI] Identifier is empty/invalid. Resetting verification state.');
       context.read<UserVerificationBloc>().add(ResetVerification());
       return;
     }
@@ -111,12 +122,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _debounceTimer = Timer(_debounceDuration, () {
       if (_identifierController.text.trim() == value.trim()) {
         if (type == 'email') {
+          _debugLogin(
+              '[LOGIN_UI] Dispatch VerifyUser with email=${value.trim()}');
           context
               .read<UserVerificationBloc>()
               .add(VerifyUser(value: value.trim(), type: type));
         } else {
           // Normalize phone: remove all non-digits except +
           String cleanPhone = value.replaceAll(RegExp(r'[^\d+]'), '');
+          _debugLogin('[LOGIN_UI] Dispatch VerifyUser with mobile=$cleanPhone');
           context
               .read<UserVerificationBloc>()
               .add(VerifyUser(value: cleanPhone, type: 'mobile'));
@@ -127,6 +141,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   void _handleLogin() {
     final l10n = AppLocalizations.of(context)!;
+    _debugLogin(
+        '[LOGIN_UI] Login button tapped. Current verification=$isUserVerified');
+
     if (!_formKey.currentState!.validate()) return;
 
     if (isUserVerified != true) {
@@ -148,10 +165,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
 
     final identifier = _identifierController.text.trim();
+    final isEmail = _isValidEmail(identifier);
+    final isPhone = _isValidPhone(identifier);
+
+    _debugLogin('[LOGIN_UI] Dispatch LoginRequest payload: '
+        'email=${isEmail ? identifier : ''}, '
+        'mobile=${isPhone ? identifier : ''}, '
+        'passwordLength=${_passwordController.text.length}');
 
     context.read<AuthBloc>().add(LoginRequest(
-          email: _isValidEmail(identifier) ? identifier : null,
-          phoneNumber: _isValidPhone(identifier) ? identifier : null,
+          email: isEmail ? identifier : null,
+          phoneNumber: isPhone ? identifier : null,
           password: _passwordController.text,
         ));
   }
@@ -168,6 +192,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           body: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
+                _debugLogin(
+                    '[LOGIN_UI] AuthSuccess received. message=${state.message}');
                 GoRouter.of(context).pushReplacement(AppRoutes.splashScreen);
                 ToastManager.show(
                     context: context,
@@ -181,11 +207,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       SyncCart()); // Use captured reference – no context needed
                 });
               } else if (state is AuthFailed) {
+                _debugLogin(
+                    '[LOGIN_UI] AuthFailed received. error=${state.error}');
                 ToastManager.show(
                     context: context,
                     message: state.error,
                     type: ToastType.error);
               } else if (state is SocialAuthSuccess) {
+                _debugLogin(
+                    '[LOGIN_UI] SocialAuthSuccess received. newUser=${state.newUser} email=${state.userEmail}');
                 if (state.newUser) {
                   GoRouter.of(context).push(AppRoutes.register, extra: {
                     'name': state.userName,
@@ -589,6 +619,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         } else if (state is UserVerified) {
           final l10n = AppLocalizations.of(context)!;
           isUserVerified = state.isUserVerified;
+          _debugLogin(
+              '[LOGIN_UI] User verification result. exists=$isUserVerified');
           if (isUserVerified == true) {
             helperText = _detectInputType(_identifierController.text) == 'email'
                 ? l10n.emailVerifiedSuccessfully
@@ -606,6 +638,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         } else if (state is UserVerificationFailed) {
           final l10n = AppLocalizations.of(context)!;
           isUserVerified = false;
+          _debugLogin(
+              '[LOGIN_UI] User verification failed. error=${state.error}');
           helperText = l10n.unableToVerifyUser;
           statusIcon =
               const Icon(Icons.error, color: AppTheme.errorColor, size: 16);

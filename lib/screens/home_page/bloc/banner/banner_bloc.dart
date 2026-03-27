@@ -38,17 +38,14 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
           .map((data) => Top.fromJson(data)));
       currentPage += 1;
       _hasReachedMax = topBannerData.length < perPage;
-      if (response['success'] != null && topBannerData.isNotEmpty ||
-          middleBannerData.isNotEmpty) {
-        if (response['success'] == true) {
-          emit(BannerLoaded(
-              message: response['message'],
-              topBannerData: topBannerData,
-              middleBannerData: middleBannerData,
-              hasReachedMax: _hasReachedMax));
-        } else if (response['success'] == false) {
-          emit(BannerFailed(error: response['message']));
-        }
+      if (response['success'] == true) {
+        emit(BannerLoaded(
+            message: response['message'],
+            topBannerData: topBannerData,
+            middleBannerData: middleBannerData,
+            hasReachedMax: _hasReachedMax));
+      } else if (response['success'] == false) {
+        emit(BannerFailed(error: response['message']));
       } else {
         emit(BannerFailed(error: response['message']));
       }

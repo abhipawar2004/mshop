@@ -38,15 +38,30 @@ class AuthRepository {
   }) async {
     try {
       String? fcmToken = await getFCMToken();
-      final response =
-          await AppConstant.apiBaseHelper.postAPICall(ApiRoutes.loginApi, {
+      final payload = {
         if (email.isNotEmpty) 'email': email,
         if (phoneNumber.isNotEmpty)
           'mobile': phoneNumber.isEmpty ? 0 : int.parse(phoneNumber),
         'password': password,
         'fcm_token': fcmToken,
         'device_type': getDeviceType()
-      });
+      };
+
+      final sanitizedPayload = {
+        ...payload,
+        if (payload['password'] != null)
+          'password': '***(${password.length} chars)***',
+      };
+
+      _debugAuth('[LOGIN_API] URL: ${ApiRoutes.loginApi}');
+      _debugAuth('[LOGIN_API] PAYLOAD: ${jsonEncode(sanitizedPayload)}');
+
+      final response = await AppConstant.apiBaseHelper
+          .postAPICall(ApiRoutes.loginApi, payload);
+
+      _debugAuth('[LOGIN_API] STATUS: ${response.statusCode}');
+      _debugAuth('[LOGIN_API] RESPONSE: ${jsonEncode(response.data)}');
+
       if (response.data['success'] == true) {
         List<AuthModel> userData = [];
         userData.add(AuthModel.fromJson(response.data));
@@ -98,8 +113,21 @@ class AuthRepository {
   Future<Map<String, dynamic>> verifyUser(
       {required String type, required String value}) async {
     try {
-      final response = await AppConstant.apiBaseHelper
-          .postAPICall(ApiRoutes.verifyUserApi, {'type': type, 'value': value});
+      final payload = {'type': type, 'value': value};
+      _debugAuth('[VERIFY_USER_API] URL: ${ApiRoutes.verifyUserApi}');
+      _debugAuth('[VERIFY_USER_API] PAYLOAD: ${jsonEncode(payload)}');
+      _debugAuth(
+          "[VERIFY_USER_API] CURL: curl --request POST '${ApiRoutes.verifyUserApi}' --header 'Content-Type: application/json' --header 'Accept: application/json' --data '${jsonEncode(payload)}'");
+
+      final response = await AppConstant.apiBaseHelper.postAPICall(
+        ApiRoutes.verifyUserApi,
+        payload,
+        includeAuthorization: false,
+      );
+
+      _debugAuth('[VERIFY_USER_API] STATUS: ${response.statusCode}');
+      _debugAuth('[VERIFY_USER_API] RESPONSE: ${jsonEncode(response.data)}');
+
       return response.data;
     } catch (e) {
       throw ApiException(e.toString());

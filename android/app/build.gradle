@@ -32,6 +32,11 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def configuredStoreFile = keystoreProperties['storeFile']?.toString()
+def hasReleaseKeystore = configuredStoreFile &&
+        configuredStoreFile != 'STORE_FILE_PATH' &&
+        file(configuredStoreFile).exists()
+
 android {
     namespace = "com.app.mshop"
     compileSdk = 36
@@ -69,7 +74,11 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (hasReleaseKeystore) {
+                signingConfig signingConfigs.release
+            } else {
+                println("Release keystore not configured. Building unsigned release APK.")
+            }
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

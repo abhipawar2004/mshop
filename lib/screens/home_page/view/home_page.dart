@@ -51,7 +51,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
   final ScrollController nestedScrollController = ScrollController();
   late String backgroundImagePath = '';
@@ -77,7 +78,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   double _latestScrollPixels = 0.0;
   bool isRetry = false;
 
-
   @override
   bool get wantKeepAlive => true;
 
@@ -94,7 +94,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       }
     });
   }
-
 
   @override
   void didChangeDependencies() {
@@ -113,14 +112,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   void initialiseColors() {
-    _originalTextColor = Theme
-        .of(context)
-        .brightness == Brightness.light ? AppTheme.lightFontColor : AppTheme
-        .darkFontColor;
-    _collapsedTextColor = Theme
-        .of(context)
-        .brightness == Brightness.light ? AppTheme.lightFontColor : AppTheme
-        .darkFontColor;
+    _originalTextColor = Theme.of(context).brightness == Brightness.light
+        ? AppTheme.lightFontColor
+        : AppTheme.darkFontColor;
+    _collapsedTextColor = Theme.of(context).brightness == Brightness.light
+        ? AppTheme.lightFontColor
+        : AppTheme.darkFontColor;
     textColor = _originalTextColor;
   }
 
@@ -130,11 +127,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       backgroundImagePath = image ?? '';
       backgroundColor = bgColor;
       _isImageEmpty = backgroundImagePath.isEmpty;
-      _originalTextColor = fontColor ?? (Theme
-          .of(context)
-          .brightness == Brightness.light
-          ? AppTheme.lightFontColor
-          : AppTheme.darkFontColor);
+      _originalTextColor = fontColor ??
+          (Theme.of(context).brightness == Brightness.light
+              ? AppTheme.lightFontColor
+              : AppTheme.darkFontColor);
       if (_isFlexibleSpaceHidden) {
         textColor = _collapsedTextColor;
       } else {
@@ -170,8 +166,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       return;
     }
 
-    context.read<FeatureSectionProductBloc>().add(
-        ClearFeatureSectionProducts());
+    context
+        .read<FeatureSectionProductBloc>()
+        .add(ClearFeatureSectionProducts());
 
     if (index == 0) {
       apiCalls('');
@@ -190,8 +187,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   void _ensureValidTabIndex() {
-    log('Ensure Valid Tab Index ${(!mounted || !_canUseTabController ||
-        _isRedirecting)}');
+    log('Ensure Valid Tab Index ${(!mounted || !_canUseTabController || _isRedirecting)}');
     if (!mounted || !_canUseTabController || _isRedirecting) return;
 
     final int totalTabs = _categories.length + 1;
@@ -212,17 +208,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
         _applyHomeGeneralSettingsToAppBar();
 
         // 3. Clear feature section products to prevent showing old data
-        context.read<FeatureSectionProductBloc>().add(
-            ClearFeatureSectionProducts());
+        context
+            .read<FeatureSectionProductBloc>()
+            .add(ClearFeatureSectionProducts());
 
         // 4. Make API calls with empty slug (for "All" tab)
         apiCalls('');
 
         // 5. Force TabBarView rebuild to reset scroll
         setState(() {
-          _tabBarViewKey = 'reset_${DateTime
-              .now()
-              .millisecondsSinceEpoch}';
+          _tabBarViewKey = 'reset_${DateTime.now().millisecondsSinceEpoch}';
         });
 
         // 6. Scroll NestedScrollView to top
@@ -293,25 +288,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
     }
 
     if (_tabController.index == 0) {
-      context.read<FeatureSectionProductBloc>().add(
-          FetchFeatureSectionProducts(slug: ''));
-      context.read<SubCategoryBloc>().add(FetchSubCategory(slug: '', isForAllCategory: true));
+      context
+          .read<FeatureSectionProductBloc>()
+          .add(FetchFeatureSectionProducts(slug: ''));
+      context
+          .read<SubCategoryBloc>()
+          .add(FetchSubCategory(slug: '', isForAllCategory: true));
       context.read<BrandsBloc>().add(FetchBrands(categorySlug: ''));
       context.read<BannerBloc>().add(FetchBanner(categorySlug: ''));
       context.read<GetUserCartBloc>().add(FetchUserCart());
       context.read<GetAddressListBloc>().add(FetchUserAddressList());
-    }
-    else {
-      context.read<SubCategoryBloc>().add(FetchSubCategory(slug: slug, isForAllCategory: false));
+    } else {
+      context
+          .read<SubCategoryBloc>()
+          .add(FetchSubCategory(slug: slug, isForAllCategory: false));
       context.read<BannerBloc>().add(FetchBanner(categorySlug: slug));
       context.read<BrandsBloc>().add(FetchBrands(categorySlug: slug));
-      context.read<FeatureSectionProductBloc>().add(
-          FetchFeatureSectionProducts(slug: slug));
+      context
+          .read<FeatureSectionProductBloc>()
+          .add(FetchFeatureSectionProducts(slug: slug));
       context.read<GetUserCartBloc>().add(FetchUserCart());
       context.read<GetAddressListBloc>().add(FetchUserAddressList());
     }
-    await Future.delayed(Duration(seconds: 1),(){
-      if(mounted) {
+    await Future.delayed(Duration(seconds: 1), () {
+      if (mounted) {
         context.read<SettingsBloc>().add(FetchSettingsData(context: context));
       }
     });
@@ -331,7 +331,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
 
   void _refreshApiOnLocationChange() {
     context.read<CategoryBloc>().add(FetchCategory(context: context));
-    context.read<NearByStoreBloc>().add(FetchNearByStores(perPage: 15, searchQuery: ''));
+    context
+        .read<NearByStoreBloc>()
+        .add(FetchNearByStores(perPage: 15, searchQuery: ''));
   }
 
   void _scrollListener() {
@@ -346,17 +348,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       setState(() {
         _isFlexibleSpaceHidden = isHidden;
         if (_isFlexibleSpaceHidden) {
-          textColor = _collapsedTextColor ?? (Theme
-              .of(context)
-              .brightness == Brightness.light
-              ? AppTheme.lightFontColor
-              : AppTheme.darkFontColor);
+          textColor = _collapsedTextColor ??
+              (Theme.of(context).brightness == Brightness.light
+                  ? AppTheme.lightFontColor
+                  : AppTheme.darkFontColor);
         } else {
-          textColor = _originalTextColor ?? (Theme
-              .of(context)
-              .brightness == Brightness.light
-              ? AppTheme.lightFontColor
-              : AppTheme.darkFontColor);
+          textColor = _originalTextColor ??
+              (Theme.of(context).brightness == Brightness.light
+                  ? AppTheme.lightFontColor
+                  : AppTheme.darkFontColor);
         }
       });
     }
@@ -429,43 +429,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   bool _isValidHomeGeneralSettings(HomeGeneralSettings settings) {
-    return settings.title
-        .trim()
-        .isNotEmpty ||
-        settings.icon
-            .trim()
-            .isNotEmpty ||
-        settings.activeIcon
-            .trim()
-            .isNotEmpty;
+    return settings.title.trim().isNotEmpty ||
+        settings.icon.trim().isNotEmpty ||
+        settings.activeIcon.trim().isNotEmpty;
   }
 
   void _applyHomeGeneralSettingsToAppBar() {
     final settings = SettingsData.instance.homeGeneralSettings;
     if (settings == null || !_isValidHomeGeneralSettings(settings)) {
-      _collapsedTextColor = Theme
-          .of(context)
-          .brightness == Brightness.light
+      _collapsedTextColor = Theme.of(context).brightness == Brightness.light
           ? AppTheme.lightFontColor
           : AppTheme.darkFontColor;
       updateAppBarBackground(
         image: '',
         bgColor: null,
-        fontColor: Theme
-            .of(context)
-            .brightness == Brightness.light
+        fontColor: Theme.of(context).brightness == Brightness.light
             ? AppTheme.lightFontColor
             : AppTheme.darkFontColor,
       );
       return;
     }
 
-    final String image = settings.backgroundImage.isNotEmpty ? settings
-        .backgroundImage : '';
-    final String? bgColor = settings.backgroundColor.isNotEmpty ? settings
-        .backgroundColor : null;
-    final Color? fontColor = settings.fontColor.isNotEmpty ? _getColorFromHex(
-        settings.fontColor) : null;
+    final String image =
+        settings.backgroundImage.isNotEmpty ? settings.backgroundImage : '';
+    final String? bgColor =
+        settings.backgroundColor.isNotEmpty ? settings.backgroundColor : null;
+    final Color? fontColor = settings.fontColor.isNotEmpty
+        ? _getColorFromHex(settings.fontColor)
+        : null;
     // if (fontColor != null) {
     //   _collapsedTextColor = fontColor;
     // }
@@ -488,7 +479,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
             height: 50,
             child: Icon(HeroiconsOutline.squares2x2, size: 28),
           ),
-          SizedBox(height: 0,),
+          SizedBox(
+            height: 0,
+          ),
           Text(
             AppLocalizations.of(context)!.all,
             textAlign: TextAlign.center,
@@ -496,7 +489,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
               fontSize: 12,
             ),
           ),
-          SizedBox(height: 3,),
+          SizedBox(
+            height: 3,
+          ),
         ],
       ),
     );
@@ -508,8 +503,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
       builder: (context, child) {
         final bool isSelected = _tabController.index == 0;
         final String iconUrl = isSelected
-            ? (settings.activeIcon.isNotEmpty ? settings.activeIcon : settings
-            .icon)
+            ? (settings.activeIcon.isNotEmpty
+                ? settings.activeIcon
+                : settings.icon)
             : settings.icon;
         Widget iconWidget;
         if (iconUrl.isNotEmpty) {
@@ -536,11 +532,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
               ),
               SizedBox(height: 0),
               Text(
-                settings.title.isNotEmpty ? settings.title : AppLocalizations.of(context)!.all,
+                settings.title.isNotEmpty
+                    ? settings.title
+                    : AppLocalizations.of(context)!.all,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 12),
               ),
-              SizedBox(height: 3,),
+              SizedBox(
+                height: 3,
+              ),
             ],
           ),
         );
@@ -555,9 +555,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
         final storedLocation = box.get('user_location');
         final locationIdentifier = storedLocation == null
             ? null
-            : '${storedLocation.latitude}_${storedLocation
-            .longitude}_${storedLocation.fullAddress}_${storedLocation
-            .area}_${storedLocation.city}_${storedLocation.pincode}';
+            : '${storedLocation.latitude}_${storedLocation.longitude}_${storedLocation.fullAddress}_${storedLocation.area}_${storedLocation.city}_${storedLocation.pincode}';
 
         if (_lastLocationIdentifier != locationIdentifier) {
           _lastLocationIdentifier = locationIdentifier;
@@ -579,40 +577,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                     isScrollControlled: true,
                     backgroundColor: Colors.transparent,
                     useRootNavigator: true,
-                    builder: (context) =>
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 50),
-                              child: Center(
-                                child: GestureDetector(
-                                  onTap: () => Navigator.of(context).pop(),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(
-                                              alpha: 0.1),
-                                          blurRadius: 8,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
+                    builder: (context) => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 50),
+                          child: Center(
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          Colors.black.withValues(alpha: 0.1),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 2),
                                     ),
-                                    child: const Icon(
-                                      Icons.close,
-                                      size: 20,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.close,
+                                  size: 20,
+                                  color: Colors.grey,
                                 ),
                               ),
                             ),
-                            Expanded(child: LocationBottomSheet()),
-                          ],
+                          ),
                         ),
+                        Expanded(child: LocationBottomSheet()),
+                      ],
+                    ),
                   );
                 },
                 child: Column(
@@ -623,21 +620,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Icon(TablerIcons.map_pin_filled, size: 22,
-                              color: textColor),
+                          Icon(TablerIcons.map_pin_filled,
+                              size: 22, color: textColor),
                           SizedBox(width: 2),
                           Flexible(
                             child: Text(
                               storedLocation?.area.isNotEmpty == true
                                   ? storedLocation!.area
                                   : '',
-                              style: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w500),
-                              overflow: TextOverflow.ellipsis,  // Add overflow handling
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: textColor,
+                                  fontWeight: FontWeight.w500),
+                              overflow: TextOverflow
+                                  .ellipsis, // Add overflow handling
                             ),
                           ),
                           SizedBox(width: 2),
-                          Icon(TablerIcons.chevron_down, size: 20,
-                              color: textColor),
+                          Icon(TablerIcons.chevron_down,
+                              size: 20, color: textColor),
                         ],
                       ),
                     ),
@@ -673,8 +674,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 15.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: ShimmerWidget.rectangular(
               isBorder: true,
               height: 18,
@@ -736,8 +737,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
           children: [
             BlocBuilder<CategoryBloc, CategoryState>(
               builder: (BuildContext context, CategoryState state) {
-                final homeGeneralSettings = SettingsData.instance
-                    .homeGeneralSettings;
+                final homeGeneralSettings =
+                    SettingsData.instance.homeGeneralSettings;
                 List<Widget> tabBarTabs = [
                   if (homeGeneralSettings != null &&
                       _isValidHomeGeneralSettings(homeGeneralSettings))
@@ -750,25 +751,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                     onRefresh: () async {
                       apiCalls('');
                       _applyHomeGeneralSettingsToAppBar();
-                      context.read<CategoryBloc>().add(
-                          FetchCategory(context: context));
+                      context
+                          .read<CategoryBloc>()
+                          .add(FetchCategory(context: context));
                     },
                     child: BlocBuilder<BannerBloc, BannerState>(
                       builder: (context, bannerState) {
                         return BlocBuilder<SubCategoryBloc, SubCategoryState>(
                           builder: (context, subCategoryState) {
-                            return BlocBuilder<
-                                FeatureSectionProductBloc,
+                            return BlocBuilder<FeatureSectionProductBloc,
                                 FeatureSectionProductState>(
                               builder: (context, featureSectionState) {
                                 return BlocBuilder<BrandsBloc, BrandsState>(
                                   builder: (context, brandsState) {
-                                    final hasFailed = (bannerState is BannerFailed &&
+                                    final hasFailed = (bannerState
+                                            is BannerFailed &&
                                         subCategoryState is SubCategoryFailed &&
-                                        featureSectionState is FeatureSectionProductFailed &&
-                                        brandsState is BrandsFailed);
-
-
+                                        featureSectionState
+                                            is FeatureSectionProductFailed &&
+                                        brandsState is BrandsFailed &&
+                                        (state is CategoryFailed ||
+                                            _categories.isEmpty));
 
                                     if (hasFailed) {
                                       return NoDeliveryLocationPage(
@@ -780,20 +783,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                             builder: (context) => Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 30),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 30),
                                                   child: Center(
                                                     child: GestureDetector(
-                                                      onTap: () => Navigator.of(context).pop(),
+                                                      onTap: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
                                                       child: Container(
-                                                        padding: const EdgeInsets.all(10),
-                                                        decoration: BoxDecoration(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors.white,
-                                                          shape: BoxShape.circle,
+                                                          shape:
+                                                              BoxShape.circle,
                                                           boxShadow: [
                                                             BoxShadow(
-                                                              color: Colors.black.withValues(alpha: 0.1),
+                                                              color: Colors
+                                                                  .black
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.1),
                                                               blurRadius: 8,
-                                                              offset: Offset(0, 2),
+                                                              offset:
+                                                                  Offset(0, 2),
                                                             ),
                                                           ],
                                                         ),
@@ -806,7 +821,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(child: LocationBottomSheet()),
+                                                Expanded(
+                                                    child:
+                                                        LocationBottomSheet()),
                                               ],
                                             ),
                                           );
@@ -829,7 +846,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
 
                                     return CustomScrollView(
                                       clipBehavior: Clip.antiAlias,
-                                      physics: const AlwaysScrollableScrollPhysics(),
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
                                       slivers: [
                                         SliverToBoxAdapter(
                                           child: BlocBuilder<BannerBloc,
@@ -838,13 +856,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                                 BannerState state) {
                                               if (state is BannerLoaded) {
                                                 return AutoPlayCarouselSlider(
-                                                    banners: state.topBannerData);
-                                              } else if (state is BannerLoading) {
+                                                    banners:
+                                                        state.topBannerData);
+                                              } else if (state
+                                                  is BannerLoading) {
                                                 return Padding(
                                                   padding: const EdgeInsets.all(
                                                       20.0),
-                                                  child: ShimmerWidget.rectangular(
-                                                      isBorder: true, height: 220),
+                                                  child:
+                                                      ShimmerWidget.rectangular(
+                                                          isBorder: true,
+                                                          height: 220),
                                                 );
                                               }
                                               return SizedBox.shrink();
@@ -852,41 +874,68 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                           ),
                                         ),
                                         SliverToBoxAdapter(
-                                            child: SubCategoryFeatureSectionWidget()),
-                                        SliverToBoxAdapter(child: BrandsSection(
-                                            brandsSectionTitle: AppLocalizations.of(context)?.topBrands ?? 'Top Brands',
-                                          categorySlug: '',
-                                        ),
+                                            child:
+                                                SubCategoryFeatureSectionWidget()),
+                                        SliverToBoxAdapter(
+                                          child: BrandsSection(
+                                            brandsSectionTitle:
+                                                AppLocalizations.of(context)
+                                                        ?.topBrands ??
+                                                    'Top Brands',
+                                            categorySlug: '',
+                                          ),
                                         ),
                                         SliverToBoxAdapter(
                                           child: BlocBuilder<
                                               FeatureSectionProductBloc,
                                               FeatureSectionProductState>(
                                             builder: (context, state) {
-                                              if (state is FeatureSectionProductLoaded) {
-
+                                              if (state
+                                                  is FeatureSectionProductLoaded) {
                                                 return ListView(
-                                                  padding: EdgeInsets.only(top: 5.h),
+                                                  padding:
+                                                      EdgeInsets.only(top: 5.h),
                                                   shrinkWrap: true,
-                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
                                                   children: [
                                                     // Global check
-                                                    if (state.featureSectionProductData.any((s) => (s.products ?? []).isNotEmpty)) ...[
-                                                      if (state.featureSectionProductData.isNotEmpty)
-                                                        _buildFeatureSection(state.featureSectionProductData[0]),
-
+                                                    if (state
+                                                        .featureSectionProductData
+                                                        .any((s) => (s
+                                                                    .products ??
+                                                                [])
+                                                            .isNotEmpty)) ...[
+                                                      if (state
+                                                          .featureSectionProductData
+                                                          .isNotEmpty)
+                                                        _buildFeatureSection(
+                                                            state.featureSectionProductData[
+                                                                0]),
                                                       middleBannersWidget(),
-
-                                                      ...state.featureSectionProductData.skip(1).map((section) {
-                                                        if ((section.products ?? []).isEmpty) return const SizedBox.shrink();
-                                                        return _buildFeatureSection(section);
+                                                      ...state
+                                                          .featureSectionProductData
+                                                          .skip(1)
+                                                          .map((section) {
+                                                        if ((section.products ??
+                                                                [])
+                                                            .isEmpty)
+                                                          return const SizedBox
+                                                              .shrink();
+                                                        return _buildFeatureSection(
+                                                            section);
                                                       }),
-
                                                       if (!state.hasReachedMax)
                                                         const Padding(
-                                                          padding: EdgeInsets.all(16.0),
-                                                          child: Center(child: CustomCircularProgressIndicator()),
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: Center(
+                                                              child:
+                                                                  CustomCircularProgressIndicator()),
                                                         ),
+                                                    ] else ...[
+                                                      const NoProductPage(),
                                                     ]
                                                   ],
                                                 );
@@ -960,8 +1009,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                                         : SizedBox.shrink();
                                                   },
                                                 );*/
-                                              } else
-                                              if (state is FeatureSectionProductLoading) {
+                                              } else if (state
+                                                  is FeatureSectionProductLoading) {
                                                 return productFeaturedSectionEmptyState();
                                               }
                                               return SizedBox.shrink();
@@ -969,7 +1018,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                           ),
                                         ),
                                         SliverToBoxAdapter(
-                                          child: SizedBox(height: 70,),
+                                          child: SizedBox(
+                                            height: 70,
+                                          ),
                                         ),
                                       ],
                                     );
@@ -998,8 +1049,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                   }
                   final newCategories = state.categoryData;
                   final int totalTabs = newCategories.length + 1;
-                  final bool categoriesChanged = _previousCategoryLength !=
-                      newCategories.length;
+                  final bool categoriesChanged =
+                      _previousCategoryLength != newCategories.length;
                   final int oldLength = _previousCategoryLength;
                   _previousCategoryLength = newCategories.length;
 
@@ -1016,12 +1067,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                   // Critical: Handle invalid tab index when category is removed
                   if (_tabController.index >= totalTabs) {
                     _ensureValidTabIndex();
-                  } else if (categoriesChanged && _tabController.index > 0 &&
+                  } else if (categoriesChanged &&
+                      _tabController.index > 0 &&
                       !_isRedirecting) {
                     // Verify current category still exists by slug
                     final currentIndex = _tabController.index - 1;
-                    if (currentIndex >= 0 && currentIndex <
-                        oldLength - (oldLength - newCategories.length)) {
+                    if (currentIndex >= 0 &&
+                        currentIndex <
+                            oldLength - (oldLength - newCategories.length)) {
                       // Check if we need to redirect
                       if (currentIndex >= newCategories.length) {
                         _ensureValidTabIndex();
@@ -1034,10 +1087,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                     }
                   }
 
-                  tabBarTabs.addAll(_categories
-                      .asMap()
-                      .entries
-                      .map((entry) {
+                  tabBarTabs.addAll(_categories.asMap().entries.map((entry) {
                     final index = entry.key;
                     final category = entry.value;
                     return AnimatedBuilder(
@@ -1054,13 +1104,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                 height: 50,
                                 child: _buildTabIcon(category, isSelected),
                               ),
-                              SizedBox(height: 0,),
+                              SizedBox(
+                                height: 0,
+                              ),
                               Text(
                                 category.title ?? '',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 12),
                               ),
-                              SizedBox(height: 3,),
+                              SizedBox(
+                                height: 3,
+                              ),
                             ],
                           ),
                         );
@@ -1069,10 +1123,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                   }).toList());
 
                   // Build TabBarView children for categories
-                  tabBarViewChildren.addAll(_categories
-                      .asMap()
-                      .entries
-                      .map((entry) {
+                  tabBarViewChildren
+                      .addAll(_categories.asMap().entries.map((entry) {
                     final category = entry.value;
 
                     return CustomRefreshIndicator(
@@ -1083,23 +1135,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                           bgColor: category.backgroundColor,
                           fontColor: hexStringToColor(category.fontColor),
                         );
-                        context.read<CategoryBloc>().add(
-                            FetchCategory(context: context));
+                        context
+                            .read<CategoryBloc>()
+                            .add(FetchCategory(context: context));
                       },
                       child: BlocBuilder<BannerBloc, BannerState>(
                         builder: (context, bannerState) {
                           return BlocBuilder<SubCategoryBloc, SubCategoryState>(
                             builder: (context, subCategoryState) {
-                              return BlocBuilder<
-                                  FeatureSectionProductBloc,
+                              return BlocBuilder<FeatureSectionProductBloc,
                                   FeatureSectionProductState>(
                                 builder: (context, featureSectionState) {
                                   return BlocBuilder<BrandsBloc, BrandsState>(
                                     builder: (context, brandsState) {
-                                      final hasFailed = bannerState is BannerFailed &&
-                                          subCategoryState is SubCategoryFailed &&
-                                          featureSectionState is FeatureSectionProductFailed &&
-                                          brandsState is BrandsFailed;
+                                      final hasFailed = bannerState
+                                              is BannerFailed &&
+                                          subCategoryState
+                                              is SubCategoryFailed &&
+                                          featureSectionState
+                                              is FeatureSectionProductFailed &&
+                                          brandsState is BrandsFailed &&
+                                          (state is CategoryFailed ||
+                                              _categories.isEmpty);
 
                                       if (hasFailed) {
                                         return NoDeliveryLocationPage(
@@ -1107,9 +1164,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                             if (_categories.isNotEmpty &&
                                                 (_tabController.index - 1) <
                                                     _categories.length) {
-                                              final selectedCategory = _categories[_tabController
-                                                  .index - 1];
-                                              apiCalls(selectedCategory.slug ?? '');
+                                              final selectedCategory =
+                                                  _categories[
+                                                      _tabController.index - 1];
+                                              apiCalls(
+                                                  selectedCategory.slug ?? '');
                                             } else {
                                               apiCalls('');
                                             }
@@ -1118,24 +1177,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                       }
 
                                       return CustomScrollView(
-                                        physics: AlwaysScrollableScrollPhysics(),
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
                                         slivers: [
                                           SliverToBoxAdapter(
-                                            child: BlocBuilder<
-                                                BannerBloc,
+                                            child: BlocBuilder<BannerBloc,
                                                 BannerState>(
                                               builder: (BuildContext context,
                                                   BannerState state) {
                                                 if (state is BannerLoaded) {
                                                   return AutoPlayCarouselSlider(
-                                                      banners: state.topBannerData);
-                                                } else if (state is BannerLoading) {
+                                                      banners:
+                                                          state.topBannerData);
+                                                } else if (state
+                                                    is BannerLoading) {
                                                   return Padding(
-                                                    padding: const EdgeInsets.all(
-                                                        20.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20.0),
                                                     child: ShimmerWidget
-                                                        .rectangular(isBorder: true,
-                                                        height: 220),
+                                                        .rectangular(
+                                                            isBorder: true,
+                                                            height: 220),
                                                   );
                                                 }
                                                 return SizedBox.shrink();
@@ -1143,9 +1206,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                             ),
                                           ),
                                           SliverToBoxAdapter(
-                                              child: SubCategoryFeatureSectionWidget()),
-                                          SliverToBoxAdapter(child: BrandsSection(
-                                              brandsSectionTitle: AppLocalizations.of(context)?.topBrands ?? 'Top Brands',
+                                              child:
+                                                  SubCategoryFeatureSectionWidget()),
+                                          SliverToBoxAdapter(
+                                              child: BrandsSection(
+                                            brandsSectionTitle:
+                                                AppLocalizations.of(context)
+                                                        ?.topBrands ??
+                                                    'Top Brands',
                                             categorySlug: category.slug ?? '',
                                           )),
                                           SliverToBoxAdapter(
@@ -1153,7 +1221,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                                 FeatureSectionProductBloc,
                                                 FeatureSectionProductState>(
                                               builder: (context, state) {
-                                                if (state is FeatureSectionProductLoaded) {
+                                                if (state
+                                                    is FeatureSectionProductLoaded) {
                                                   /*return ListView.builder(
                                                     padding: EdgeInsets.zero,
                                                     physics: NeverScrollableScrollPhysics(),
@@ -1202,32 +1271,55 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                                   );*/
 
                                                   return ListView(
-                                                    padding: EdgeInsets.only(top: 5.h),
+                                                    padding: EdgeInsets.only(
+                                                        top: 5.h),
                                                     shrinkWrap: true,
-                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     children: [
                                                       // Global check
-                                                      if (state.featureSectionProductData.any((s) => (s.products ?? []).isNotEmpty)) ...[
-                                                        if (state.featureSectionProductData.isNotEmpty)
-                                                          _buildFeatureSection(state.featureSectionProductData[0]),
-
+                                                      if (state
+                                                          .featureSectionProductData
+                                                          .any((s) => (s
+                                                                      .products ??
+                                                                  [])
+                                                              .isNotEmpty)) ...[
+                                                        if (state
+                                                            .featureSectionProductData
+                                                            .isNotEmpty)
+                                                          _buildFeatureSection(
+                                                              state.featureSectionProductData[
+                                                                  0]),
                                                         middleBannersWidget(),
-
-                                                        ...state.featureSectionProductData.skip(1).map((section) {
-                                                          if ((section.products ?? []).isEmpty) return const SizedBox.shrink();
-                                                          return _buildFeatureSection(section);
+                                                        ...state
+                                                            .featureSectionProductData
+                                                            .skip(1)
+                                                            .map((section) {
+                                                          if ((section.products ??
+                                                                  [])
+                                                              .isEmpty)
+                                                            return const SizedBox
+                                                                .shrink();
+                                                          return _buildFeatureSection(
+                                                              section);
                                                         }),
-
-                                                        if (!state.hasReachedMax)
+                                                        if (!state
+                                                            .hasReachedMax)
                                                           const Padding(
-                                                            padding: EdgeInsets.all(16.0),
-                                                            child: Center(child: CustomCircularProgressIndicator()),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    16.0),
+                                                            child: Center(
+                                                                child:
+                                                                    CustomCircularProgressIndicator()),
                                                           ),
+                                                      ] else ...[
+                                                        const NoProductPage(),
                                                       ]
                                                     ],
                                                   );
-                                                } else
-                                                if (state is FeatureSectionProductLoading) {
+                                                } else if (state
+                                                    is FeatureSectionProductLoading) {
                                                   return productFeaturedSectionEmptyState();
                                                 }
                                                 return SizedBox.shrink();
@@ -1235,9 +1327,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                                             ),
                                           ),
                                           SliverToBoxAdapter(
-                                            child: SizedBox(height: 70,),
+                                            child: SizedBox(
+                                              height: 70,
+                                            ),
                                           ),
-
                                         ],
                                       );
                                     },
@@ -1266,16 +1359,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
 
                 return NestedScrollView(
                   controller: nestedScrollController,
-                  physics: _canUseTabController ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
-                  headerSliverBuilder: (BuildContext context,
-                      bool innerBoxIsScrolled) {
+                  physics: _canUseTabController
+                      ? const BouncingScrollPhysics()
+                      : const NeverScrollableScrollPhysics(),
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
                     return [
                       SliverAppBar(
                         expandedHeight: _canUseTabController ? 195.0 : 120,
                         floating: false,
                         pinned: true,
                         elevation: 3,
-                        shadowColor: Theme.of(context).colorScheme.surfaceContainer.withValues(alpha: 0.2),
+                        shadowColor: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainer
+                            .withValues(alpha: 0.2),
                         backgroundColor: Color.lerp(
                           Colors.transparent,
                           Color(0xFFBDDCFB),
@@ -1285,17 +1383,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                         title: _buildTopAddress(),
                         flexibleSpace: Container(
                           decoration: BoxDecoration(
-                            gradient: isDarkMode(context) ? null : LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xFF89C4F4),
-                                Color(0xFF89C4F4),
-                                Color(0xFF89C4F4),
-                                Color(0xFFb5d9f7),
-                                Colors.white,
-                              ],
-                            ),
+                            gradient: isDarkMode(context)
+                                ? null
+                                : LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xFF89C4F4),
+                                      Color(0xFF89C4F4),
+                                      Color(0xFF89C4F4),
+                                      Color(0xFFb5d9f7),
+                                      Colors.white,
+                                    ],
+                                  ),
                             color: isDarkMode(context)
                                 ? AppTheme.darkProductCardColor
                                 : null,
@@ -1305,84 +1405,94 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
                         ),
                         bottom: _canUseTabController
                             ? PreferredSize(
-                          preferredSize: const Size.fromHeight(70),
-                          child: Column(
-                            children: [
-                              CustomAnimatedTextField(),
-                              const SizedBox(height: 5),
-                              // Only show TabBar if controller is initialized and not being recreated
-                              _canUseTabController
-                                  ? TabBar(
-                                controller: _tabController,
-                                isScrollable: true,
-                                tabAlignment: TabAlignment.start,
-                                enableFeedback: true,
-                                labelColor: textColor,
-                                automaticIndicatorColorAdjustment: true,
-                                unselectedLabelColor: textColor,
-                                labelStyle: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.bold,
+                                preferredSize: const Size.fromHeight(70),
+                                child: Column(
+                                  children: [
+                                    CustomAnimatedTextField(),
+                                    const SizedBox(height: 5),
+                                    // Only show TabBar if controller is initialized and not being recreated
+                                    _canUseTabController
+                                        ? TabBar(
+                                            controller: _tabController,
+                                            isScrollable: true,
+                                            tabAlignment: TabAlignment.start,
+                                            enableFeedback: true,
+                                            labelColor: textColor,
+                                            automaticIndicatorColorAdjustment:
+                                                true,
+                                            unselectedLabelColor: textColor,
+                                            labelStyle: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            unselectedLabelStyle:
+                                                const TextStyle(
+                                                    fontSize: 11,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                            indicatorColor: textColor,
+                                            indicatorWeight: 3,
+                                            indicatorSize:
+                                                TabBarIndicatorSize.label,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 0),
+                                            tabs: tabBarTabs,
+                                          )
+                                        : const SizedBox(height: 50),
+                                  ],
                                 ),
-                                unselectedLabelStyle: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.w500),
-                                indicatorColor: textColor,
-                                indicatorWeight: 3,
-                                indicatorSize: TabBarIndicatorSize.label,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 0),
-                                tabs: tabBarTabs,
                               )
-                                  : const SizedBox(height: 50),
-                            ],
-                          ),
-                        )
                             : PreferredSize(
-                          preferredSize: const Size.fromHeight(30),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: CustomAnimatedTextField(),
-                          ),
-                        ),
+                                preferredSize: const Size.fromHeight(30),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomAnimatedTextField(),
+                                ),
+                              ),
                       ),
-                      if(isRetry)
-                        SliverToBoxAdapter()
+                      if (isRetry) SliverToBoxAdapter()
                     ];
                   },
                   body: _canUseTabController
                       ? NotificationListener<ScrollNotification>(
-                    onNotification: (ScrollNotification notification) {
-                      _handleScrollNotification(notification);
-                      if (notification is ScrollUpdateNotification) {
-                        final metrics = notification.metrics;
-                        if (metrics.pixels >= metrics.maxScrollExtent * 0.85) {
-                          _loadMoreForCurrentTab(_tabController.index);
-                        }
-                      }
-                      return false;
-                    },
-                    child: TabBarView(
-                      key: ValueKey(_tabBarViewKey),
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: _tabController,
-                      children: tabBarViewChildren,
-                    ),
-                  )
-                      : !isRetry ? NoDeliveryLocationPage(
-                    onRetry: (){
-                      setState(() {
-                        isRetry = true;
-                      });
-                      if (_tabController.index > 0) {
-                        final selectedCategory = _categories[_tabController
-                            .index - 1];
-                        apiCalls(selectedCategory.slug ?? '');
-                      } else {
-                        apiCalls('');
-                      }
-                      context.read<CategoryBloc>().add(
-                          FetchCategory(context: context));
-                    },
-                  ) : SizedBox.shrink(),
+                          onNotification: (ScrollNotification notification) {
+                            _handleScrollNotification(notification);
+                            if (notification is ScrollUpdateNotification) {
+                              final metrics = notification.metrics;
+                              if (metrics.pixels >=
+                                  metrics.maxScrollExtent * 0.85) {
+                                _loadMoreForCurrentTab(_tabController.index);
+                              }
+                            }
+                            return false;
+                          },
+                          child: TabBarView(
+                            key: ValueKey(_tabBarViewKey),
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: _tabController,
+                            children: tabBarViewChildren,
+                          ),
+                        )
+                      : !isRetry
+                          ? NoDeliveryLocationPage(
+                              onRetry: () {
+                                setState(() {
+                                  isRetry = true;
+                                });
+                                if (_tabController.index > 0) {
+                                  final selectedCategory =
+                                      _categories[_tabController.index - 1];
+                                  apiCalls(selectedCategory.slug ?? '');
+                                } else {
+                                  apiCalls('');
+                                }
+                                context
+                                    .read<CategoryBloc>()
+                                    .add(FetchCategory(context: context));
+                              },
+                            )
+                          : SizedBox.shrink(),
                 );
               },
             ),
@@ -1400,28 +1510,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   Widget middleBannersWidget() {
-    return BlocBuilder<
-        BannerBloc,
-        BannerState>(
-      builder: (BuildContext context,
-          BannerState state) {
+    return BlocBuilder<BannerBloc, BannerState>(
+      builder: (BuildContext context, BannerState state) {
         if (state is BannerLoaded) {
-          return AutoPlayCarouselSlider(
-              banners: state.middleBannerData);
+          return AutoPlayCarouselSlider(banners: state.middleBannerData);
         } else if (state is BannerLoading) {
           return Padding(
-            padding: const EdgeInsets.all(
-                20.0),
-            child: ShimmerWidget
-                .rectangular(isBorder: true,
-                height: 220),
+            padding: const EdgeInsets.all(20.0),
+            child: ShimmerWidget.rectangular(isBorder: true, height: 220),
           );
         }
         return SizedBox.shrink();
       },
     );
   }
-
 
   Widget _buildFeatureSection(FeatureSectionData section) {
     return ProductFeatureSectionWidget(
@@ -1439,19 +1541,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   void _loadMoreForCurrentTab(int tabIndex) {
     if (_isLoadingMoreForTab[tabIndex] == true) return;
 
-    final featureSectionState = context
-        .read<FeatureSectionProductBloc>()
-        .state;
+    final featureSectionState = context.read<FeatureSectionProductBloc>().state;
     if (featureSectionState is FeatureSectionProductLoaded &&
         !featureSectionState.hasReachedMax) {
       final slug = tabIndex == 0
           ? ''
           : (tabIndex - 1 < _categories.length)
-          ? _categories[tabIndex - 1].slug ?? ''
-          : '';
+              ? _categories[tabIndex - 1].slug ?? ''
+              : '';
 
       _isLoadingMoreForTab[tabIndex] = true;
-      context.read<FeatureSectionProductBloc>()
+      context
+          .read<FeatureSectionProductBloc>()
           .add(FetchMoreFeatureSectionProducts(slug: slug));
 
       Future.delayed(const Duration(seconds: 1), () {
@@ -1463,19 +1564,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   EdgeInsets _getPadding(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final screenWidth = MediaQuery.of(context).size.width;
     final horizontalPadding = screenWidth * 0.04; // 4% of screen width
     return EdgeInsets.symmetric(horizontal: horizontalPadding);
   }
 
   int _getCrossAxisCount(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth >= 1200) return 6;
     if (screenWidth >= 800) return 5;
     if (screenWidth >= 600) return 4;
@@ -1484,10 +1579,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
   }
 
   double _getSpacing(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return screenWidth * 0.04;
   }
 
@@ -1560,5 +1652,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Auto
     _lastScrollPixels = _latestScrollPixels;
     return false;
   }
-
 }

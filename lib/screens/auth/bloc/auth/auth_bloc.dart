@@ -77,6 +77,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequest event,
     Emitter<AuthState> emit,
   ) async {
+    log('[AUTH_BLOC] LoginRequest received with payload: ${{
+      'email': event.email ?? '',
+      'mobile': event.phoneNumber ?? '',
+      'passwordLength': event.password.length,
+    }}');
+    print('[AUTH_BLOC] LoginRequest received with payload: ${{
+      'email': event.email ?? '',
+      'mobile': event.phoneNumber ?? '',
+      'passwordLength': event.password.length,
+    }}');
+
     emit(AuthLoading());
     try {
       final response = await _repository.login(
@@ -84,6 +95,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         phoneNumber: event.phoneNumber ?? '',
         password: event.password,
       );
+
+      log('[AUTH_BLOC] Login API parsed response: ${response.first.toJson()}');
+      print(
+          '[AUTH_BLOC] Login API parsed response: ${response.first.toJson()}');
 
       if (response.first.success == true) {
         final userData = response.first.data!;
@@ -100,12 +115,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           language: 'en',
         )));
 
+        log('[AUTH_BLOC] Login success. message=${response.first.message} userId=${userData.id}');
+        print(
+            '[AUTH_BLOC] Login success. message=${response.first.message} userId=${userData.id}');
         emit(
             AuthSuccess(message: response.first.message ?? 'Login successful'));
       } else {
+        log('[AUTH_BLOC] Login failed from API. message=${response.first.message}');
+        print(
+            '[AUTH_BLOC] Login failed from API. message=${response.first.message}');
         emit(AuthFailed(error: response.first.message ?? 'Login failed'));
       }
     } catch (e) {
+      log('[AUTH_BLOC] Login exception: $e');
+      print('[AUTH_BLOC] Login exception: $e');
       emit(AuthFailed(error: e.toString()));
     }
   }

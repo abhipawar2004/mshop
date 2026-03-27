@@ -11,13 +11,20 @@ import 'package:hyper_local/utils/widgets/custom_toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../screens/cart_page/bloc/get_user_cart/get_user_cart_bloc.dart';
 import '../screens/my_orders/model/order_detail_model.dart';
 
 class AppConstant {
-  static String baseUrl =
-      dotenv.env['BASE_URL'] ?? 'https://shop.mastropaytech.com/api/';
+  static String _resolveBaseUrl() {
+    const defaultBaseUrl = 'https://shop.mastropaytech.com/api/';
+    final raw = dotenv.env['BASE_URL'];
+    if (raw == null || raw.trim().isEmpty) return defaultBaseUrl;
+
+    final trimmed = raw.trim();
+    return trimmed.endsWith('/') ? trimmed : '$trimmed/';
+  }
+
+  static String baseUrl = _resolveBaseUrl();
   static String appName = dotenv.env['APP_NAME'] ?? 'MShop';
   static String androidMapKey = dotenv.env['ANDROID_MAP_KEY'] ??
       'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';

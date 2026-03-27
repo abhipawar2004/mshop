@@ -34,13 +34,11 @@ class BrandsBloc extends Bloc<BrandsEvent, BrandsState> {
       brandsData = List<BrandsData>.from(
           response['data']['data'].map((data) => BrandsData.fromJson(data)));
       currentPage += 1;
-      if (response['success'] != null && brandsData.isNotEmpty) {
-        if (response['success'] == true) {
-          emit(BrandsLoaded(
-              message: response['message'], brandsData: brandsData));
-        } else if (response['success'] == false) {
-          emit(BrandsFailed(error: response['message']));
-        }
+      if (response['success'] == true) {
+        emit(
+            BrandsLoaded(message: response['message'], brandsData: brandsData));
+      } else if (response['success'] == false) {
+        emit(BrandsFailed(error: response['message']));
       } else {
         emit(BrandsFailed(error: response['message']));
       }

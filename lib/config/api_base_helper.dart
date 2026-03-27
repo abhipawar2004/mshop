@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -20,12 +21,61 @@ class ApiException implements Exception {
 }
 
 class ApiBaseHelper {
-  Future<void> downloadFile(
-      {required String url,
-        required dio_.CancelToken cancelToken,
-        required String savePath,
-        required Function(int, int) updateDownloadedPercentage,
-      }) async {
+  Map<String, dynamic> _buildRequestHeaders(
+    dynamic body, {
+    required bool includeAuthorization,
+  }) {
+    final resolvedHeaders = Map<String, dynamic>.from(headers ?? {});
+    final bool hasBody = body is dio_.FormData ||
+        (body is Map && body.isNotEmpty) ||
+        (body is List && body.isNotEmpty) ||
+        (body is String && body.isNotEmpty);
+
+    if (!includeAuthorization) {
+      resolvedHeaders
+          .removeWhere((key, value) => key.toLowerCase() == 'authorization');
+    }
+
+    // Avoid sending an incorrect fixed content-length for JSON/form bodies.
+    if (hasBody) {
+      resolvedHeaders
+          .removeWhere((key, value) => key.toLowerCase() == 'content-length');
+    }
+
+    return resolvedHeaders;
+  }
+
+  String _extractApiMessage(dynamic responseData) {
+    if (responseData is Map<String, dynamic>) {
+      final message = responseData['message'];
+      if (message != null && message.toString().trim().isNotEmpty) {
+        return message.toString();
+      }
+      if (responseData['error'] != null)
+        return responseData['error'].toString();
+      return jsonEncode(responseData);
+    }
+
+    if (responseData == null) return 'Unknown API error';
+    return responseData.toString();
+  }
+
+  void _logDioError(String method, String url, dio_.DioException e) {
+    log('[API][$method][ERROR] url=$url');
+    log('[API][$method][ERROR] resolvedUrl=${e.requestOptions.uri}');
+    log('[API][$method][ERROR] type=${e.type} message=${e.message}');
+    log('[API][$method][ERROR] status=${e.response?.statusCode}');
+    log('[API][$method][ERROR] response=${e.response?.data}');
+    log('[API][$method][ERROR] requestHeaders=${e.requestOptions.headers}');
+    log('[API][$method][ERROR] requestData=${e.requestOptions.data}');
+  }
+
+  Future<void> downloadFile({
+    required String url,
+    required dio_.CancelToken cancelToken,
+    required String savePath,
+    required Function(int, int) updateDownloadedPercentage,
+  }) async {
     try {
       final dio_.Dio dio = dio_.Dio();
       await dio.download(
@@ -52,9 +102,9 @@ class ApiBaseHelper {
       if (!headerString.startsWith('%PDF')) {
         // If it's HTML, read the content to see what error we got
         await file.readAsString();
-        throw ApiException('Server returned HTML instead of PDF. Check authentication or URL.');
+        throw ApiException(
+            'Server returned HTML instead of PDF. Check authentication or URL.');
       }
-
     } on dio_.DioException catch (e) {
       if (e.type == dio_.DioExceptionType.connectionError) {
         throw ApiException('No Internet connection');
@@ -65,42 +115,52 @@ class ApiBaseHelper {
     }
   }
 
-
   // POST METHOD
-  Future<dynamic> postAPICall(String url, dynamic params) async {
+  Future<dynamic> postAPICall(
+    String url,
+    dynamic params, {
+    bool includeAuthorization = true,
+  }) async {
     dio_.Response responseJson;
     final dio_.Dio dio = dio_.Dio();
     try {
-      final response =
-      await dio.post(
+      final requestBody =
+          params is dio_.FormData ? params : (params.isNotEmpty ? params : {});
+
+      final response = await dio.post(
         url,
-        data: params is dio_.FormData ? params : (params.isNotEmpty ? params : {}),
+        data: requestBody,
         options: dio_.Options(
-          headers: headers,
+          headers: _buildRequestHeaders(
+            requestBody,
+            includeAuthorization: includeAuthorization,
+          ),
         ),
       );
-      log(
-          'response api****$url***************${response.statusCode}*********${response.data}');
+      log('[API][POST][REQUEST] inputUrl=$url');
+      log('[API][POST][REQUEST] resolvedUrl=${response.requestOptions.uri}');
+      log('[API][POST][REQUEST] headers=${response.requestOptions.headers}');
+      log('[API][POST][REQUEST] body=${response.requestOptions.data}');
+      log('response api****$url***************${response.statusCode}*********${response.data}');
 
       responseJson = response;
     } on dio_.DioException catch (e) {
+      _logDioError('POST', url, e);
       // DioError handling.
       if (e.response != null) {
         // The server responded but with an error status.
-        if(e.response?.statusCode == 401 ){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 422){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 500 || e.response?.statusCode == 503){
-          throw ApiException(
-              'Server error');
+        if (e.response?.statusCode == 401) {
+          throw ApiException(_extractApiMessage(e.response?.data));
+        } else if (e.response?.statusCode == 422) {
+          throw ApiException(_extractApiMessage(e.response?.data));
+        } else if (e.response?.statusCode == 500 ||
+            e.response?.statusCode == 503) {
+          throw ApiException('Server error');
         }
-        throw ApiException(
-            '${e.response?.data['message']}');
+        throw ApiException(_extractApiMessage(e.response?.data));
       } else {
-        throw ApiException('Something Went Wrong: ${e.message}');
+        throw ApiException(
+            'POST failed without response. type=${e.type} message=${e.message}');
       }
     } on SocketException {
       throw ApiException('No Internet connection');
@@ -124,26 +184,22 @@ class ApiBaseHelper {
           headers: headers,
         ),
       );
-      log(
-          'response api****$url***************${response.statusCode}*********${response.data}');
+      log('response api****$url***************${response.statusCode}*********${response.data}');
 
       responseJson = response;
     } on dio_.DioException catch (e) {
       // DioError handling.
       if (e.response != null) {
         // The server responded but with an error status.
-        if(e.response?.statusCode == 401){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 422){
-          throw ApiException(
-              '${e.response?.data['errors']['email']}');
-        } else if(e.response?.statusCode == 500 || e.response?.statusCode == 503){
-          throw ApiException(
-              'Server error');
+        if (e.response?.statusCode == 401) {
+          throw ApiException('${e.response?.data['message']}');
+        } else if (e.response?.statusCode == 422) {
+          throw ApiException('${e.response?.data['errors']['email']}');
+        } else if (e.response?.statusCode == 500 ||
+            e.response?.statusCode == 503) {
+          throw ApiException('Server error');
         }
-        throw ApiException(
-            '${e.response?.data['message']}');
+        throw ApiException('${e.response?.data['message']}');
       } else {
         throw ApiException('Something Went Wrong: ${e.message}');
       }
@@ -157,44 +213,48 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> getAPICall(String url, dynamic params, {bool? isUserApi, BuildContext? context}) async {
+  Future<dynamic> getAPICall(String url, dynamic params,
+      {bool? isUserApi, BuildContext? context}) async {
     late dio_.Response responseJson;
     final dio_.Dio dio = dio_.Dio();
     try {
-      final response =
-      await dio.get(
-          url,
-          queryParameters: (params is Map<String, dynamic> && params.isNotEmpty) ? params : {},
-          options: dio_.Options(headers: headers)
-      );
+      if (kDebugMode) {
+        log('[API][GET][REQUEST] url=$url');
+        log('[API][GET][QUERY] ${(params is Map<String, dynamic> && params.isNotEmpty) ? params : {}}');
+      }
+      final response = await dio.get(url,
+          queryParameters: (params is Map<String, dynamic> && params.isNotEmpty)
+              ? params
+              : {},
+          options: dio_.Options(headers: headers));
 
-      // log(
-      //     'response api****$url*****************${response.statusCode}*********${response.data}');
+      if (kDebugMode) {
+        log('[API][GET][RESPONSE] url=$url status=${response.statusCode}');
+        log('[API][GET][BODY] ${response.data}');
+      }
 
       responseJson = response;
     } on dio_.DioException catch (e) {
+      if (kDebugMode) {
+        log('[API][GET][ERROR] url=$url status=${e.response?.statusCode} error=${e.message}');
+        log('[API][GET][ERROR_BODY] ${e.response?.data}');
+      }
       // DioError handling.
-      if(e.response?.statusCode == 401 && isUserApi == true){}
+      if (e.response?.statusCode == 401 && isUserApi == true) {}
       if (e.response != null) {
         // The server responded but with an error status.
-        if(e.response?.statusCode == 401){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 422){
-          throw ApiException(
-              '${e.response?.data['success']['email']}');
-        } else if(e.response?.statusCode == 500){
-          throw ApiException(
-              'Server error');
-        } else if(e.response?.statusCode == 403){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 503) {
-          throw ApiException(
-              '${e.response?.data ['message']}');
+        if (e.response?.statusCode == 401) {
+          throw ApiException('${e.response?.data['message']}');
+        } else if (e.response?.statusCode == 422) {
+          throw ApiException('${e.response?.data['success']['email']}');
+        } else if (e.response?.statusCode == 500) {
+          throw ApiException('Server error');
+        } else if (e.response?.statusCode == 403) {
+          throw ApiException('${e.response?.data['message']}');
+        } else if (e.response?.statusCode == 503) {
+          throw ApiException('${e.response?.data['message']}');
         }
-        throw ApiException(
-            '${e.response?.data ['message']}');
+        throw ApiException('${e.response?.data['message']}');
       } else {
         throw ApiException('Something Went Wrong: ${e.message}');
       }
@@ -212,8 +272,7 @@ class ApiBaseHelper {
     dio_.Response responseJson;
     final dio_.Dio dio = dio_.Dio();
     try {
-      final response =
-      await dio.delete(
+      final response = await dio.delete(
         url,
         data: params.isNotEmpty ? params : [],
         options: dio_.Options(
@@ -230,18 +289,15 @@ class ApiBaseHelper {
       // DioError handling.
       if (e.response != null) {
         // The server responded but with an error status.
-        if(e.response?.statusCode == 401){
-          throw ApiException(
-              '${e.response?.data['message']}');
-        } else if(e.response?.statusCode == 422){
-          throw ApiException(
-              '${e.response?.data['errors']['email']}');
-        } else if(e.response?.statusCode == 500 || e.response?.statusCode == 503){
-          throw ApiException(
-              'Server error');
+        if (e.response?.statusCode == 401) {
+          throw ApiException('${e.response?.data['message']}');
+        } else if (e.response?.statusCode == 422) {
+          throw ApiException('${e.response?.data['errors']['email']}');
+        } else if (e.response?.statusCode == 500 ||
+            e.response?.statusCode == 503) {
+          throw ApiException('Server error');
         }
-        throw ApiException(
-            '${e.response?.data['message']}');
+        throw ApiException('${e.response?.data['message']}');
       } else {
         throw ApiException('Something Went Wrong: ${e.message}');
       }
@@ -254,7 +310,6 @@ class ApiBaseHelper {
     }
     return responseJson;
   }
-
 }
 
 class CustomException implements Exception {

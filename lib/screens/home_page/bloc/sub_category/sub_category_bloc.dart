@@ -42,15 +42,13 @@ class SubCategoryBloc extends Bloc<SubCategoryEvent, SubCategoryState> {
       subCategoryData = List<SubCategoryData>.from(response['data']['data']
           .map((data) => SubCategoryData.fromJson(data)));
       _hasReachedMax = subCategoryData.length < perPage;
-      if (response['success'] != null && subCategoryData.isNotEmpty) {
-        if (response['success'] == true) {
-          emit(SubCategoryLoaded(
-              message: response['message'],
-              subCategoryData: subCategoryData,
-              isLoadingMore: false));
-        } else if (response['success'] == false) {
-          emit(SubCategoryFailed(error: response['message']));
-        }
+      if (response['success'] == true) {
+        emit(SubCategoryLoaded(
+            message: response['message'],
+            subCategoryData: subCategoryData,
+            isLoadingMore: false));
+      } else if (response['success'] == false) {
+        emit(SubCategoryFailed(error: response['message']));
       } else {
         emit(SubCategoryFailed(error: response['message']));
       }

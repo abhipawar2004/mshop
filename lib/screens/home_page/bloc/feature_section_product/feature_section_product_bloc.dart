@@ -53,17 +53,15 @@ class FeatureSectionProductBloc
       final lastPageNum = int.parse(response['data']['last_page'].toString());
       hasReachedMax = currentTotal >= lastPageNum ||
           featureSectionProductData.length < perPage;
-      if (response['success'] != null && featureSectionProductData.isNotEmpty) {
-        if (response['success'] == true) {
-          emit(FeatureSectionProductLoaded(
-              featureSectionProductData: featureSectionProductData,
-              message: response['message'],
-              hasReachedMax: hasReachedMax));
-          isRefresh = true;
-        } else if (response['success'] == false) {
-          emit(FeatureSectionProductFailed(error: response['message']));
-          isRefresh = true;
-        }
+      if (response['success'] == true) {
+        emit(FeatureSectionProductLoaded(
+            featureSectionProductData: featureSectionProductData,
+            message: response['message'],
+            hasReachedMax: hasReachedMax));
+        isRefresh = true;
+      } else if (response['success'] == false) {
+        emit(FeatureSectionProductFailed(error: response['message']));
+        isRefresh = true;
       } else {
         emit(FeatureSectionProductFailed(error: response['message']));
         isRefresh = true;
