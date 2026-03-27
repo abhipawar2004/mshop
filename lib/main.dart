@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -84,6 +85,11 @@ import 'model/user_cart_model/cart_sync_action.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await dotenv.load(fileName: 'env/.env');
+  } catch (_) {
+    await dotenv.load(fileName: 'env/.env.example');
+  }
   CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
   await FastCachedImageConfig.init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -162,12 +168,17 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SubCategoryBloc()
               ..add(FetchSubCategory(slug: '', isForAllCategory: true))),
         BlocProvider(create: (context) => UserDataBloc()),
-        BlocProvider(create: (context) => BrandsBloc()..add(FetchBrands(categorySlug: ''))),
+        BlocProvider(
+            create: (context) =>
+                BrandsBloc()..add(FetchBrands(categorySlug: ''))),
         BlocProvider(create: (context) => ProductDetailBloc()),
         BlocProvider(create: (context) => ProductListingBloc()),
         BlocProvider(create: (context) => NestedCategoryBloc()),
         BlocProvider(create: (context) => AddToCartBloc()),
-        BlocProvider(create: (context) => GetUserCartBloc(context.read<CartBloc>(),)..add(FetchUserCart())),
+        BlocProvider(
+            create: (context) => GetUserCartBloc(
+                  context.read<CartBloc>(),
+                )..add(FetchUserCart())),
         BlocProvider(create: (context) => CartStateBloc()),
         BlocProvider(create: (context) => ProductReviewBloc()),
         BlocProvider(create: (context) => ProductFAQBloc()),
@@ -177,14 +188,19 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SimilarProductBloc()),
         BlocProvider(create: (context) => CheckDeliveryZoneBloc()),
         BlocProvider(create: (context) => GetAddressListBloc()),
-        BlocProvider(create: (context) => SettingsBloc()..add(FetchSettingsData(context: context))),
+        BlocProvider(
+            create: (context) =>
+                SettingsBloc()..add(FetchSettingsData(context: context))),
         BlocProvider(create: (context) => CreateOrderBloc()),
-        BlocProvider(create: (context) => UserProfileBloc()..add(FetchUserProfile())),
+        BlocProvider(
+            create: (context) => UserProfileBloc()..add(FetchUserProfile())),
         BlocProvider(create: (context) => PromoCodeBloc()),
         BlocProvider(create: (context) => GetMyOrderBloc()),
         BlocProvider(create: (context) => OrderDetailBloc()),
         BlocProvider(create: (context) => DeliveryBoyFeedbackBloc()),
-        BlocProvider(create: (context) => PaymentBloc( paymentRepository: PaymentRepository(), context: context)),
+        BlocProvider(
+            create: (context) => PaymentBloc(
+                paymentRepository: PaymentRepository(), context: context)),
         BlocProvider(create: (context) => DownloadInvoiceBloc()),
         BlocProvider(create: (context) => PrepareRechargeBloc()),
         BlocProvider(create: (context) => UserWalletBloc()),

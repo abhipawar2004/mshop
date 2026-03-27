@@ -74,6 +74,7 @@ dependencies:
   fast_cached_network_image: ^1.3.3+5
   webview_flutter: ^4.13.0
   file_picker: ^10.3.8
+  flutter_dotenv: ^5.2.1
 
 
 dev_dependencies:
@@ -87,6 +88,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - env/.env.example
     - assets/images/
     - assets/images/icons/
     - assets/images/payment-logos/

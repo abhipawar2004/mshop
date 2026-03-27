@@ -61,7 +61,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _slideController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
+    _slideController = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
 
     if (AppConstant.isDemo) {
       _identifierController.text = _demoEmail;
@@ -72,7 +73,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       });
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _slideController.forward());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _slideController.forward());
   }
 
   // Smart Detection: Email or Phone?
@@ -109,12 +111,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _debounceTimer = Timer(_debounceDuration, () {
       if (_identifierController.text.trim() == value.trim()) {
         if (type == 'email') {
-          context.read<UserVerificationBloc>().add(VerifyUser(
-              value: value.trim(), type: type));
+          context
+              .read<UserVerificationBloc>()
+              .add(VerifyUser(value: value.trim(), type: type));
         } else {
           // Normalize phone: remove all non-digits except +
           String cleanPhone = value.replaceAll(RegExp(r'[^\d+]'), '');
-          context.read<UserVerificationBloc>().add(VerifyUser(value: cleanPhone, type: 'mobile'));
+          context
+              .read<UserVerificationBloc>()
+              .add(VerifyUser(value: cleanPhone, type: 'mobile'));
         }
       }
     });
@@ -138,19 +143,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ToastManager.show(
           context: context,
           message: l10n.pleaseEnterYourPassword,
-          type: ToastType.error
-      );
+          type: ToastType.error);
       return;
     }
 
     final identifier = _identifierController.text.trim();
 
     context.read<AuthBloc>().add(LoginRequest(
-      email: _isValidEmail(identifier) ? identifier : null,
-      phoneNumber: _isValidPhone(identifier) ? identifier : null,
-      password: _passwordController.text,
-    ));
-
+          email: _isValidEmail(identifier) ? identifier : null,
+          phoneNumber: _isValidPhone(identifier) ? identifier : null,
+          password: _passwordController.text,
+        ));
   }
 
   @override
@@ -166,17 +169,28 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             listener: (context, state) {
               if (state is AuthSuccess) {
                 GoRouter.of(context).pushReplacement(AppRoutes.splashScreen);
-                ToastManager.show(context: context, message: state.message, type: ToastType.success);
-                final getUserCartBloc = context.read<GetUserCartBloc>(); // Capture here
+                ToastManager.show(
+                    context: context,
+                    message: state.message,
+                    type: ToastType.success);
+                final getUserCartBloc =
+                    context.read<GetUserCartBloc>(); // Capture here
 
                 Future.delayed(const Duration(seconds: 1), () {
-                  getUserCartBloc.add(SyncCart()); // Use captured reference – no context needed
+                  getUserCartBloc.add(
+                      SyncCart()); // Use captured reference – no context needed
                 });
               } else if (state is AuthFailed) {
-                ToastManager.show(context: context, message: state.error, type: ToastType.error);
+                ToastManager.show(
+                    context: context,
+                    message: state.error,
+                    type: ToastType.error);
               } else if (state is SocialAuthSuccess) {
                 if (state.newUser) {
-                  GoRouter.of(context).push(AppRoutes.register, extra: {'name': state.userName, 'email': state.userEmail});
+                  GoRouter.of(context).push(AppRoutes.register, extra: {
+                    'name': state.userName,
+                    'email': state.userEmail
+                  });
                 } else {
                   GoRouter.of(context).pushReplacement(AppRoutes.splashScreen);
                 }
@@ -262,7 +276,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     GoRouter.of(context).go(AppRoutes.home);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.h),
                     decoration: BoxDecoration(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(4),
@@ -289,9 +304,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 top: MediaQuery.of(context).size.height * 0.32,
                 child: keyboardOpen
                     ? SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: _buildLoginFormContainer(),
-                )
+                        padding: const EdgeInsets.only(bottom: 40),
+                        child: _buildLoginFormContainer(),
+                      )
                     : _buildLoginFormContainer(),
               ),
             ],
@@ -303,7 +318,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   Widget _buildLoginFormContainer() {
     return BlocBuilder<UserVerificationBloc, UserVerificationState>(
-      builder: (context, verificationState){
+      builder: (context, verificationState) {
         final isVerifying = verificationState is VerifyingUser;
         final isInteractionBlocked = isVerifying || isUserVerified == false;
 
@@ -365,8 +380,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     onTap: isInteractionBlocked
                         ? null
                         : () {
-                      GoRouter.of(context).push(AppRoutes.forgotPassword);
-                    },
+                            GoRouter.of(context).push(AppRoutes.forgotPassword);
+                          },
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Builder(
@@ -382,7 +397,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               fontWeight: FontWeight.w500,
                             ),
                           );
-                       },
+                        },
                       ),
                     ),
                   ),
@@ -401,20 +416,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onPressed: isVerifying
                               ? () {}
                               : isButtonEnabled
-                              ? _handleLogin : () {
-                            ToastManager.show(
-                              context: context,
-                              message: 'Please enter the empty fields',
-                              type: ToastType.error
-                            );
-                          },
+                                  ? _handleLogin
+                                  : () {
+                                      ToastManager.show(
+                                          context: context,
+                                          message:
+                                              'Please enter the empty fields',
+                                          type: ToastType.error);
+                                    },
                           child: Builder(
                             builder: (context) {
                               final l10n = AppLocalizations.of(context)!;
                               return Text(
-                                isVerifying
-                                    ? l10n.verifying
-                                    : l10n.signIn,
+                                isVerifying ? l10n.verifying : l10n.signIn,
                                 style: TextStyle(
                                   fontSize: isTablet(context) ? 28 : 16,
                                   fontFamily: AppTheme.fontFamily,
@@ -435,10 +449,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
-                        Expanded(child: RotatedBox(quarterTurns: 2,
-                        child: customDivider())),
-                        SizedBox(width: 5,),
+                        Expanded(
+                            child: RotatedBox(
+                                quarterTurns: 2, child: customDivider())),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Builder(
                           builder: (context) {
                             final l10n = AppLocalizations.of(context)!;
@@ -452,9 +468,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             );
                           },
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Expanded(child: customDivider()),
-
                       ],
                     ),
                   ),
@@ -466,15 +483,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     child: AbsorbPointer(
                       absorbing: isVerifying,
                       child: socialButton(
-                        onTap: isVerifying ? (){} : () {
-                          context.read<AuthBloc>().add(GoogleLoginRequest());
-                        },
-                        asset: 'assets/images/icons/google-logo.png',
-                        background: Theme.of(context).colorScheme.surface,
-                        borderColor: Colors.grey.shade300,
-                        type: LoginType.google,
-                        context: context
-                      ),
+                          onTap: isVerifying
+                              ? () {}
+                              : () {
+                                  print(
+                                      '🖱️ [LOGIN_UI] Continue with Google tapped');
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(GoogleLoginRequest());
+                                },
+                          asset: 'assets/images/icons/google-logo.png',
+                          background: Theme.of(context).colorScheme.surface,
+                          borderColor: Colors.grey.shade300,
+                          type: LoginType.google,
+                          context: context),
                     ),
                   ),
 
@@ -485,15 +507,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       child: AbsorbPointer(
                         absorbing: isVerifying,
                         child: socialButton(
-                          onTap: (){
-                            context.read<AuthBloc>().add(AppleLoginRequest());
-                          },
-                          asset: 'assets/images/icons/apple-logo.png',
-                          background: Theme.of(context).colorScheme.surface,
-                          borderColor: Colors.grey.shade300,
-                          type: LoginType.apple,
-                          context: context
-                        ),
+                            onTap: () {
+                              context.read<AuthBloc>().add(AppleLoginRequest());
+                            },
+                            asset: 'assets/images/icons/apple-logo.png',
+                            background: Theme.of(context).colorScheme.surface,
+                            borderColor: Colors.grey.shade300,
+                            type: LoginType.apple,
+                            context: context),
                       ),
                     ),
                   ],
@@ -511,7 +532,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             style: TextStyle(
                               fontFamily: AppTheme.fontFamily,
                               color: Colors.grey[600],
-                              fontSize: isTablet(context)? 18 : 14,
+                              fontSize: isTablet(context) ? 18 : 14,
                             ),
                           );
                         },
@@ -527,7 +548,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               l10n.signUp,
                               style: TextStyle(
                                 color: AppTheme.primaryColor,
-                                fontSize: isTablet(context)? 18 : 14,
+                                fontSize: isTablet(context) ? 18 : 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             );
@@ -551,17 +572,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       builder: (context, state) {
         // Reset on empty
         if (_identifierController.text.trim().isEmpty) {
-
           isUserVerified = null;
           helperText = null;
           statusIcon = null;
-
         } else if (state is VerifyingUser) {
           final l10n = AppLocalizations.of(context)!;
           isUserVerified = null;
           helperText = l10n.verifying;
-          statusIcon = SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.orange,));
-
+          statusIcon = SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.orange,
+              ));
         } else if (state is UserVerified) {
           final l10n = AppLocalizations.of(context)!;
           isUserVerified = state.isUserVerified;
@@ -579,12 +603,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             color: isUserVerified == true ? Colors.green : Colors.red,
             size: 16,
           );
-
         } else if (state is UserVerificationFailed) {
           final l10n = AppLocalizations.of(context)!;
           isUserVerified = false;
           helperText = l10n.unableToVerifyUser;
-          statusIcon = const Icon(Icons.error, color: AppTheme.errorColor, size: 16);
+          statusIcon =
+              const Icon(Icons.error, color: AppTheme.errorColor, size: 16);
         } else {
           isUserVerified = null;
           helperText = null;
@@ -613,14 +637,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     if (value == null || value.isEmpty) {
                       return l10n.emailOrPhoneNumberIsRequired;
                     }
-                    if (!_isValidIdentifier(value)) return l10n.enterValidEmailOrPhone;
+                    if (!_isValidIdentifier(value))
+                      return l10n.enterValidEmailOrPhone;
                     return null;
                   },
                   onChanged: _handleIdentifierChange,
                 );
               },
             ),
-
             if (helperText != null) ...[
               SizedBox(height: 6.h),
               Row(
@@ -633,12 +657,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     child: Text(
                       helperText!,
                       style: TextStyle(
-                        fontSize: isTablet(context)? 18 : 12.sp,
+                        fontSize: isTablet(context) ? 18 : 12.sp,
                         color: isUserVerified == true
                             ? Colors.green
                             : isUserVerified == false
-                            ? Colors.red
-                            : Colors.orange,
+                                ? Colors.red
+                                : Colors.orange,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -666,19 +690,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               : Icons.visibility_off_outlined,
           onSuffixIconTap: enabled
               ? () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          }
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                }
               : null,
           validator: (value) {
             if (!enabled) return null;
 
             if (value == null || value.isEmpty) {
               ToastManager.show(
-                context: context,
-                message: l10n.passwordIsRequired
-              );
+                  context: context, message: l10n.passwordIsRequired);
               return null;
             }
             return null;
@@ -698,25 +720,26 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 }
 
-Widget customDivider () {
+Widget customDivider() {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8),
     child: Container(
       height: 0.5,
-      padding: EdgeInsets.symmetric(horizontal: 20,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
       decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.black.withValues(alpha: 0.45),
-              Colors.black.withValues(alpha: 0.35),
-              Colors.black.withValues(alpha: 0.25),
-              Colors.black.withValues(alpha: 0.15),
-              Colors.black.withValues(alpha: 0.05),
-              Colors.black.withValues(alpha: 0.0),
-              Colors.transparent,
-            ],
-          )
-      ),
+        colors: [
+          Colors.black.withValues(alpha: 0.45),
+          Colors.black.withValues(alpha: 0.35),
+          Colors.black.withValues(alpha: 0.25),
+          Colors.black.withValues(alpha: 0.15),
+          Colors.black.withValues(alpha: 0.05),
+          Colors.black.withValues(alpha: 0.0),
+          Colors.transparent,
+        ],
+      )),
     ),
   );
 }

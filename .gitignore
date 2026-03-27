@@ -8,3 +8,5 @@ android/app/build/
 *.apk
 *.aab
 *.so
+.env
+env/.env

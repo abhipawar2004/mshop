@@ -15,6 +15,11 @@ class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String _serverClientId = AppConstant.serverClientId;
 
+  void _debugAuth(String message) {
+    log(message);
+    print(message);
+  }
+
   String deviceType = '';
   String getDeviceType() {
     if (Platform.isAndroid) {
@@ -204,13 +209,13 @@ class AuthRepository {
         'fcm_token': fcmToken,
       };
 
-      log('🛰️ [SOCIAL_AUTH] API URL: $apiUrl');
-      log('🛰️ [SOCIAL_AUTH] PAYLOAD: ${jsonEncode(payload)}');
+      _debugAuth('🛰️ [SOCIAL_AUTH] API URL: $apiUrl');
+      _debugAuth('🛰️ [SOCIAL_AUTH] PAYLOAD: ${jsonEncode(payload)}');
 
       final response =
           await AppConstant.apiBaseHelper.postAPICall(apiUrl, payload);
-      log('🛰️ [SOCIAL_AUTH] STATUS: ${response.statusCode}');
-      log('🛰️ [SOCIAL_AUTH] RESPONSE: ${jsonEncode(response.data)}');
+      _debugAuth('🛰️ [SOCIAL_AUTH] STATUS: ${response.statusCode}');
+      _debugAuth('🛰️ [SOCIAL_AUTH] RESPONSE: ${jsonEncode(response.data)}');
       if (response.statusCode == 200) {
         return response.data;
       }
@@ -224,11 +229,19 @@ class AuthRepository {
     final GoogleSignIn googleSignIn = GoogleSignIn.instance;
     try {
       await googleSignIn.initialize(serverClientId: _serverClientId);
-      log('🟢 [GOOGLE_LOGIN] GoogleSignIn initialized');
+      _debugAuth('🟢 [GOOGLE_LOGIN] GoogleSignIn initialized');
 
-      final GoogleSignInAccount googleUser =
-          await googleSignIn.authenticate(scopeHint: ['email']);
-      log('🟢 [GOOGLE_LOGIN] GOOGLE USER: ${jsonEncode({
+      GoogleSignInAccount googleUser;
+      try {
+        googleUser = await googleSignIn.authenticate(scopeHint: ['email']);
+        _debugAuth(
+            '🟢 [GOOGLE_LOGIN] authenticate() completed, googleUser.id = ${googleUser.id}');
+      } catch (e) {
+        _debugAuth('🔴 [GOOGLE_LOGIN] authenticate() failed: $e');
+        rethrow;
+      }
+
+      _debugAuth('🟢 [GOOGLE_LOGIN] GOOGLE USER: ${jsonEncode({
             'id': googleUser.id,
             'email': googleUser.email,
             'displayName': googleUser.displayName,
@@ -238,14 +251,14 @@ class AuthRepository {
         throw ApiException('User cancelled the login');
       }
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-      log('🟢 [GOOGLE_LOGIN] GOOGLE AUTH: ${jsonEncode({
+      _debugAuth('🟢 [GOOGLE_LOGIN] GOOGLE AUTH: ${jsonEncode({
             'idToken': googleAuth.idToken,
           })}');
 
       final authClient = googleSignIn.authorizationClient;
       final authorization = await authClient.authorizationForScopes(['email']);
       final String? accessToken = authorization?.accessToken;
-      log('🟢 [GOOGLE_LOGIN] AUTHORIZATION: ${jsonEncode({
+      _debugAuth('🟢 [GOOGLE_LOGIN] AUTHORIZATION: ${jsonEncode({
             'accessToken': accessToken,
           })}');
 
@@ -258,7 +271,7 @@ class AuthRepository {
         accessToken: accessToken,
         idToken: googleAuth.idToken,
       );
-      log('🟢 [GOOGLE_LOGIN] FIREBASE CREDENTIAL INPUT: ${jsonEncode({
+      _debugAuth('🟢 [GOOGLE_LOGIN] FIREBASE CREDENTIAL INPUT: ${jsonEncode({
             'credentialType': 'GoogleAuthProvider',
             'accessToken': accessToken,
             'idToken': googleAuth.idToken,
@@ -267,7 +280,7 @@ class AuthRepository {
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
-      log('🟢 [GOOGLE_LOGIN] FIREBASE USER: ${jsonEncode({
+      _debugAuth('🟢 [GOOGLE_LOGIN] FIREBASE USER: ${jsonEncode({
             'uid': user?.uid,
             'email': user?.email,
             'displayName': user?.displayName,
@@ -278,7 +291,7 @@ class AuthRepository {
       if (user != null) {
         final IdTokenResult idTokenResult = await user.getIdTokenResult();
         final String? firebaseIdToken = idTokenResult.token;
-        log('🟢 [GOOGLE_LOGIN] FIREBASE ID TOKEN RESULT: ${jsonEncode({
+        _debugAuth('🟢 [GOOGLE_LOGIN] FIREBASE ID TOKEN RESULT: ${jsonEncode({
               'token': firebaseIdToken,
               'authTime': idTokenResult.authTime,
               'expirationTime': idTokenResult.expirationTime,
@@ -294,14 +307,18 @@ class AuthRepository {
       } else {
         throw ApiException('Failed to sign in');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _debugAuth('🔴 [GOOGLE_LOGIN] EXCEPTION: ${e.toString()}');
+      _debugAuth('🔴 [GOOGLE_LOGIN] STACK TRACE: $stackTrace');
       final errorMessage = e.toString().toLowerCase();
 
       if (errorMessage.contains('cancel') ||
           errorMessage.contains('canceled')) {
+        _debugAuth('🟠 [GOOGLE_LOGIN] User cancelled login');
         return '';
       } else {
         // Any other error — treat as real failure
+        _debugAuth('🔴 [GOOGLE_LOGIN] Throwing ApiException');
         throw ApiException(e.toString());
       }
     }

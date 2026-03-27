@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hyper_local/config/api_base_helper.dart';
@@ -15,11 +16,14 @@ import '../screens/cart_page/bloc/get_user_cart/get_user_cart_bloc.dart';
 import '../screens/my_orders/model/order_detail_model.dart';
 
 class AppConstant {
-  static String baseUrl = 'https://shop.mastropaytech.com/api/';
-  static String appName = 'MShop';
-  static String androidMapKey = 'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
-  static String iosMapKey = 'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
-  static String serverClientId =
+  static String baseUrl =
+      dotenv.env['BASE_URL'] ?? 'https://shop.mastropaytech.com/api/';
+  static String appName = dotenv.env['APP_NAME'] ?? 'MShop';
+  static String androidMapKey = dotenv.env['ANDROID_MAP_KEY'] ??
+      'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
+  static String iosMapKey =
+      dotenv.env['IOS_MAP_KEY'] ?? 'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
+  static String serverClientId = dotenv.env['SERVER_CLIENT_ID'] ??
       '439122712492-ktk1i5rs4fb7tgh821j9lbm9q58d3s4g.apps.googleusercontent.com';
 
   static String localUserLocationHiveBoxName = 'userLocationBox';

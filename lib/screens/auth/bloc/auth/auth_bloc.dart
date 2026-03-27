@@ -331,12 +331,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      log('🧭 [AUTH_BLOC] SocialAuthRequest: ${
-          {
-            'isApple': event.isApple,
-            'firebaseToken': event.firebaseToken,
-          }
-      }');
+      log('🧭 [AUTH_BLOC] SocialAuthRequest: ${{
+        'isApple': event.isApple,
+        'firebaseToken': event.firebaseToken,
+      }}');
 
       final response = await _repository.socialAuth(
           firebaseToken: event.firebaseToken, isApple: event.isApple);
@@ -387,14 +385,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(AuthLoading());
     try {
+      log('🧭 [AUTH_BLOC] GoogleLoginRequest received');
+      print('🧭 [AUTH_BLOC] GoogleLoginRequest received');
       String firebaseUserToken = await _repository.googleLogin();
       log('Firebase token via google  $firebaseUserToken');
+      print('🧭 [AUTH_BLOC] Firebase token via google: $firebaseUserToken');
       if (firebaseUserToken.trim().isEmpty) {
+        log('🧭 [AUTH_BLOC] Empty Firebase token, reverting to AuthInitial');
+        print('🧭 [AUTH_BLOC] Empty Firebase token, reverting to AuthInitial');
         emit(AuthInitial());
         return;
       }
+      log('🧭 [AUTH_BLOC] Dispatching SocialAuthRequest for Google');
+      print('🧭 [AUTH_BLOC] Dispatching SocialAuthRequest for Google');
       add(SocialAuthRequest(firebaseToken: firebaseUserToken, isApple: false));
     } catch (e) {
+      print('🧭 [AUTH_BLOC] Google login failed: $e');
       emit(AuthFailed(error: e.toString()));
     }
   }
