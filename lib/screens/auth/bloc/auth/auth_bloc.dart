@@ -18,6 +18,47 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String? _pendingCountryCode;
   String? _pendingIsoCode;
 
+  String _maskTokenForLog(String? token) {
+    if (token == null || token.isEmpty) return '<empty>';
+    if (token.length <= 20) return '<redacted:${token.length} chars>';
+    return '${token.substring(0, 10)}...${token.substring(token.length - 10)} '
+        '(${token.length} chars)';
+  }
+
+  String _extractSocialAuthError(Map<String, dynamic> response) {
+    final apiMessage = response['message']?.toString();
+    final data = response['data'];
+
+    String? backendError;
+    if (data is Map<String, dynamic>) {
+      backendError = data['error']?.toString();
+    }
+
+    final isGeneric =
+        (apiMessage ?? '').toLowerCase() == 'something went wrong!';
+
+    if ((backendError ?? '').trim().isNotEmpty) {
+      final normalized = backendError!.toLowerCase();
+
+      // Avoid exposing backend filesystem paths and internal exceptions to users.
+      if (normalized.contains('splfileobject::__construct') ||
+          normalized.contains('/var/www/') ||
+          normalized.contains('service-account-file.json') ||
+          normalized.contains('failed to open stream')) {
+        log('🧭 [AUTH_BLOC] Social auth backend error: Internal server configuration error (redacted)');
+        return 'Social login is temporarily unavailable. Please try again later.';
+      }
+
+      log('🧭 [AUTH_BLOC] Social auth backend error: $backendError');
+
+      if (isGeneric) {
+        return backendError;
+      }
+    }
+
+    return apiMessage ?? 'Social login failed';
+  }
+
   AuthBloc(this._userDetailBloc) : super(AuthInitial()) {
     on<LoginRequest>(_onLoginRequest);
     on<RegisterRequest>(_onRegisterRequest);
@@ -356,7 +397,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       log('🧭 [AUTH_BLOC] SocialAuthRequest: ${{
         'isApple': event.isApple,
-        'firebaseToken': event.firebaseToken,
+        'firebaseToken': _maskTokenForLog(event.firebaseToken),
       }}');
 
       final response = await _repository.socialAuth(
@@ -394,8 +435,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
             AuthSuccess(message: userData.first.message ?? 'Login successful'));
       } else {
-        emit(AuthFailed(
-            error: response['message']?.toString() ?? 'Social login failed'));
+        emit(AuthFailed(error: _extractSocialAuthError(response)));
       }
     } catch (e) {
       emit(AuthFailed(error: e.toString()));
@@ -411,8 +451,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log('🧭 [AUTH_BLOC] GoogleLoginRequest received');
       print('🧭 [AUTH_BLOC] GoogleLoginRequest received');
       String firebaseUserToken = await _repository.googleLogin();
-      log('Firebase token via google  $firebaseUserToken');
-      print('🧭 [AUTH_BLOC] Firebase token via google: $firebaseUserToken');
+      log('Firebase token via google ${_maskTokenForLog(firebaseUserToken)}');
+      print(
+          '🧭 [AUTH_BLOC] Firebase token via google: ${_maskTokenForLog(firebaseUserToken)}');
       if (firebaseUserToken.trim().isEmpty) {
         log('🧭 [AUTH_BLOC] Empty Firebase token, reverting to AuthInitial');
         print('🧭 [AUTH_BLOC] Empty Firebase token, reverting to AuthInitial');

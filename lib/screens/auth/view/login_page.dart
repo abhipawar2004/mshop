@@ -266,10 +266,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       height: double.infinity,
       decoration: const BoxDecoration(
         color: AppTheme.primaryColor,
-        image: DecorationImage(
-          image: AssetImage('assets/images/doodle.png'),
-          fit: BoxFit.cover,
-        ),
+        
+
+       
       ),
     );
   }
@@ -290,6 +289,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   alignment: Alignment.center,
                   child: CustomImageContainer(
+                    borderRadius: BorderRadius.circular(30.r),
                     imagePath: getAppLogoUrl(context),
                     height: 120,
                   ),
@@ -321,6 +321,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             color: Colors.white,
                             fontSize: isTablet(context) ? 18 : 14.sp,
                             fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.white
+
                           ),
                         );
                       },

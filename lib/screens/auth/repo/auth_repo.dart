@@ -13,7 +13,38 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String _androidClientId = AppConstant.androidClientId;
   final String _serverClientId = AppConstant.serverClientId;
+
+  String _maskTokenForLog(String? token) {
+    if (token == null || token.isEmpty) return '<empty>';
+    if (token.length <= 20) return '<redacted:${token.length} chars>';
+    return '${token.substring(0, 10)}...${token.substring(token.length - 10)} '
+        '(${token.length} chars)';
+  }
+
+  dynamic _sanitizeInternalErrorForLog(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      final sanitized = Map<String, dynamic>.from(data);
+      final nested = sanitized['data'];
+      if (nested is Map<String, dynamic>) {
+        final nestedSanitized = Map<String, dynamic>.from(nested);
+        final errorText = nestedSanitized['error']?.toString() ?? '';
+        final lower = errorText.toLowerCase();
+        if (lower.contains('splfileobject::__construct') ||
+            lower.contains('/var/www/') ||
+            lower.contains('service-account-file.json') ||
+            lower.contains('failed to open stream')) {
+          nestedSanitized['error'] =
+              'Internal server configuration error (redacted)';
+          sanitized['data'] = nestedSanitized;
+        }
+      }
+      return sanitized;
+    }
+
+    return data;
+  }
 
   void _debugAuth(String message) {
     log(message);
@@ -147,7 +178,8 @@ class AuthRepository {
       log('🟢 LOGOUT API RESPONSE: ${jsonEncode(response.data)}');
     } catch (e) {
       log('🔴 LOGOUT API ERROR: $e');
-      throw ApiException('Failed to logout user');
+      // Don't throw exception on logout failure - user should still be able to log out locally
+      // The backend logout is a courtesy call; Firebase sign-out is what matters
     }
   }
 
@@ -237,13 +269,19 @@ class AuthRepository {
         'fcm_token': fcmToken,
       };
 
+      final payloadForLog = {
+        ...payload,
+        'idToken': _maskTokenForLog(firebaseToken),
+      };
+
       _debugAuth('🛰️ [SOCIAL_AUTH] API URL: $apiUrl');
-      _debugAuth('🛰️ [SOCIAL_AUTH] PAYLOAD: ${jsonEncode(payload)}');
+      _debugAuth('🛰️ [SOCIAL_AUTH] PAYLOAD: ${jsonEncode(payloadForLog)}');
 
       final response =
           await AppConstant.apiBaseHelper.postAPICall(apiUrl, payload);
       _debugAuth('🛰️ [SOCIAL_AUTH] STATUS: ${response.statusCode}');
-      _debugAuth('🛰️ [SOCIAL_AUTH] RESPONSE: ${jsonEncode(response.data)}');
+      final responseForLog = _sanitizeInternalErrorForLog(response.data);
+      _debugAuth('🛰️ [SOCIAL_AUTH] RESPONSE: ${jsonEncode(responseForLog)}');
       if (response.statusCode == 200) {
         return response.data;
       }
@@ -254,20 +292,24 @@ class AuthRepository {
   }
 
   Future<String> googleLogin() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn.instance;
     try {
-      await googleSignIn.initialize(serverClientId: _serverClientId);
-      _debugAuth('🟢 [GOOGLE_LOGIN] GoogleSignIn initialized');
+      _debugAuth('🟢 [GOOGLE_LOGIN] Starting Google Sign-In');
 
-      GoogleSignInAccount googleUser;
-      try {
-        googleUser = await googleSignIn.authenticate(scopeHint: ['email']);
-        _debugAuth(
-            '🟢 [GOOGLE_LOGIN] authenticate() completed, googleUser.id = ${googleUser.id}');
-      } catch (e) {
-        _debugAuth('🔴 [GOOGLE_LOGIN] authenticate() failed: $e');
-        rethrow;
-      }
+      final googleSignIn = GoogleSignIn.instance;
+
+      // On Android v7, provide both client IDs explicitly.
+      await googleSignIn.initialize(
+        clientId: _androidClientId,
+        serverClientId: _serverClientId,
+      );
+      _debugAuth(
+          '🟢 [GOOGLE_LOGIN] GoogleSignIn initialized with clientId=$_androidClientId serverClientId=$_serverClientId');
+
+      // Trigger the Google Sign-In flow
+      final googleUser = await googleSignIn.authenticate();
+
+      _debugAuth(
+          '🟢 [GOOGLE_LOGIN] authenticate() completed, googleUser.id = ${googleUser.id}');
 
       _debugAuth('🟢 [GOOGLE_LOGIN] GOOGLE USER: ${jsonEncode({
             'id': googleUser.id,
@@ -275,17 +317,29 @@ class AuthRepository {
             'displayName': googleUser.displayName,
             'photoUrl': googleUser.photoUrl,
           })}');
+
       if (googleUser.id.isEmpty) {
         throw ApiException('User cancelled the login');
       }
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      final googleAuth = googleUser.authentication;
       _debugAuth('🟢 [GOOGLE_LOGIN] GOOGLE AUTH: ${jsonEncode({
             'idToken': googleAuth.idToken,
           })}');
 
-      final authClient = googleSignIn.authorizationClient;
-      final authorization = await authClient.authorizationForScopes(['email']);
-      final String? accessToken = authorization?.accessToken;
+      // Try to get access token with timeout (it may fail or hang on some devices)
+      String? accessToken;
+      try {
+        final authClient = googleSignIn.authorizationClient;
+        final authorization = await authClient.authorizationForScopes(
+            ['email']).timeout(const Duration(seconds: 5));
+        accessToken = authorization?.accessToken;
+        _debugAuth('🟢 [GOOGLE_LOGIN] Got access token: $accessToken');
+      } catch (e) {
+        _debugAuth(
+            '🟠 [GOOGLE_LOGIN] Failed to get access token: $e. Continuing with idToken only.');
+      }
+
       _debugAuth('🟢 [GOOGLE_LOGIN] AUTHORIZATION: ${jsonEncode({
             'accessToken': accessToken,
           })}');
@@ -336,19 +390,57 @@ class AuthRepository {
         throw ApiException('Failed to sign in');
       }
     } catch (e, stackTrace) {
-      _debugAuth('🔴 [GOOGLE_LOGIN] EXCEPTION: ${e.toString()}');
-      _debugAuth('🔴 [GOOGLE_LOGIN] STACK TRACE: $stackTrace');
       final errorMessage = e.toString().toLowerCase();
 
       if (errorMessage.contains('cancel') ||
           errorMessage.contains('canceled')) {
+        _debugAuth(
+            '🟠 [GOOGLE_LOGIN] google_sign_in returned cancellation. Trying Firebase provider fallback...');
+        final String fallbackToken =
+            await _googleLoginFirebaseProviderFallback();
+        if (fallbackToken.isNotEmpty) {
+          return fallbackToken;
+        }
         _debugAuth('🟠 [GOOGLE_LOGIN] User cancelled login');
         return '';
       } else {
-        // Any other error — treat as real failure
+        _debugAuth('🔴 [GOOGLE_LOGIN] EXCEPTION: ${e.toString()}');
+        _debugAuth('🔴 [GOOGLE_LOGIN] STACK TRACE: $stackTrace');
         _debugAuth('🔴 [GOOGLE_LOGIN] Throwing ApiException');
         throw ApiException(e.toString());
       }
+    }
+  }
+
+  Future<String> _googleLoginFirebaseProviderFallback() async {
+    try {
+      if (!Platform.isAndroid) {
+        return '';
+      }
+
+      final googleProvider = GoogleAuthProvider();
+      final userCredential = await _auth.signInWithProvider(googleProvider);
+      final user = userCredential.user;
+      if (user == null) {
+        return '';
+      }
+
+      final idTokenResult = await user.getIdTokenResult(true);
+      final firebaseIdToken = idTokenResult.token;
+      _debugAuth('🟢 [GOOGLE_LOGIN] Fallback sign-in provider: '
+          '${idTokenResult.signInProvider}, tokenPresent=${firebaseIdToken != null}');
+      return firebaseIdToken ?? '';
+    } catch (e, stackTrace) {
+      final message = e.toString().toLowerCase();
+      _debugAuth('🟠 [GOOGLE_LOGIN] Fallback failed: $e');
+      _debugAuth('🟠 [GOOGLE_LOGIN] Fallback stack: $stackTrace');
+
+      if (message.contains('invalid-cert-hash')) {
+        throw ApiException(
+            'Google Sign-In is not configured for this app signing key. Add this app\'s SHA-1 and SHA-256 fingerprints to Firebase Android app (package com.app.mastrokart), then download and replace android/app/google-services.json.');
+      }
+
+      return '';
     }
   }
 
@@ -394,7 +486,7 @@ class AuthRepository {
         throw ApiException('Apple login failed: ${e.message}');
       }
     } catch (e) {
-      throw Exception(e.toString());
+      throw ApiException(e.toString());
     }
   }
 

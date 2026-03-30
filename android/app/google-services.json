@@ -8,12 +8,57 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:285207710216:android:f096f1f5d11277fb525fbd",
+        "android_client_info": {
+          "package_name": "com.app.mastrokart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285207710216-u0ao8ad9qro8v7e2elarbevcgghscm2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mastrokart",
+            "certificate_hash": "45312236b2e30e23eeb9445694a0e2f6a2ebe1c4"
+          }
+        },
+        {
+          "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWriglGj3ZKB2KzvEm5GhXw8TsMjyMKks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:285207710216:android:a23c8b58a35514af525fbd",
         "android_client_info": {
           "package_name": "com.app.mshop"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "285207710216-jilseih5h5lkmk1naikv14qprods6jab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mshop",
+            "certificate_hash": "45312236b2e30e23eeb9445694a0e2f6a2ebe1c4"
+          }
+        },
         {
           "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
           "client_type": 3

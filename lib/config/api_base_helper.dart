@@ -21,6 +21,60 @@ class ApiException implements Exception {
 }
 
 class ApiBaseHelper {
+  String _sanitizePotentialInternalError(String value) {
+    final lower = value.toLowerCase();
+    if (lower.contains('splfileobject::__construct') ||
+        lower.contains('/var/www/') ||
+        lower.contains('failed to open stream') ||
+        lower.contains('service-account-file.json')) {
+      return 'Internal server configuration error (redacted)';
+    }
+    return value;
+  }
+
+  bool _isSensitiveKey(String key) {
+    final normalized = key.toLowerCase();
+    return normalized.contains('token') ||
+        normalized.contains('password') ||
+        normalized.contains('authorization') ||
+        normalized.contains('secret') ||
+        normalized.contains('key');
+  }
+
+  String _maskStringValue(String value) {
+    if (value.isEmpty) return '<empty>';
+    if (value.length <= 20) return '<redacted:${value.length} chars>';
+    return '${value.substring(0, 10)}...${value.substring(value.length - 10)} '
+        '(${value.length} chars)';
+  }
+
+  dynamic _sanitizeForLog(dynamic data) {
+    if (data is Map) {
+      final sanitized = <String, dynamic>{};
+      data.forEach((key, value) {
+        final k = key.toString();
+        if (_isSensitiveKey(k) && value is String) {
+          sanitized[k] = _maskStringValue(value);
+        } else if (k.toLowerCase() == 'error' && value is String) {
+          sanitized[k] = _sanitizePotentialInternalError(value);
+        } else {
+          sanitized[k] = _sanitizeForLog(value);
+        }
+      });
+      return sanitized;
+    }
+
+    if (data is List) {
+      return data.map(_sanitizeForLog).toList();
+    }
+
+    if (data is String && data.length > 300) {
+      return _maskStringValue(data);
+    }
+
+    return data;
+  }
+
   Map<String, dynamic> _buildRequestHeaders(
     dynamic body, {
     required bool includeAuthorization,
@@ -66,8 +120,8 @@ class ApiBaseHelper {
     log('[API][$method][ERROR] type=${e.type} message=${e.message}');
     log('[API][$method][ERROR] status=${e.response?.statusCode}');
     log('[API][$method][ERROR] response=${e.response?.data}');
-    log('[API][$method][ERROR] requestHeaders=${e.requestOptions.headers}');
-    log('[API][$method][ERROR] requestData=${e.requestOptions.data}');
+    log('[API][$method][ERROR] requestHeaders=${_sanitizeForLog(e.requestOptions.headers)}');
+    log('[API][$method][ERROR] requestData=${_sanitizeForLog(e.requestOptions.data)}');
   }
 
   Future<void> downloadFile({
@@ -139,9 +193,9 @@ class ApiBaseHelper {
       );
       log('[API][POST][REQUEST] inputUrl=$url');
       log('[API][POST][REQUEST] resolvedUrl=${response.requestOptions.uri}');
-      log('[API][POST][REQUEST] headers=${response.requestOptions.headers}');
-      log('[API][POST][REQUEST] body=${response.requestOptions.data}');
-      log('response api****$url***************${response.statusCode}*********${response.data}');
+      log('[API][POST][REQUEST] headers=${_sanitizeForLog(response.requestOptions.headers)}');
+      log('[API][POST][REQUEST] body=${_sanitizeForLog(response.requestOptions.data)}');
+      log('response api****$url***************${response.statusCode}*********${_sanitizeForLog(response.data)}');
 
       responseJson = response;
     } on dio_.DioException catch (e) {

@@ -41,11 +41,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBc0Z2wi88hVmDu-yMIDieeX4IvUh_rQK0',
-    appId: '1:439122712492:android:4d753d5ba2c70bd3fb4c09',
-    messagingSenderId: '439122712492',
-    projectId: 'mshop-d40f8',
-    storageBucket: 'mshop-d40f8.firebasestorage.app',
+    apiKey: 'AIzaSyDWriglGj3ZKB2KzvEm5GhXw8TsMjyMKks',
+    appId: '1:285207710216:android:f096f1f5d11277fb525fbd',
+    messagingSenderId: '285207710216',
+    projectId: 'shopping-d89aa',
+    storageBucket: 'shopping-d89aa.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'mshop-d40f8.firebasestorage.app',
     measurementId: 'G-HZYCP4ZPCY',
   );
-
 }

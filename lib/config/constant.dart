@@ -28,10 +28,23 @@ class AppConstant {
   static String appName = dotenv.env['APP_NAME'] ?? 'MShop';
   static String androidMapKey = dotenv.env['ANDROID_MAP_KEY'] ??
       'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
-  static String iosMapKey =
-      dotenv.env['IOS_MAP_KEY'] ?? 'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
-  static String serverClientId = dotenv.env['SERVER_CLIENT_ID'] ??
-      '439122712492-ktk1i5rs4fb7tgh821j9lbm9q58d3s4g.apps.googleusercontent.com';
+  static String iosMapKey = dotenv.env['IOS_MAP_KEY']?.isNotEmpty == true
+      ? dotenv.env['IOS_MAP_KEY']!
+      : 'AIzaSyDCLsi0UdNuIacZOlmLWA9RkFKYLmpD-bk';
+  static String androidClientId = dotenv.env['ANDROID_CLIENT_ID']
+              ?.trim()
+              .isNotEmpty ==
+          true
+      ? dotenv.env['ANDROID_CLIENT_ID']!.trim()
+      : '285207710216-u0ao8ad9qro8v7e2elarbevcgghscm2g.apps.googleusercontent.com';
+  static String webClientId = dotenv.env['WEB_CLIENT_ID']?.trim().isNotEmpty ==
+          true
+      ? dotenv.env['WEB_CLIENT_ID']!.trim()
+      : '285207710216-jilseih5h5lkmk1naikv14qprods6jab.apps.googleusercontent.com';
+  static String serverClientId =
+      dotenv.env['SERVER_CLIENT_ID']?.trim().isNotEmpty == true
+          ? dotenv.env['SERVER_CLIENT_ID']!.trim()
+          : webClientId;
 
   static String localUserLocationHiveBoxName = 'userLocationBox';
   static String localUserLocationHiveBoxKey = 'user_location';
@@ -366,6 +379,13 @@ String getAppLogoUrl(BuildContext context) {
   // const String lightLogoUrl = 'assets/images/app_logos/app-logo-light.png';
   const String darkLogoUrl = "assets/images/app_logos/app-logo-dark.png";
   return darkLogoUrl;
+}
+
+String getAppLogoWhite(BuildContext context) {
+  // bool isDark = Theme.of(context).brightness == Brightness.dark;
+  const String lightLogoUrl = 'assets/images/app_logos/app-logo-light.png';
+  // const String darkLogoUrl = "assets/images/app_logos/app-logo-dark.png";
+  return lightLogoUrl;
 }
 
 String generateId(double lat, double lng, String? address) {

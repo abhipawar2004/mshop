@@ -1,4 +1,4 @@
-package com.app.mshop
+package com.app.mastrokart
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

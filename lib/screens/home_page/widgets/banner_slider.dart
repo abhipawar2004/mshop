@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +7,6 @@ import 'package:hyper_local/screens/home_page/model/banner_model.dart';
 import 'package:hyper_local/screens/product_listing_page/model/product_listing_type.dart';
 import 'package:hyper_local/utils/widgets/custom_image_container.dart';
 import 'package:hyper_local/utils/widgets/custom_shape_decoration.dart';
-
 import '../../../config/constant.dart';
 
 class AutoPlayCarouselSlider extends StatefulWidget {
