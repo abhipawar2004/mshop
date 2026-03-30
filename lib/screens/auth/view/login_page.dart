@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +16,6 @@ import 'package:hyper_local/utils/widgets/custom_image_container.dart';
 import 'package:hyper_local/utils/widgets/custom_textfield.dart';
 import 'package:hyper_local/utils/widgets/custom_toast.dart';
 import 'package:hyper_local/utils/widgets/whole_page_progress.dart';
-
 import '../../../config/constant.dart';
 import '../../cart_page/bloc/get_user_cart/get_user_cart_bloc.dart';
 import '../bloc/auth/auth_bloc.dart';
@@ -231,23 +229,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 children: [
                   // Static background with doodle
                   _buildStaticBackground(),
-
-                  // Scrollable content with logo and form
-                  // AnimatedBuilder(
-                  //   animation: _slideController,
-                  //   builder: (context, _) {
-                  //     return Transform.translate(
-                  //       offset: Offset(0, _slideAnimation.value * 200),
-                  //       child: Transform.scale(
-                  //         scale: _scaleAnimation.value,
-                  //         child: Opacity(
-                  //           opacity: _fadeAnimation.value,
-                  //           child: ,
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
                   _buildScrollableContent(),
 
                   if (authState is AuthLoading) const WholePageProgress(),
@@ -674,8 +655,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     if (value == null || value.isEmpty) {
                       return l10n.emailOrPhoneNumberIsRequired;
                     }
-                    if (!_isValidIdentifier(value))
+                    if (!_isValidIdentifier(value)) {
                       return l10n.enterValidEmailOrPhone;
+                    }
                     return null;
                   },
                   onChanged: _handleIdentifierChange,
