@@ -3,8 +3,8 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 class AppTheme {
   /// App main color
-  static const Color primaryColor = Color(0xFF006BD5);
-  static Color primaryVariant = primaryColor.withValues(alpha: 0.8);
+static const Color primaryColor = Color(0xFFFFC107); // classic amber
+static Color primaryVariant = primaryColor.withValues(alpha: 0.8);
 
   static Color lightFontColor = Colors.black;
   static Color darkFontColor = Colors.white;

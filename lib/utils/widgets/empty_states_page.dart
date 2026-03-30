@@ -25,45 +25,44 @@ class EmptyStatePage extends StatelessWidget {
     return Container(
       color: Theme.of(context).colorScheme.surface,
       child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Illustration (replace with Image.asset(imageAsset) for real images)
-              Container(
-                height: 200,
-                // width: 250,
-                decoration: BoxDecoration(
-                  // color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: CustomImageContainer(imagePath:  imageAsset),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Illustration (replace with Image.asset(imageAsset) for real images)
+            Container(
+              height: 200,
+              // width: 250,
+              decoration: BoxDecoration(
+                // color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(16),
               ),
-              SizedBox(height: 10),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              child: CustomImageContainer(imagePath: imageAsset),
+            ),
+            SizedBox(height: 10),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
 
-              SizedBox(height: 8),
-              // Text(
-              //   description,
-              //   style: Theme.of(context).textTheme.bodyMedium,
-              //   textAlign: TextAlign.center,
-              // ),
-              if (onRetry != null) ...[
-                const SizedBox(height: 10),
-                CustomButton(
-                  onPressed: onRetry!,
-                  child: Text(l10n?.retry ?? 'Retry'),
-                ),
-              ],
+            SizedBox(height: 8),
+            // Text(
+            //   description,
+            //   style: Theme.of(context).textTheme.bodyMedium,
+            //   textAlign: TextAlign.center,
+            // ),
+            if (onRetry != null) ...[
+              const SizedBox(height: 10),
+              CustomButton(
+                onPressed: onRetry!,
+                child: Text(l10n?.retry ?? 'Retry'),
+              ),
             ],
-          ),
-
+          ],
+        ),
       ),
     );
   }
@@ -101,7 +100,7 @@ class EmptyStatePageOnLocation extends StatelessWidget {
                 // color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: CustomImageContainer(imagePath:  imageAsset),
+              child: CustomImageContainer(imagePath: imageAsset),
             ),
             SizedBox(height: 15),
             Padding(
@@ -109,8 +108,8 @@ class EmptyStatePageOnLocation extends StatelessWidget {
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -133,7 +132,6 @@ class EmptyStatePageOnLocation extends StatelessWidget {
             ],
           ],
         ),
-
       ),
     );
   }
@@ -212,8 +210,10 @@ class NoInternetPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noInternetConnection ?? 'No Internet Connection',
-      description: l10n?.checkConnectionAndTryAgain ?? 'Please check your connection and try again.',
-      imageAsset: 'assets/images/empty-states/no-internet-connection.png', // Placeholder asset
+      description: l10n?.checkConnectionAndTryAgain ??
+          'Please check your connection and try again.',
+      imageAsset:
+          'assets/images/empty-states/no-internet-connection.png', // Placeholder asset
       onRetry: () => Navigator.pop(context),
     );
   }
@@ -244,7 +244,8 @@ class NoOrderPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noOrderFound ?? 'No Order Found',
-      description: l10n?.noOrdersYetDescription ?? 'It looks like you don\'t have any orders yet.',
+      description: l10n?.noOrdersYetDescription ??
+          'It looks like you don\'t have any orders yet.',
       imageAsset: 'assets/images/empty-states/no-product-found.png',
       onRetry: onRetry ?? () => Navigator.pop(context),
     );
@@ -260,7 +261,24 @@ class NoCategoryPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noCategoryFound ?? 'No Category Found',
-      description: l10n?.weCouldntFindAnyCategories ?? 'We couldn\'t find any categories.',
+      description: l10n?.weCouldntFindAnyCategories ??
+          'We couldn\'t find any categories.',
+      imageAsset: 'assets/images/empty-states/no-product-found.png',
+      onRetry: onRetry,
+    );
+  }
+}
+
+class NoSubcategoriesPage extends StatelessWidget {
+  final VoidCallback? onRetry;
+  const NoSubcategoriesPage({super.key, this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return EmptyStatePage(
+      title: 'No Subcategories Found',
+      description: 'We couldn\'t find any subcategories.',
       imageAsset: 'assets/images/empty-states/no-product-found.png',
       onRetry: onRetry,
     );
@@ -276,7 +294,8 @@ class NoSearchPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noSearchResults ?? 'No Search Results',
-      description: l10n?.tryAdjustingSearchTerms ?? 'Try adjusting your search terms.',
+      description:
+          l10n?.tryAdjustingSearchTerms ?? 'Try adjusting your search terms.',
       imageAsset: 'assets/images/empty-states/no-search-results.png',
       onRetry: onRetry,
     );
@@ -292,7 +311,8 @@ class NoProductPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noProductFound ?? 'No Product Found',
-      description: l10n?.noProductMatchingSearch ?? 'We couldn\'t find any products matching your search.',
+      description: l10n?.noProductMatchingSearch ??
+          'We couldn\'t find any products matching your search.',
       imageAsset: 'assets/images/empty-states/no-product-found.png',
       onRetry: onRetry,
     );
@@ -308,7 +328,8 @@ class NoStorePage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePage(
       title: l10n?.noStoreFound ?? 'No Store Found',
-      description: l10n?.weCouldntFindAnyStoreInYourSelectLocation ?? 'We couldn\'t find any store in your select location.',
+      description: l10n?.weCouldntFindAnyStoreInYourSelectLocation ??
+          'We couldn\'t find any store in your select location.',
       imageAsset: 'assets/images/empty-states/no-product-found.png',
       onRetry: onRetry,
     );
@@ -324,7 +345,8 @@ class NoDeliveryLocationPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return EmptyStatePageOnLocation(
       title: l10n?.wereNotHereYet ?? 'We’re not here yet',
-      description: l10n?.noStoresOrProductsAreAvailableInThisAreaRightNow ?? 'No stores or products are available in this area right now.',
+      description: l10n?.noStoresOrProductsAreAvailableInThisAreaRightNow ??
+          'No stores or products are available in this area right now.',
       imageAsset: 'assets/images/icons/delivery_pin.png',
       onRetry: onRetry,
     );

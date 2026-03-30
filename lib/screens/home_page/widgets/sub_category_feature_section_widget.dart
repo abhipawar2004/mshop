@@ -14,11 +14,12 @@ class SubCategoryFeatureSectionWidget extends StatefulWidget {
   const SubCategoryFeatureSectionWidget({super.key});
 
   @override
-  State<SubCategoryFeatureSectionWidget> createState() => _SubCategoryFeatureSectionWidgetState();
+  State<SubCategoryFeatureSectionWidget> createState() =>
+      _SubCategoryFeatureSectionWidgetState();
 }
 
-class _SubCategoryFeatureSectionWidgetState extends State<SubCategoryFeatureSectionWidget> {
-
+class _SubCategoryFeatureSectionWidgetState
+    extends State<SubCategoryFeatureSectionWidget> {
   int _getCrossAxisCount(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth >= 1200) return 10;
@@ -48,93 +49,94 @@ class _SubCategoryFeatureSectionWidgetState extends State<SubCategoryFeatureSect
         if (state is SubCategoryLoaded) {
           return state.subCategoryData.isNotEmpty
               ? SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    bottom: 10.0.h,
-                    top: 10
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)?.shopByCategories ?? 'Shop by categories',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 10.0, right: 10.0, bottom: 10.0.h, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)?.shopByCategories ??
+                                  'Shop by categories',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(8.r),
+                              onTap: () {
+                                final navigationShell =
+                                    StatefulNavigationShell.of(context);
+                                navigationShell.goBranch(1,
+                                    initialLocation: false);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6.w, vertical: 2.h),
+                                child: Text(
+                                  AppLocalizations.of(context)?.seeAll ??
+                                      'See All',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(8.r),
-                        onTap: () {
-                          final navigationShell = StatefulNavigationShell.of(context);
-                          navigationShell.goBranch(1, initialLocation: false);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                          child: Text(
-                            AppLocalizations.of(context)?.seeAll ?? 'See All',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14
-                            ),
-                          ),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 12),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: _getCrossAxisCount(context),
+                          crossAxisSpacing: _getSpacing(context),
+                          mainAxisSpacing: _getSpacing(context),
+                          childAspectRatio: 0.62,
                         ),
+                        itemCount: state.subCategoryData.length >= 8
+                            ? 8
+                            : state.subCategoryData.length,
+                        itemBuilder: (context, index) {
+                          final subCategoryData = state.subCategoryData[index];
+                          return InkWell(
+                            onTap: () {
+                              GoRouter.of(context)
+                                  .push(AppRoutes.productListing, extra: {
+                                'isTheirMoreCategory':
+                                    subCategoryData.subcategoryCount! > 0
+                                        ? true
+                                        : false,
+                                'title': subCategoryData.title,
+                                'logo': subCategoryData.image,
+                                'totalProduct': subCategoryData.productCount,
+                                'type': ProductListingType.category,
+                                'identifier': subCategoryData.slug,
+                              });
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: CustomSubCategoryCard(
+                              categoryImage: subCategoryData.image!,
+                              categoryName: subCategoryData.title!,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                      bottom: 15
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _getCrossAxisCount(context),
-                    crossAxisSpacing: _getSpacing(context),
-                    mainAxisSpacing: _getSpacing(context),
-                    childAspectRatio: 0.62,
-                  ),
-                  itemCount: state.subCategoryData.length >= 32 ? 32 : state.subCategoryData.length,
-                  itemBuilder: (context, index) {
-                    final subCategoryData = state.subCategoryData[index];
-                    return InkWell(
-                      onTap: () {
-                        GoRouter.of(context).push(
-                            AppRoutes.productListing,
-                            extra: {
-                              'isTheirMoreCategory': subCategoryData.subcategoryCount! > 0 ? true : false,
-                              'title': subCategoryData.title,
-                              'logo': subCategoryData.image,
-                              'totalProduct': subCategoryData.productCount,
-                              'type': ProductListingType.category,
-                              'identifier': subCategoryData.slug,
-                            }
-                        );
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      child: CustomSubCategoryCard(
-                        categoryImage: subCategoryData.image!,
-                        categoryName: subCategoryData.title!,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
+                )
               : const SizedBox.shrink();
-        }
-        else if (state is SubCategoryLoading) {
+        } else if (state is SubCategoryLoading) {
           return SizedBox(
             width: double.infinity,
             child: Column(
@@ -160,7 +162,7 @@ class _SubCategoryFeatureSectionWidgetState extends State<SubCategoryFeatureSect
                     crossAxisCount: _getCrossAxisCount(context),
                     crossAxisSpacing: _getSpacing(context),
                     mainAxisSpacing: _getSpacing(context),
-                    childAspectRatio: 0.65,
+                    childAspectRatio: 0.68,
                   ),
                   itemCount: 8,
                   itemBuilder: (context, index) {
@@ -176,7 +178,6 @@ class _SubCategoryFeatureSectionWidgetState extends State<SubCategoryFeatureSect
     );
   }
 }
-
 
 class ResponsiveSubCategoryCardShimmer extends StatelessWidget {
   const ResponsiveSubCategoryCardShimmer({super.key});

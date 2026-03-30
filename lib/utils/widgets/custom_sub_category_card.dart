@@ -5,11 +5,8 @@ class CustomSubCategoryCard extends StatelessWidget {
   final String categoryImage;
   final String categoryName;
 
-  const CustomSubCategoryCard({
-    super.key,
-    required this.categoryName,
-    required this.categoryImage
-  });
+  const CustomSubCategoryCard(
+      {super.key, required this.categoryName, required this.categoryImage});
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +23,27 @@ class CustomSubCategoryCard extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                flex: 7,
+                flex: 6,
                 child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  ),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(4.0),
-                  child: CustomImageContainer(imagePath:categoryImage, fit: BoxFit.cover, )
-                ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(4.0),
+                    child: CustomImageContainer(
+                      imagePath: categoryImage,
+                      fit: BoxFit.cover,
+                    )),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 4,
+              ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: categoryNameWidget(
-                    categoryName: categoryName,
-                  cardWidth: cardWidth
-                ),
+                    categoryName: categoryName, cardWidth: cardWidth),
               ),
             ],
           ),
@@ -53,19 +52,21 @@ class CustomSubCategoryCard extends StatelessWidget {
     );
   }
 
-  Widget categoryNameWidget ({
-    required String categoryName, required double cardWidth}) {
+  Widget categoryNameWidget(
+      {required String categoryName, required double cardWidth}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: cardWidth * 0.05),
-      child: Text(
-        categoryName,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: _getResponsiveFontSize(cardWidth),
-          fontWeight: FontWeight.w600,
+      child: Center(
+        child: Text(
+          categoryName,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: _getResponsiveFontSize(cardWidth),
+            fontWeight: FontWeight.w600,
+          ),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
       ),
     );
   }

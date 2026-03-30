@@ -22,9 +22,10 @@ class CategoryListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AllCategoriesBloc()..add(
-        FetchAllCategories(),
-      ),
+      create: (context) => AllCategoriesBloc()
+        ..add(
+          FetchAllCategories(),
+        ),
       child: const _CategoryListView(),
     );
   }
@@ -65,8 +66,8 @@ class _CategoryListViewState extends State<_CategoryListView> {
 
   Future<void> _onRefresh() async {
     context.read<AllCategoriesBloc>().add(
-      FetchAllCategories(),
-    );
+          FetchAllCategories(),
+        );
   }
 
   @override
@@ -98,7 +99,7 @@ class _CategoryListViewState extends State<_CategoryListView> {
           // Error State
           if (state is AllCategoriesFailed) {
             return Center(
-              child: NoCategoryPage(onRetry: _onRefresh),
+              child: NoSubcategoriesPage(onRetry: _onRefresh),
             );
           }
 
@@ -110,28 +111,32 @@ class _CategoryListViewState extends State<_CategoryListView> {
               onRefresh: _onRefresh,
               child: hasData
                   ? ListView(
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.h),
-                children: [
-                  CategoryGridWidget(subCategories: state.subCategoryData),
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.h),
+                      children: [
+                        CategoryGridWidget(
+                            subCategories: state.subCategoryData),
 
-                  // Load more indicator at bottom
-                  if (state.isLoadingMore)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 24.0),
-                      child: Center(child: CustomCircularProgressIndicator()),
-                    ),
+                        // Load more indicator at bottom
+                        if (state.isLoadingMore)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.0),
+                            child: Center(
+                                child: CustomCircularProgressIndicator()),
+                          ),
 
-                  const SizedBox(height: 70), // Safe bottom padding
-                ],
-              )
+                        const SizedBox(height: 70), // Safe bottom padding
+                      ],
+                    )
                   : ListView(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
-                  Center(child: NoCategoryPage(onRetry: _onRefresh)),
-                ],
-              ),
+                      children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.3),
+                        Center(child: NoSubcategoriesPage(onRetry: _onRefresh)),
+                      ],
+                    ),
             );
           }
 

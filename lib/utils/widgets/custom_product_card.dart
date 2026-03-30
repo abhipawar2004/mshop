@@ -399,8 +399,10 @@ class CustomProductCard extends StatelessWidget {
                                     context.read<CartBloc>().add(
                                           UpdateCartQty(
                                               cartKey: cartItem.cartKey,
-                                              quantity: cartItem.quantity + quantityStepSize,
-                                              cartItemId: cartItem.serverCartItemId,
+                                              quantity: cartItem.quantity +
+                                                  quantityStepSize,
+                                              cartItemId:
+                                                  cartItem.serverCartItemId,
                                               context: context),
                                         );
                                   }
@@ -419,17 +421,20 @@ class CustomProductCard extends StatelessWidget {
                                   if (context.mounted) {
                                     context.read<CartBloc>().add(
                                           UpdateCartQty(
-                                              cartKey:  cartItem.cartKey,
-                                              quantity:  cartItem.quantity - quantityStepSize,
-                                              cartItemId:  cartItem.serverCartItemId,
-                                              context:  context),
+                                              cartKey: cartItem.cartKey,
+                                              quantity: cartItem.quantity -
+                                                  quantityStepSize,
+                                              cartItemId:
+                                                  cartItem.serverCartItemId,
+                                              context: context),
                                         );
                                   }
                                 } else {
                                   if (context.mounted) {
                                     context.read<CartBloc>().add(
                                           RemoveFromCart(
-                                              cartKey:  cartItem.cartKey,context: context),
+                                              cartKey: cartItem.cartKey,
+                                              context: context),
                                         );
                                   }
                                 }
@@ -449,8 +454,8 @@ class CustomProductCard extends StatelessWidget {
                                     await HapticFeedback.lightImpact();
 
                                     if (context.mounted) {
-                                      final error =
-                                      CartValidation.validateProductAddToCart(
+                                      final error = CartValidation
+                                          .validateProductAddToCart(
                                         context: context,
                                         requestedQuantity: quantityStepSize,
                                         minQty: minQty,
@@ -459,7 +464,8 @@ class CustomProductCard extends StatelessWidget {
                                         isStoreOpen: isStoreOpen,
                                       );
 
-                                      final cartError = CartValidation.validateBeforeAddToCart(
+                                      final cartError = CartValidation
+                                          .validateBeforeAddToCart(
                                         context: context,
                                         currentCartItemCount: currentTotalItems,
                                         requestedAddQuantity: quantityStepSize,
@@ -473,19 +479,9 @@ class CustomProductCard extends StatelessWidget {
                                             message: cartError ?? error!,
                                             type: ToastType.error);
                                         return;
-                                      }
-
-                                      else {
+                                      } else {
                                         onAddToCart();
                                       }
-
-                                      // final isLoggedIn =
-                                      //     await AuthGuard.ensureLoggedIn(
-                                      //         context);
-                                      // if (!isLoggedIn) {
-                                      //   return;
-                                      // }
-
                                     }
                                   }
                                 : null,
@@ -680,46 +676,50 @@ class CustomProductCard extends StatelessWidget {
 
     final bool hasDiscount = special > 0 && special < regular;
 
-    final String displayPrice = hasDiscount
-        ? specialPrice
-        : price;
+    final String displayPrice = hasDiscount ? specialPrice : price;
 
-    final formattedDisplay = formatPrice(double.parse(displayPrice), locale: locale);
+    final formattedDisplay =
+        formatPrice(double.parse(displayPrice), locale: locale);
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        // Main price (bold)
-        Text(
-          '${AppConstant.currency}$formattedDisplay',
-          style: TextStyle(
-            fontSize: isTablet(context) ? 20 : 14.sp,
-            fontWeight: FontWeight.bold,
-            fontFamily: AppTheme.fontFamily,
-          ),
-          overflow: TextOverflow.ellipsis,
-        ),
-
-        if (hasDiscount) ...[
-          const SizedBox(width: 8),
-
-          // Strikethrough original price (only when there's actual discount)
+    return Flexible(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          // Main price (bold)
           Text(
-            '${AppConstant.currency}${formatPrice(regular, locale: locale)}',
+            '${AppConstant.currency}$formattedDisplay',
             style: TextStyle(
-              fontSize: isTablet(context) ? 16 : 11.sp,
-              decoration: TextDecoration.lineThrough,
-              decorationColor: Colors.grey,
-              decorationThickness: 2,
-              color: Colors.grey,
+              fontSize: isTablet(context) ? 19 : 11.sp,
+              fontWeight: FontWeight.bold,
               fontFamily: AppTheme.fontFamily,
             ),
             overflow: TextOverflow.ellipsis,
           ),
+
+          if (hasDiscount) ...[
+            const SizedBox(width: 6),
+
+            // Strikethrough original price (only when there's actual discount)
+            Flexible(
+              child: Text(
+                '${AppConstant.currency}${formatPrice(regular, locale: locale)}',
+                style: TextStyle(
+                  fontSize: isTablet(context) ? 13 : 9.sp,
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: Colors.grey,
+                  decorationThickness: 2,
+                  color: Colors.grey,
+                  fontFamily: AppTheme.fontFamily,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 

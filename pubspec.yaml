@@ -75,6 +75,7 @@ dependencies:
   webview_flutter: ^4.13.0
   file_picker: ^10.3.8
   flutter_dotenv: ^5.2.1
+  flutter_launcher_icons: ^0.14.4
 
 
 dev_dependencies:
@@ -113,3 +114,8 @@ flutter:
           - asset: assets/fonts/Lexend_Deca/static/LexendDeca-ExtraBold.ttf
             weight: 800
 
+# 👇 ADD THIS AT THE VERY END
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_logos/app-logo-dark.png"

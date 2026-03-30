@@ -176,11 +176,8 @@ class _HomePageState extends State<HomePage>
     } else if (index > 0 && index - 1 < _categories.length) {
       final category = _categories[index - 1];
       apiCalls(category.slug ?? '');
-      updateAppBarBackground(
-        image: category.banner,
-        bgColor: category.backgroundColor,
-        fontColor: hexStringToColor(category.fontColor),
-      );
+      // Keep app bar style consistent across tabs (same as "All").
+      _applyHomeGeneralSettingsToAppBar();
     }
 
     scrollToTop(animated: true);
@@ -1130,11 +1127,7 @@ class _HomePageState extends State<HomePage>
                     return CustomRefreshIndicator(
                       onRefresh: () async {
                         apiCalls(category.slug ?? '');
-                        updateAppBarBackground(
-                          image: category.banner,
-                          bgColor: category.backgroundColor,
-                          fontColor: hexStringToColor(category.fontColor),
-                        );
+                        _applyHomeGeneralSettingsToAppBar();
                         context
                             .read<CategoryBloc>()
                             .add(FetchCategory(context: context));
@@ -1389,10 +1382,10 @@ class _HomePageState extends State<HomePage>
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      Color(0xFF89C4F4),
-                                      Color(0xFF89C4F4),
-                                      Color(0xFF89C4F4),
-                                      Color(0xFFb5d9f7),
+                                      Color(0xFFFFC107), // primary amber
+                                      Color(0xFFFFCA28),
+                                      Color(0xFFFFD54F),
+                                      Color(0xFFFFE082),
                                       Colors.white,
                                     ],
                                   ),

@@ -6,7 +6,7 @@ import 'package:hyper_local/bloc/settings_bloc/settings_bloc.dart';
 import 'package:hyper_local/router/app_routes.dart';
 import 'package:hyper_local/screens/home_page/bloc/brands/brands_bloc.dart';
 import 'package:hyper_local/screens/user_profile/bloc/user_profile_bloc/user_profile_bloc.dart';
-import 'package:hyper_local/utils/widgets/custom_image_container.dart';
+import 'package:lottie/lottie.dart';
 import 'package:hyper_local/utils/widgets/custom_scaffold.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../bloc/user_details_bloc/user_details_bloc.dart';
@@ -25,7 +25,6 @@ import '../home_page/bloc/feature_section_product/feature_section_product_bloc.d
 import '../home_page/bloc/feature_section_product/feature_section_product_event.dart';
 import '../home_page/bloc/sub_category/sub_category_bloc.dart';
 import '../home_page/bloc/sub_category/sub_category_event.dart';
-
 import 'package:hyper_local/l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -272,11 +271,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: double.infinity,
                 height: double.infinity,
                 decoration: const BoxDecoration(
-                  color: AppTheme.primaryColor,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/doodle.png'),
-                    fit: BoxFit.cover,
-                  ),
+                  color: AppTheme.mainLightContainerBgColor,
                 ),
               ),
               Column(
@@ -284,10 +279,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: CustomImageContainer(
-                      imagePath: getAppLogoUrl(context),
-                      height: 180,
-                      width: 250,
+                    child: Lottie.asset(
+                      'assets/animations/splash.json',
                       fit: BoxFit.contain,
                     ),
                   )
