@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "285207710216-uod1kl3k6oqaccnc5rrv8tc94cl5hliv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mastrokart",
+            "certificate_hash": "55e4546161ab9b4782d120605704717e8abcf4b4"
+          }
+        },
+        {
           "client_id": "285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com",
           "client_type": 3
         }

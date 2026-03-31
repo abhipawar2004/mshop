@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,7 +30,6 @@ import 'package:hyper_local/l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
   bool _hasNavigated = false;
   bool _lastKnownConnectivity = false;
   late AppLocalizations _l10n;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -216,6 +215,14 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> _initLocationNonBlocking() async {
+    try {
+      await _checkAndSetLocation().timeout(const Duration(seconds: 12));
+    } on TimeoutException {
+      // Allow navigation to continue even if location retrieval stalls
+    }
+  }
+
   void _dispatchInitialDataFetches() {
     // Settings data is already being fetched in initState.
     context.read<CategoryBloc>().add(FetchCategory(context: context));
@@ -238,11 +245,13 @@ class _SplashScreenState extends State<SplashScreen> {
       // Listen for the settings data to be loaded
       listener: (context, state) async {
         if (state is SettingsLoaded) {
-          // 1. Check/Set location using SettingsData.instance
-          await _checkAndSetLocation();
+          // Kick off location setup without blocking navigation; timeout guards against long GPS waits
+          _initLocationNonBlocking();
 
-          // 2. Now that settings and initial location logic is done, proceed with navigation logic
-          if (_lastKnownConnectivity) {
+          // If connectivity status isn't known yet, assume online once to avoid getting stuck.
+          if (!_lastKnownConnectivity) {
+            _handleConnectivityChanged(true);
+          } else {
             // If connectivity check already ran (before settings loaded), trigger navigation now
             _handleConnectivityChanged(true);
           }
