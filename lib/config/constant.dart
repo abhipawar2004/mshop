@@ -40,7 +40,7 @@ class AppConstant {
   static String webClientId = dotenv.env['WEB_CLIENT_ID']?.trim().isNotEmpty ==
           true
       ? dotenv.env['WEB_CLIENT_ID']!.trim()
-      : '285207710216-jilseih5h5lkmk1naikv14qprods6jab.apps.googleusercontent.com';
+      : '285207710216-i34iejg59l82j5nrsn4c6o9ntp64cq3b.apps.googleusercontent.com';
   static String serverClientId =
       dotenv.env['SERVER_CLIENT_ID']?.trim().isNotEmpty == true
           ? dotenv.env['SERVER_CLIENT_ID']!.trim()

@@ -373,14 +373,22 @@ class AuthRepository {
       if (user != null) {
         final IdTokenResult idTokenResult = await user.getIdTokenResult();
         final String? firebaseIdToken = idTokenResult.token;
-        _debugAuth('🟢 [GOOGLE_LOGIN] FIREBASE ID TOKEN RESULT: ${jsonEncode({
-              'token': firebaseIdToken,
-              'authTime': idTokenResult.authTime,
-              'expirationTime': idTokenResult.expirationTime,
-              'issuedAtTime': idTokenResult.issuedAtTime,
-              'signInProvider': idTokenResult.signInProvider,
-              'claims': idTokenResult.claims,
-            })}');
+        final idTokenResultLog = jsonEncode(
+          {
+            'token': firebaseIdToken,
+            'authTime': idTokenResult.authTime,
+            'expirationTime': idTokenResult.expirationTime,
+            'issuedAtTime': idTokenResult.issuedAtTime,
+            'signInProvider': idTokenResult.signInProvider,
+            'claims': idTokenResult.claims,
+          },
+          toEncodable: (obj) {
+            if (obj is DateTime) return obj.toIso8601String();
+            return obj.toString();
+          },
+        );
+        _debugAuth(
+            '🟢 [GOOGLE_LOGIN] FIREBASE ID TOKEN RESULT: $idTokenResultLog');
         if (firebaseIdToken != null) {
           return firebaseIdToken;
         } else {
