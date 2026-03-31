@@ -109,13 +109,13 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Hyper Local'**
+  /// **'Mkart'**
   String get appTitle;
 
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Hyper Local'**
+  /// **'Mkart'**
   String get appName;
 
   /// No description provided for @welcome.

@@ -23,7 +23,6 @@ Map<String, List<OrderItems>> groupCartItemsByStore(List<OrderItems> items) {
   return groupedItems;
 }
 
-
 class OrderItemsCard extends StatelessWidget {
   final List<OrderItems> items;
   final String totalItems;
@@ -68,7 +67,6 @@ class OrderItemsCard extends StatelessWidget {
   }
 }
 
-
 class StoreCartSection extends StatelessWidget {
   final String storeName;
   final List<OrderItems> items;
@@ -94,9 +92,9 @@ class StoreCartSection extends StatelessWidget {
       children: [
         _buildStoreHeader(context),
         ...items.map((item) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: _buildCartItem(context, item),
-        )),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: _buildCartItem(context, item),
+            )),
       ],
     );
   }
@@ -119,21 +117,21 @@ class StoreCartSection extends StatelessWidget {
               Text(
                 storeName,
                 style: TextStyle(
-                      fontSize: isTablet(context) ? 24 : 16.sp,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppTheme.fontFamily,
-                    ),
+                  fontSize: isTablet(context) ? 24 : 16.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: AppTheme.fontFamily,
+                ),
               ),
             ],
           ),
           Text(
             '${items.length} Product${items.length != 1 ? 's' : ''}',
             style: TextStyle(
-                  fontSize: isTablet(context) ? 18 : 12.sp,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: AppTheme.fontFamily,
-                ),
+              fontSize: isTablet(context) ? 18 : 12.sp,
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
+              fontFamily: AppTheme.fontFamily,
+            ),
           ),
         ],
       ),
@@ -141,113 +139,117 @@ class StoreCartSection extends StatelessWidget {
   }
 
   Widget _buildCartItem(BuildContext context, OrderItems item) {
-
     final status = getItemStatus(item);
 
     return OpenContainer(
-      clipBehavior: Clip.antiAlias,
-      transitionDuration: const Duration(milliseconds: 500),
-      transitionType: ContainerTransitionType.fade,
-      closedElevation: 0,
-      openElevation: 0,
-      closedShape:
-      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-      openShape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      closedColor: Colors.transparent,
-      openColor: Colors.transparent,
-      tappable: true,
-      useRootNavigator: true,
-      openBuilder: (context, closeContainer) {
-        return ProductDetailPage(
-          productSlug: item.product!.slug!,
-          initialData: ProductInitialData(
-            title: item.product!.name!,
-            mainImage: item.product!.image!,
-          ),
-          closeContainer: closeContainer,
-        );
-      },
-      closedBuilder: (context, openContainer) {
-        return Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Theme.of(context).colorScheme.outline,
-                width: 0.5,
+        clipBehavior: Clip.antiAlias,
+        transitionDuration: const Duration(milliseconds: 500),
+        transitionType: ContainerTransitionType.fade,
+        closedElevation: 0,
+        openElevation: 0,
+        closedShape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        openShape:
+            const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        closedColor: Colors.transparent,
+        openColor: Colors.transparent,
+        tappable: true,
+        useRootNavigator: true,
+        openBuilder: (context, closeContainer) {
+          return ProductDetailPage(
+            productSlug: item.product!.slug!,
+            initialData: ProductInitialData(
+              title: item.product!.name!,
+              mainImage: item.product!.image!,
+            ),
+            closeContainer: closeContainer,
+          );
+        },
+        closedBuilder: (context, openContainer) {
+          return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Theme.of(context).colorScheme.outline,
+                  width: 0.5,
+                ),
               ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Main row with image, info, price
-              Opacity(
-                opacity: 1.0,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Product Image
-                    _buildProductImage(item.product!.image!, item.product!.id!),
-                    SizedBox(width: 10.w),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Main row with image, info, price
+                Opacity(
+                  opacity: 1.0,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Product Image
+                      _buildProductImage(
+                          item.product!.image!, item.product!.id!),
+                      SizedBox(width: 10.w),
 
-                    // Product Name and Details
-                    Expanded(child: _buildProductInfo(item, context)),
-                    SizedBox(width: 10.w),
+                      // Product Name and Details
+                      Expanded(child: _buildProductInfo(item, context)),
+                      SizedBox(width: 10.w),
 
-                    // Price Section
-                    _buildPriceSection(item, context),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 8,),
-
-              _buildAttachmentsSection(item, context),
-
-
-              // Status message below (only if applicable)
-              if (status.message != null ) ...[
-                SizedBox(height: 14.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.8),
-                        borderRadius: BorderRadius.circular(8.r)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          status.icon,
-                          size: 18.sp,
-                          color: status.color,
-                        ),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Text(
-                            status.message!,
-                            style: TextStyle(
-                              color: status.color,
-                              fontSize: 13.5.sp,
-                              fontWeight: FontWeight.w600,
-                              height: 1.3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      // Price Section
+                      _buildPriceSection(item, context),
+                    ],
                   ),
                 ),
+
+                SizedBox(
+                  height: 8,
+                ),
+
+                _buildAttachmentsSection(item, context),
+
+                // Status message below (only if applicable)
+                if (status.message != null) ...[
+                  SizedBox(height: 14.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .outline
+                              .withValues(alpha: 0.8),
+                          borderRadius: BorderRadius.circular(8.r)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            status.icon,
+                            size: 18.sp,
+                            color: status.color,
+                          ),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: Text(
+                              status.message!,
+                              style: TextStyle(
+                                color: status.color,
+                                fontSize: 13.5.sp,
+                                fontWeight: FontWeight.w600,
+                                height: 1.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ],
-            ],
-          ),
-        );
-      }
-    );
+            ),
+          );
+        });
   }
 
   Widget _buildProductImage(String imageUrl, int productId) {
@@ -263,7 +265,7 @@ class StoreCartSection extends StatelessWidget {
         child: Hero(
           tag: 'product-image-${productId.hashCode}',
           child: CustomImageContainer(
-            imagePath:  imageUrl,
+            imagePath: imageUrl,
             fit: BoxFit.contain,
           ),
         ),
@@ -283,13 +285,13 @@ class StoreCartSection extends StatelessWidget {
             style: TextStyle(
                 fontSize: isTablet(context) ? 18 : 12.sp,
                 fontWeight: FontWeight.w500,
-                fontFamily: AppTheme.fontFamily
-            ),
+                fontFamily: AppTheme.fontFamily),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 5,),
-
+          SizedBox(
+            height: 5,
+          ),
           Text(
             item.variant!.title!,
             style: TextStyle(
@@ -299,25 +301,36 @@ class StoreCartSection extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 5,),
-
+          SizedBox(
+            height: 5,
+          ),
           Text(
             'Qty: ${item.quantity}',
             style: TextStyle(
-                fontSize: isTablet(context) ? 16 : 10.sp,
-                color: Colors.grey[500],
+              fontSize: isTablet(context) ? 16 : 10.sp,
+              color: Colors.grey[500],
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-
-          if(item.product!.requiresOtp == 1)
-            Text(
-              'OTP: ${item.otp}',
-              style: TextStyle(
-                  fontSize: isTablet(context) ? 18 : 12.sp,
-                  color: Colors.grey[500],
-                  fontFamily: AppTheme.fontFamily
+          if (item.product!.requiresOtp == 1 && (item.otp ?? '').isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.darkSubCategoryCardColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  'OTP: ${item.otp}',
+                  style: TextStyle(
+                    fontSize: isTablet(context) ? 16 : 11.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.darkSubCategoryCardColor,
+                    fontFamily: AppTheme.fontFamily,
+                  ),
+                ),
               ),
             ),
         ],
@@ -426,13 +439,16 @@ class StoreCartSection extends StatelessWidget {
                           width: 50.w,
                           height: 50.w,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => _buildFileIcon(url),
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildFileIcon(url),
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return SizedBox(
                               width: 50.w,
                               height: 50.w,
-                              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2)),
                             );
                           },
                         ),
@@ -555,20 +571,22 @@ class StoreCartSection extends StatelessWidget {
           mode: LaunchMode.externalApplication,
         );
       } else {
-        if(context.mounted) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context)!.cannotOpenFile(url))),
+            SnackBar(
+                content:
+                    Text(AppLocalizations.of(context)!.cannotOpenFile(url))),
           );
         }
       }
     } catch (e) {
-      if(context.mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.errorOpeningAttachment(e.toString()))),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!
+                  .errorOpeningAttachment(e.toString()))),
         );
       }
-
     }
   }
-
 }

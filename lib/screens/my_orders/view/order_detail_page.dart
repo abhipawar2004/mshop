@@ -39,7 +39,6 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
-
   @override
   void initState() {
     apiCall();
@@ -47,7 +46,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   Future<void> apiCall() async {
-    context.read<OrderDetailBloc>().add(FetchOrderDetail(orderSlug: widget.orderSlug));
+    context
+        .read<OrderDetailBloc>()
+        .add(FetchOrderDetail(orderSlug: widget.orderSlug));
   }
 
   Future<void> _launchPdf(String pdfUrl) async {
@@ -64,15 +65,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  void _showReturnDialog(List<OrderItems> items, String orderSlug, bool isDelivered) {
+  void _showReturnDialog(
+      List<OrderItems> items, String orderSlug, bool isDelivered) {
     openSlideUpDialog(
-      context,
-      ReturnItemsDialog(
-        items: items,
-        orderSlug: orderSlug,
-        isDelivered: isDelivered
-      )
-    );
+        context,
+        ReturnItemsDialog(
+            items: items, orderSlug: orderSlug, isDelivered: isDelivered));
   }
 
   @override
@@ -80,106 +78,116 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<ReturnOrderItemBloc, ReturnOrderItemState>(
-          listener: (context, ReturnOrderItemState state) {
-            if(state is ReturnOrderItemSuccess) {
-              ToastManager.show(
-                context: context,
-                message: state.message,
-              );
-              apiCall();
-              context.read<GetMyOrderBloc>().add(RefreshMyOrders());
-            } else if(state is ReturnOrderItemFailed){
-              ToastManager.show(
-                context: context,
-                message: state.error,
-              );
-            }
+            listener: (context, ReturnOrderItemState state) {
+          if (state is ReturnOrderItemSuccess) {
+            ToastManager.show(
+              context: context,
+              message: state.message,
+            );
+            apiCall();
+            context.read<GetMyOrderBloc>().add(RefreshMyOrders());
+          } else if (state is ReturnOrderItemFailed) {
+            ToastManager.show(
+              context: context,
+              message: state.error,
+            );
           }
-        )
+        })
       ],
       child: BlocConsumer<DownloadInvoiceBloc, DownloadInvoiceState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Stack(
             children: [
-              Builder(
-                builder: (context) {
-                  return CustomScaffold(
-                    showViewCart: false,
-                    title: AppLocalizations.of(context)!.orderSummary,
-                    showAppBar: true,
-                    backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-                    body: BlocBuilder<OrderDetailBloc, OrderDetailState>(
-                      builder: (context, state) {
-                        if (state is OrderDetailLoaded) {
-                          final orderData = state.cartData.first.data;
-                          return SingleChildScrollView(
-                            child: RefreshIndicator(
-                              onRefresh: apiCall,
-                              child: Padding(
-                                padding: EdgeInsets.all(12.0.h),
-                                child: Column(
-                                  children: [
-                                    OrderItemsCard(
-                                      items: orderData!.items!,
-                                      totalItems: orderData.items!.length.toString(),
-                                      priceColor: Colors.black,
-                                      originalPriceColor: Colors.grey[500],
-                                    ),
-                                    if(orderData.status == 'delivered')...[
-                                      rateWidget(orderData.id! ,orderData.slug!, orderData),
-                                      SizedBox(height: 10.h),
-                                    ],
-                                    trackDeliveryAndReturnProduct(
-                                      orderSlug: orderData.slug!,
-                                      items: orderData.items ?? [],
-                                      isDelivered: orderData.status == 'delivered' ? true : false,
-                                      isDeliveryBoyAssigned: orderData.deliveryBoyId != null,
-                                    ),
-                                    // SizedBox(height: 10.h),
-                                    OrderNoteDisplayWidget(
-                                      orderNote: orderData.orderNote ?? '',
-                                    ),
-                                    // SizedBox(height: 10.h),
-                                    BillSummaryWidget(
-                                      itemsOriginalPrice: double.parse(orderData.totalPayable!),
-                                      itemsDiscountedPrice: double.parse(orderData.subtotal!),
-                                      itemsSavings: 0,
-                                      deliveryChargeOriginal: double.parse(orderData.deliveryCharge!),
-                                      handlingCharge: double.parse(orderData.handlingCharges!),
-                                      perStoreDropOffFees: double.parse(orderData.perStoreDropOffFee!),
-                                      grandTotal: double.parse(orderData.finalTotal!),
-                                      totalSavings: 0,
-                                      isFromOrderDetail: true,
-                                      downloadInvoice: () {
-                                        _launchPdf(orderData.invoice!);
-                                      },
-                                      promoCode: orderData.promoCode,
-                                      promoDiscount: double.parse(orderData.promoDiscount ?? '0.0'),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    OrderDetailCard(
-                                      orderId: orderData.id.toString(),
-                                      paymentMethod: orderData.paymentMethod!,
-                                      deliveryAddress: orderData.shippingAddress1!,
-                                      orderDate: orderData.createdAt!,
-                                    ),
+              Builder(builder: (context) {
+                return CustomScaffold(
+                  showViewCart: false,
+                  title: AppLocalizations.of(context)!.orderSummary,
+                  showAppBar: true,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.surfaceContainer,
+                  body: BlocBuilder<OrderDetailBloc, OrderDetailState>(
+                    builder: (context, state) {
+                      if (state is OrderDetailLoaded) {
+                        final orderData = state.cartData.first.data;
+                        return SingleChildScrollView(
+                          child: RefreshIndicator(
+                            onRefresh: apiCall,
+                            child: Padding(
+                              padding: EdgeInsets.all(12.0.h),
+                              child: Column(
+                                children: [
+                                  OrderItemsCard(
+                                    items: orderData!.items!,
+                                    totalItems:
+                                        orderData.items!.length.toString(),
+                                    priceColor: Colors.black,
+                                    originalPriceColor: Colors.grey[500],
+                                  ),
+                                  if (orderData.status == 'delivered') ...[
+                                    rateWidget(orderData.id!, orderData.slug!,
+                                        orderData),
                                     SizedBox(height: 10.h),
                                   ],
-                                ),
+                                  trackDeliveryAndReturnProduct(
+                                    orderSlug: orderData.slug!,
+                                    items: orderData.items ?? [],
+                                    isDelivered: orderData.status == 'delivered'
+                                        ? true
+                                        : false,
+                                    isDeliveryBoyAssigned:
+                                        orderData.deliveryBoyId != null,
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  OrderNoteDisplayWidget(
+                                    orderNote: orderData.orderNote ?? '',
+                                  ),
+                        
+                                  BillSummaryWidget(
+                                    itemsOriginalPrice:
+                                        double.parse(orderData.totalPayable!),
+                                    itemsDiscountedPrice:
+                                        double.parse(orderData.subtotal!),
+                                    itemsSavings: 0,
+                                    deliveryChargeOriginal:
+                                        double.parse(orderData.deliveryCharge!),
+                                    handlingCharge: double.parse(
+                                        orderData.handlingCharges!),
+                                    perStoreDropOffFees: double.parse(
+                                        orderData.perStoreDropOffFee!),
+                                    grandTotal:
+                                        double.parse(orderData.finalTotal!),
+                                    totalSavings: 0,
+                                    isFromOrderDetail: true,
+                                    downloadInvoice: () {
+                                      _launchPdf(orderData.invoice!);
+                                    },
+                                    promoCode: orderData.promoCode,
+                                    promoDiscount: double.parse(
+                                        orderData.promoDiscount ?? '0.0'),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  OrderDetailCard(
+                                    orderId: orderData.id.toString(),
+                                    paymentMethod: orderData.paymentMethod!,
+                                    deliveryAddress:
+                                        orderData.shippingAddress1!,
+                                    orderDate: orderData.createdAt!,
+                                  ),
+                                  SizedBox(height: 10.h),
+                                ],
                               ),
                             ),
-                          );
-                        }
-                        else if (state is OrderDetailLoading) {
-                          return CustomCircularProgressIndicator();
-                        }
-                        return SizedBox.shrink();
-                      },
-                    ),
-                  );
-                }
-              ),
+                          ),
+                        );
+                      } else if (state is OrderDetailLoading) {
+                        return CustomCircularProgressIndicator();
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                );
+              }),
               if (state is DownloadInvoiceLoading) WholePageProgress(),
             ],
           );
@@ -201,17 +209,23 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: Builder(
-                builder: (context) {
-                  final l10n = AppLocalizations.of(context);
-                  return Text(
-                    l10n?.howWasYourShoppingExperience ?? 'How was your shopping experience?',
-                    style: TextStyle(fontSize: 12.sp),
-                  );
-                }
-              ),
+              child: Builder(builder: (context) {
+                final l10n = AppLocalizations.of(context);
+                return Text(
+                  l10n?.howWasYourShoppingExperience ??
+                      'How was your shopping experience?',
+                  style: TextStyle(fontSize: 12.sp),
+                );
+              }),
             ),
             SizedBox(width: 5.w),
+            Icon(
+              Directionality.of(context) == TextDirection.ltr
+                  ? TablerIcons.chevron_right
+                  : TablerIcons.chevron_left,
+              size: 20,
+              color: Colors.red,
+            ),
             CustomButton(
               onPressed: () async {
                 final storeMap = {
@@ -225,7 +239,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 );
 
                 if (result == true && mounted) {
-                  context.read<ProductFeedbackBloc>().add(ResetProductFeedback());
+                  context
+                      .read<ProductFeedbackBloc>()
+                      .add(ResetProductFeedback());
 
                   await apiCall();
 
@@ -233,19 +249,18 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     final l10n = AppLocalizations.of(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(l10n?.orderDetailsRefreshed ?? 'Order details refreshed'),
+                        content: Text(l10n?.orderDetailsRefreshed ??
+                            'Order details refreshed'),
                         duration: Duration(seconds: 1),
                       ),
                     );
                   }
                 }
               },
-              child: Builder(
-                builder: (context) {
-                  final l10n = AppLocalizations.of(context);
-                  return Text(l10n?.rateOrder ?? 'Rate Order');
-                }
-              ),
+              child: Builder(builder: (context) {
+                final l10n = AppLocalizations.of(context);
+                return Text(l10n?.rateOrder ?? 'Rate Order');
+              }),
             )
           ],
         ),
@@ -253,13 +268,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget trackDeliveryAndReturnProduct(
-      {
-        required String orderSlug,
-        required List<OrderItems> items,
-        required bool isDelivered,
-        required bool isDeliveryBoyAssigned,
-      }) {
+  Widget trackDeliveryAndReturnProduct({
+    required String orderSlug,
+    required List<OrderItems> items,
+    required bool isDelivered,
+    required bool isDeliveryBoyAssigned,
+  }) {
     return Row(
       children: [
         Expanded(
@@ -270,10 +284,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.r),
-                color: isDarkMode(context) ? Theme.of(context).colorScheme.surface
+                color: isDarkMode(context)
+                    ? Theme.of(context).colorScheme.surface
                     : Colors.white,
               ),
-
               margin: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
@@ -282,29 +296,35 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      isDelivered ? AppLocalizations.of(context)!.returnItem : AppLocalizations.of(context)!.cancelItem,
-                      style: TextStyle(fontSize: isTablet(context) ? 18 : 12.sp, color: Colors.red),
+                      isDelivered
+                          ? AppLocalizations.of(context)!.returnItem
+                          : AppLocalizations.of(context)!.cancelItem,
+                      style: TextStyle(
+                          fontSize: isTablet(context) ? 18 : 12.sp,
+                          color: Colors.red),
                     ),
                     Icon(
-                      Directionality.of(context) == TextDirection.ltr ?
-                      TablerIcons.chevron_right : TablerIcons.chevron_left,
+                      Directionality.of(context) == TextDirection.ltr
+                          ? TablerIcons.chevron_right
+                          : TablerIcons.chevron_left,
                       size: 20,
                       color: Colors.red,
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
         ),
-
-        if(!isDelivered && isDeliveryBoyAssigned)...[
-          SizedBox(width: 12.w,),
+        if (!isDelivered && isDeliveryBoyAssigned) ...[
+          SizedBox(
+            width: 12.w,
+          ),
           Expanded(
             child: AnimatedButton(
               onTap: () {
-                GoRouter.of(context)
-                    .push(AppRoutes.deliveryTracking, extra: {'order-slug': orderSlug});
+                GoRouter.of(context).push(AppRoutes.deliveryTracking,
+                    extra: {'order-slug': orderSlug});
               },
               child: Card(
                 elevation: 0,
@@ -313,23 +333,28 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 10),
-                          Text(
-                            AppLocalizations.of(context)!.trackYourDelivery,
-                            style: TextStyle(
-                              fontSize: isTablet(context) ? 18 : 12.sp,
-                              color: AppTheme.primaryColor,
-                            ),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.trackYourDelivery,
+                          style: TextStyle(
+                            fontSize: isTablet(context) ? 18 : 12.sp,
+                            color: AppTheme.primaryColor,
                           ),
-                        ],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-
+                      Icon(
+                        Directionality.of(context) == TextDirection.ltr
+                            ? TablerIcons.chevron_right
+                            : TablerIcons.chevron_left,
+                        size: 20,
+                        color: AppTheme.primaryColor,
+                      ),
                     ],
                   ),
                 ),

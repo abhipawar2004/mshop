@@ -42,21 +42,30 @@ class OrderDeliveryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  status,
-                  style: TextStyle(
-                    color: _getStatusColor(status),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Text(
+                    status,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: _getStatusColor(status),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Text(
-                  dateTime,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    dateTime,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ],
@@ -89,7 +98,7 @@ class OrderDeliveryCard extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: CustomImageContainer(
-                            imagePath:  productImages[index],
+                            imagePath: productImages[index],
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -104,25 +113,25 @@ class OrderDeliveryCard extends StatelessWidget {
             if (productImages.isNotEmpty) const Divider(),
             const SizedBox(height: 10),
 
-            if(isDelivered)
+            if (isDelivered)
               GestureDetector(
-              onTap: onRateOrder,
-              child: SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: CustomButton(
-                  onPressed: onRateOrder,
-                  child: Text(
-                    'Rate Order',
-                    style: TextStyle(
-                      fontSize: isTablet(context) ? 18 : 15.sp,
-                      fontWeight: FontWeight.w600,
+                onTap: onRateOrder,
+                child: SizedBox(
+                  height: 45,
+                  width: double.infinity,
+                  child: CustomButton(
+                    onPressed: onRateOrder,
+                    child: Text(
+                      'Rate Order',
+                      style: TextStyle(
+                        fontSize: isTablet(context) ? 18 : 15.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-            else if(!isDelivered && isDeliveryBoyAssigned)
+              )
+            else if (!isDelivered && isDeliveryBoyAssigned)
               GestureDetector(
                 onTap: onTrackOrder,
                 child: SizedBox(
@@ -145,12 +154,9 @@ class OrderDeliveryCard extends StatelessWidget {
                 height: 45,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withValues(alpha: 0.05),
-                  border: Border.all(
-                    color: AppTheme.primaryColor
-                  ),
-                  borderRadius: BorderRadius.circular(8)
-                ),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.05),
+                    border: Border.all(color: AppTheme.primaryColor),
+                    borderRadius: BorderRadius.circular(8)),
                 alignment: Alignment.center,
                 child: Text(
                   removeUnderscores(status),
@@ -165,7 +171,6 @@ class OrderDeliveryCard extends StatelessWidget {
       ),
     );
   }
-
 
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {

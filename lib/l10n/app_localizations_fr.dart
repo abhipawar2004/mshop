@@ -9,10 +9,10 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get appTitle => 'Hyper Local';
+  String get appTitle => 'Mkart';
 
   @override
-  String get appName => 'Hyper Local';
+  String get appName => 'Mkart';
 
   @override
   String get welcome => 'Bienvenue';
