@@ -41,8 +41,19 @@ class CategoryProductRepository {
             '${ApiRoutes.categoryProductApi}?brands=$identifier&per_page=$perPage&page=$currentPage&latitude=$latitude&longitude=$longitude&sort=${sortType ?? SortType.relevance}',
           ProductListingType.store => storeApiUrl,
           ProductListingType.search => searchApiUrl,
-          ProductListingType.featuredSection =>
-            '${ApiRoutes.specificFeatureSectionProductApi}$identifier/products?per_page=$perPage&page=$currentPage&latitude=$latitude&longitude=$longitude&sort=${sortType ?? SortType.relevance}',
+          ProductListingType.featuredSection => () {
+              // Fallback "See All" sections created from home fallback use synthetic slugs.
+              if (identifier == 'all-products') {
+                return '${ApiRoutes.categoryProductApi}?per_page=$perPage&page=$currentPage&latitude=$latitude&longitude=$longitude&sort=${sortType ?? SortType.relevance}&include_child_categories=1';
+              }
+
+              if (identifier.startsWith('category-')) {
+                final categorySlug = identifier.replaceFirst('category-', '');
+                return '${ApiRoutes.categoryProductApi}?categories=$categorySlug&per_page=$perPage&page=$currentPage&latitude=$latitude&longitude=$longitude&sort=${sortType ?? SortType.relevance}&include_child_categories=1';
+              }
+
+              return '${ApiRoutes.specificFeatureSectionProductApi}$identifier/products?per_page=$perPage&page=$currentPage&latitude=$latitude&longitude=$longitude&sort=${sortType ?? SortType.relevance}';
+            }(),
         };
       }
 
