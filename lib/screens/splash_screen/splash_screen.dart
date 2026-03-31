@@ -38,6 +38,13 @@ class _SplashScreenState extends State<SplashScreen> {
   bool _hasInitialized = false;
   bool _hasNavigated = false;
   bool _lastKnownConnectivity = false;
+  late AppLocalizations _l10n;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _l10n = AppLocalizations.of(context)!;
+  }
 
   @override
   void initState() {
@@ -54,18 +61,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   // Helper method to show the location access dialog
   Future<bool?> _showLocationAccessDialog() async {
+    if (!mounted) return null;
+
     return await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.locationAccessNeeded),
-        content: Text(
-          AppLocalizations.of(context)!.locationAccessDescription,
-        ),
+        title: Text(_l10n.locationAccessNeeded),
+        content: Text(_l10n.locationAccessDescription),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(AppLocalizations.of(context)!.later),
+            child: Text(_l10n.later),
           ),
           TextButton(
             onPressed: () async {
@@ -74,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Navigator.pop(context, true);
               }
             },
-            child: Text(AppLocalizations.of(context)!.openSettings),
+            child: Text(_l10n.openSettings),
           ),
           TextButton(
             onPressed: () async {
@@ -83,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Navigator.pop(context, true);
               }
             },
-            child: Text(AppLocalizations.of(context)!.appPermissions),
+            child: Text(_l10n.appPermissions),
           ),
         ],
       ),
@@ -141,16 +148,16 @@ class _SplashScreenState extends State<SplashScreen> {
     // a) AppConstant.isDemo is false AND no location is stored.
     // b) AppConstant.isDemo is true but neither settings nor AppConstant provided valid coordinates.
     if (!LocationService.hasStoredLocation()) {
-      final bool? granted = await _showLocationAccessDialog();
+      final currentLoc =
+          await LocationService.requestAndStoreLocationWithRetry();
 
-      if (granted == true) {
-        final currentLoc =
-            await LocationService.requestAndStoreLocationWithRetry();
-        if (currentLoc == null) {
-          // Handle case where location services are off or permission is denied after prompt
+      // If we still couldn't fetch/store location, guide user once via dialog.
+      if (currentLoc == null) {
+        final bool? granted = await _showLocationAccessDialog();
+
+        if (granted == true) {
+          await LocationService.requestAndStoreLocationWithRetry();
         }
-      } else {
-        // User pressed 'Later'
       }
     }
   }
@@ -186,6 +193,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _handleConnectivityChanged(bool isConnected) {
+    if (!mounted) return;
+
     _lastKnownConnectivity = isConnected;
 
     if (!isConnected) {
@@ -293,271 +302,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-/*
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hyper_local/bloc/settings_bloc/settings_bloc.dart';
-import 'package:hyper_local/router/app_routes.dart';
-import 'package:hyper_local/screens/home_page/bloc/brands/brands_bloc.dart';
-import 'package:hyper_local/screens/user_profile/bloc/user_profile_bloc/user_profile_bloc.dart';
-import 'package:hyper_local/model/user_location/user_location_model.dart';
-import 'package:hyper_local/utils/widgets/custom_image_container.dart';
-import 'package:hyper_local/utils/widgets/custom_scaffold.dart';
-import 'package:hyper_local/utils/widgets/empty_states_page.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../../bloc/user_details_bloc/user_details_bloc.dart';
-import '../../bloc/user_details_bloc/user_details_state.dart';
-import '../../config/constant.dart';
-import '../../config/global.dart';
-import '../../services/location/location_service.dart';
-import '../home_page/bloc/banner/banner_bloc.dart';
-import '../home_page/bloc/banner/banner_event.dart';
-import '../home_page/bloc/category/category_bloc.dart';
-import '../home_page/bloc/category/category_event.dart';
-import '../home_page/bloc/feature_section_product/feature_section_product_bloc.dart';
-import '../home_page/bloc/feature_section_product/feature_section_product_event.dart';
-import '../home_page/bloc/sub_category/sub_category_bloc.dart';
-import '../home_page/bloc/sub_category/sub_category_event.dart';
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  bool _hasInitialized = false;
-  bool _hasNavigated = false;
-  bool _lastKnownConnectivity = false;
-  bool _settingsLoaded = false;
-  bool _minSplashTimeElapsed = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> navigate() async {
-    UserLocation? location = await LocationService.requestAndStoreLocationWithRetry();
-
-    if (location == null) {
-      // Optional: show guidance if still not ready
-      await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.enableLocation),
-          content: Text(
-              AppLocalizations.of(context)!.turnOnLocationServices),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await Geolocator.openLocationSettings();
-              },
-              child: Text(
-                AppLocalizations.of(context)!.locationServices,
-                style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-            TextButton(
-              onPressed: () async {
-                await openAppSettings();
-              },
-              child: Text(
-                AppLocalizations.of(context)!.appPermissions,
-                style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                AppLocalizations.of(context)!.close,
-                style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-          ],
-        ),
-      );
-      // Try once more
-      location = await LocationService.requestAndStoreLocationWithRetry();
-    }
-
-    // Dispatch all initial data fetches
-    _dispatchInitialDataFetches();
-
-    // Wait for minimum splash screen duration (3 seconds)
-    await Future.delayed(Duration(seconds: 3));
-
-    if (!mounted || !_lastKnownConnectivity) {
-      return;
-    }
-
-    _minSplashTimeElapsed = true;
-
-    // Check if settings are already loaded and navigate if ready
-    _checkAndNavigate();
-  }
-
-  void _handleConnectivityChanged(bool isConnected) {
-    _lastKnownConnectivity = isConnected;
-
-    if (!isConnected) {
-      _hasNavigated = false;
-      // _showOfflinePage();
-      return;
-    }
-
-    // _hideOfflinePage();
-
-    if (!_hasInitialized) {
-      _hasInitialized = true;
-      navigate();
-      return;
-    }
-
-    if (!_hasNavigated) {
-      navigate();
-    }
-  }
-
-  void _dispatchInitialDataFetches() {
-    context.read<SettingsBloc>().add(FetchSettingsData(context: context));
-    context.read<CategoryBloc>().add(FetchCategory(context: context));
-    context.read<BannerBloc>().add(FetchBanner(categorySlug: ""));
-    context.read<BrandsBloc>().add(FetchBrands(categorySlug: ""));
-    context.read<SubCategoryBloc>().add(FetchSubCategory(slug: "", isForAllCategory: true));
-    context
-        .read<FeatureSectionProductBloc>()
-        .add(FetchFeatureSectionProducts(slug: ""));
-    context.read<UserProfileBloc>().add(FetchUserProfile());
-  }
-
-  void _handleSettingsSuccess() {
-    _settingsLoaded = true;
-    _checkAndNavigate();
-  }
-
-  void _checkAndNavigate() {
-    // Only navigate if both conditions are met:
-    // 1. Settings are loaded
-    // 2. Minimum splash time has elapsed
-    if (_hasNavigated || !_settingsLoaded || !_minSplashTimeElapsed) {
-      return;
-    }
-
-    if (!mounted || !_lastKnownConnectivity) {
-      return;
-    }
-
-    _performNavigation();
-  }
-
-  void _performNavigation() {
-    if (_hasNavigated) {
-      return;
-    }
-
-    _hasNavigated = true;
-
-    // If first launch -> show intro slider
-    if (Global.isFirstTime) {
-      GoRouter.of(context).go(AppRoutes.introSlider);
-      return;
-    } else {
-      if (mounted) {
-        GoRouter.of(context).go(AppRoutes.home);
-      }
-    }
-
-    // Alternative: Check if user is logged in
-    // if (Global.userData?.token.isNotEmpty ?? false) {
-    //   GoRouter.of(context).go(AppRoutes.home);
-    // } else {
-    //   GoRouter.of(context).go(AppRoutes.login);
-    // }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<UserDataBloc, UserDataState>(
-          listener: (BuildContext context, UserDataState state) {
-            // Handle user data state if needed
-          },
-        ),
-      ],
-      child: BlocConsumer<SettingsBloc, SettingsState>(
-        listener: (BuildContext context, SettingsState state) {
-          if (state is SettingsLoaded) {
-            _handleSettingsSuccess();
-          } else if (state is SettingsFailure) {
-            // Handle settings failure if needed
-            // You might want to show an error dialog or retry
-            if (!_hasNavigated && mounted) {
-              GoRouter.of(context).push(AppRoutes.maintenancePage);
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(
-              //     content: Text('Failed to load settings. Please try again.'),
-              //     action: SnackBarAction(
-              //       label: 'Retry',
-              //       onPressed: () {
-              //         context.read<SettingsBloc>().add(
-              //           FetchSettingsData(context: context),
-              //         );
-              //       },
-              //     ),
-              //   ),
-              // );
-            }
-          }
-        },
-        builder: (BuildContext context, SettingsState state) {
-          if(state is SettingsFailure) {
-            return MaintenancePage(
-              onRetry: (){
-                GoRouter.of(context).pushReplacement(AppRoutes.maintenancePage);
-              },
-            );
-          }
-          return Stack(
-            children: [
-              CustomScaffold(
-                showViewCart: false,
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                notifyConnectivityStatusOnInit: true,
-                onConnectivityChanged: (isConnected, _) {
-                  _handleConnectivityChanged(isConnected);
-                },
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: CustomImageContainer(
-                        imagePath: getAppLogoUrl(context),
-                        height: 180,
-                        width: 250,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    // Optional: Add a loading indicator
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}*/
