@@ -114,7 +114,9 @@ class AuthRepository {
       required String country,
       required String iso2,
       required String password,
-      required String confirmPassword}) async {
+      required String confirmPassword,
+      required String type,
+      required String gstNo}) async {
     try {
       String? fcmToken = await getFCMToken();
       final response =
@@ -127,7 +129,9 @@ class AuthRepository {
         'iso_2': iso2,
         'password_confirmation': confirmPassword,
         'fcm_token': fcmToken,
-        'device_type': getDeviceType()
+        'device_type': getDeviceType(),
+        'type': type,
+        'gst_no': gstNo,
       });
 
       if (response.data['success'] == true) {

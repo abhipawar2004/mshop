@@ -33,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _gstController = TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
@@ -43,6 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _phoneNumber = '';
   String _countryIso2 = '';
   String _countryName = '';
+  String _customerType = 'individual';
 
   @override
   void initState() {
@@ -191,6 +193,15 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
+    if (_customerType == 'business' && _gstController.text.trim().isEmpty) {
+      ToastManager.show(
+          context: context,
+          message: 'Please enter GST number',
+          type: ToastType.error
+      );
+      return;
+    }
+
     // Step 5: Validate country/phone metadata
     if (_countryCode.isEmpty || _countryIso2.isEmpty || _countryName.isEmpty) {
       ToastManager.show(
@@ -212,6 +223,8 @@ class _RegisterPageState extends State<RegisterPage> {
       'countryCode': _countryCode,
       'completePhoneNumber': _completePhoneNumber,
       'confirmPassword': _confirmPasswordController.text,
+      'type': _customerType == 'individual' ? 'indivi' : 'business',
+      'gst_no': _customerType == 'business' ? _gstController.text.trim() : '',
     };
 
     // Store registration data
@@ -550,6 +563,68 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 16),
 
+                DropdownButtonFormField<String>(
+                  value: _customerType,
+                  decoration: InputDecoration(
+                    labelText: 'Account Type',
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.outline),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
+                  ),
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'individual',
+                      child: Text('Individual'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'business',
+                      child: Text('Business'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _customerType = value ?? 'individual';
+                      if (_customerType == 'individual') {
+                        _gstController.clear();
+                      }
+                    });
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                if (_customerType == 'business') ...[
+                  CustomTextFormField(
+                    controller: _gstController,
+                    labelText: 'GST Number',
+                    hintText: 'Enter GST Number',
+                    prefixIcon: Icons.badge_outlined,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (_customerType == 'business' &&
+                          (value == null || value.trim().isEmpty)) {
+                        ToastManager.show(
+                          context: context,
+                          message: 'Please enter GST number',
+                          type: ToastType.error,
+                        );
+                        return null;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
                 /// Password
                 Builder(
                   builder: (context) {
@@ -757,6 +832,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _gstController.dispose();
     super.dispose();
   }
 }

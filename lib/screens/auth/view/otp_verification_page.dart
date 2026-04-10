@@ -383,6 +383,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       completePhoneNumber:
           widget.registrationData['completePhoneNumber'].toString(),
       confirmPassword: widget.registrationData['confirmPassword'].toString(),
+      type: widget.registrationData['type'].toString(),
+      gstNo: widget.registrationData['gst_no'].toString(),
     ));
 
 

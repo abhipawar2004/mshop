@@ -188,6 +188,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         iso2: event.iso2,
         password: event.password,
         confirmPassword: event.confirmPassword,
+        type: event.type,
+        gstNo: event.gstNo,
       );
 
       if (response.first.success == true) {
